@@ -3,7 +3,9 @@
     "allow": [
       "PowerShell(cd C:\\\\MeeplesBG\\\\meeplesbg; $env:DATABASE_URL=\"postgresql://placeholder:placeholder@localhost:5432/placeholder\"; npx prisma validate 2>&1)",
       "PowerShell(cd C:\\\\MeeplesBG\\\\meeplesbg; $env:DATABASE_URL=\"postgresql://placeholder:placeholder@localhost:5432/placeholder\"; npx prisma generate 2>&1 | Select-Object -Last 8)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Bash(npm show *)",
+      "PowerShell(npm show *)"
     ]
   }
 }

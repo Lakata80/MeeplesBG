@@ -41,13 +41,17 @@ const getGame = cache(async (slug: string) => {
 
 // ── SSG — топ 500 игри ────────────────────────────────
 export async function generateStaticParams() {
-  const игри = await prisma.game.findMany({
-    where:   { isActive: true },
-    orderBy: [{ bggRating: { sort: 'desc', nulls: 'last' } }],
-    take:    500,
-    select:  { slug: true },
-  })
-  return игри.map((и) => ({ slug: и.slug }))
+  try {
+    const игри = await prisma.game.findMany({
+      where:   { isActive: true },
+      orderBy: [{ bggRating: { sort: 'desc', nulls: 'last' } }],
+      take:    500,
+      select:  { slug: true },
+    })
+    return игри.map((и) => ({ slug: и.slug }))
+  } catch {
+    return []
+  }
 }
 
 export const revalidate = 3600 // 1 час

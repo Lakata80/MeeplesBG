@@ -20,8 +20,12 @@ export const revalidate = 3600
 // ── Статично генериране ───────────────────────────────────────
 
 export async function generateStaticParams() {
-  const slugove = await getAllPostSlugs()
-  return slugove.map((slug) => ({ slug }))
+  try {
+    const slugove = await getAllPostSlugs()
+    return slugove.map((slug) => ({ slug }))
+  } catch {
+    return []
+  }
 }
 
 // ── Константи ─────────────────────────────────────────────────

@@ -26,8 +26,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       orderBy: [{ bggRating: { sort: 'desc', nulls: 'last' } }],
       take:    1000,
       select:  { slug: true, updatedAt: true },
-    }),
-    getAllPostSlugs(),
+    }).catch(() => []),
+    getAllPostSlugs().catch(() => []),
   ])
 
   const игриПътища: MetadataRoute.Sitemap = игриБД.map((и) => ({
