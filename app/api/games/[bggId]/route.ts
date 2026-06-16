@@ -1,6 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { fetchGameById } from '@/lib/bgg/client'
-import { prisma } from '@/lib/prisma'
+import { prisma }        from '@/lib/prisma'
+import { auth }          from '@/auth'
 
 function slugify(text: string): string {
   return text
@@ -15,6 +16,11 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ bggId: string }> }
 ) {
+  const session = await auth()
+  if (!session?.user?.id) {
+    return Response.json({ грешка: 'Необходим е вход.' }, { status: 401 })
+  }
+
   const { bggId: bggIdStr } = await params
   const bggId = parseInt(bggIdStr)
 

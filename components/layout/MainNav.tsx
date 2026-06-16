@@ -8,13 +8,10 @@ import { useSession }  from 'next-auth/react'
 const ФОРУМ_URL = process.env.NEXT_PUBLIC_DISCOURSE_URL ?? 'https://forum.meeplebg.com'
 
 const ЛИНКОВЕ = [
-  { href: '/игри',     label: 'Игри', dropdown: true },
-  { href: '/top',      label: 'Топ 100' },
-  { href: '/новини',   label: 'Новини' },
-  { href: '/общност',  label: 'Общност' },
-  { href: '/пазар',    label: 'Пазар' },
-  { href: '/форум',    label: 'Форум', forum: true },
-  { href: '/събития',  label: 'Събития' },
+  { href: '/игри',   label: 'Игри',    dropdown: true },
+  { href: '/top',    label: 'Топ 100' },
+  { href: '/novini', label: 'Новини' },
+  { href: '/форум',  label: 'Форум',   forum: true },
 ]
 
 const КАТЕГОРИИ = [

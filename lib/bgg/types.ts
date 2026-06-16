@@ -34,6 +34,7 @@ export interface BggCollectionItem {
   numPlays: number
   userRating?: number
   owned: boolean
+  prevOwned: boolean
   wishlist: boolean
   wantToPlay: boolean
   forTrade: boolean

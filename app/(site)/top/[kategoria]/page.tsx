@@ -202,9 +202,32 @@ export default async function КатегорияСтраница(
 
   const игри  = (await getRanking(kategoria)) ?? []
   const година = new Date().getFullYear()
+  const сайт  = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://meeplebg.com'
+
+  const itemListSchema = {
+    '@context':     'https://schema.org',
+    '@type':        'ItemList',
+    name:            `${кат.пълноЗаглавие} ${година}`,
+    description:     кат.описание,
+    numberOfItems:   игри.length,
+    itemListElement: игри.slice(0, 10).map((игра, i) => ({
+      '@type':    'ListItem',
+      position:    i + 1,
+      item: {
+        '@type': 'BoardGame',
+        name:     игра.titleBg || игра.titleEn || '',
+        url:      `${сайт}/игри/${игра.slug}`,
+      },
+    })),
+  }
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+      <div className="container mx-auto px-4 py-8">
 
       {/* Хлебни трохи */}
       <nav aria-label="Хлебни трохи" className="text-sm text-gray-400 mb-6 flex items-center gap-1.5">
@@ -293,5 +316,6 @@ export default async function КатегорияСтраница(
         </div>
       </div>
     </div>
+    </>
   )
 }

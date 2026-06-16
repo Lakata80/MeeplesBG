@@ -157,6 +157,7 @@ export function parseCollection(xml: string): BggCollectionItem[] {
       numPlays: intVal(it['numplays']) ?? 0,
       userRating: rating && rating !== 'N/A' ? num(rating) : undefined,
       owned:      status['@_own'] === '1',
+      prevOwned:  status['@_prevowned'] === '1',
       wishlist:   status['@_wish'] === '1',
       wantToPlay: status['@_wanttoplay'] === '1',
       forTrade:   status['@_fortrade'] === '1',

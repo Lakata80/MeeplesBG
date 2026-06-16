@@ -167,19 +167,22 @@ export default async function ФорумСтраница() {
       {/* Категории / CTA */}
       <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
-          { икона: '🎲', надпис: 'Препоръки',    href: '/forum/c/препоръки' },
-          { икона: '🏆', надпис: 'Наредби',       href: '/forum/c/правила' },
-          { икона: '🤝', надпис: 'Размени',       href: '/forum/c/размени' },
+          { икона: '🎲', надпис: 'Препоръки' },
+          { икона: '🏆', надпис: 'Правила'   },
+          { икона: '🤝', надпис: 'Размени'   },
         ].map((кат) => (
-          <ForumLink
+          <a
             key={кат.надпис}
+            href={discourseUrl ?? 'https://forum.meeplebg.com'}
+            target="_blank"
+            rel="noopener noreferrer"
             className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-200 hover:shadow-sm transition-all group"
           >
             <span className="text-2xl">{кат.икона}</span>
             <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 transition-colors">
               {кат.надпис}
             </span>
-          </ForumLink>
+          </a>
         ))}
       </div>
 

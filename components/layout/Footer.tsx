@@ -6,7 +6,7 @@ const КОЛОНИ = [
     заглавие: 'Игри',
     линкове: [
       { href: '/игри',                 label: 'Всички игри' },
-      { href: '/топ-100',              label: 'Топ 100' },
+      { href: '/top/top-100',          label: 'Топ 100' },
       { href: '/игри?types=Strategy',  label: 'Стратегически' },
       { href: '/игри?types=Family',    label: 'Семейни' },
       { href: '/игри?types=Party',     label: 'Парти игри' },
@@ -15,17 +15,15 @@ const КОЛОНИ = [
   {
     заглавие: 'Общност',
     линкове: [
-      { href: '/новини',   label: 'Новини' },
-      { href: '/форум',    label: 'Форум' },
-      { href: '/общност',  label: 'Общност' },
-      { href: '/събития',  label: 'Събития' },
-      { href: '/пазар',    label: 'Пазар' },
+      { href: '/novini',  label: 'Новини' },
+      { href: '/forum',   label: 'Форум' },
+      { href: '/top',     label: 'Топ класации' },
+      { href: '/вход',    label: 'Влез / Регистрирай се' },
     ],
   },
   {
     заглавие: 'Информация',
     линкове: [
-      { href: '/za-nas',    label: 'За нас' },
       { href: '/kontakti',  label: 'Контакти' },
       { href: '/gdpr',      label: 'GDPR и Поверителност' },
       { href: '/pravila',   label: 'Правила за ползване' },

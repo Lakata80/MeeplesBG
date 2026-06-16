@@ -4,15 +4,40 @@ import { resend, ИЗПРАЩАЧ } from '@/lib/resend'
 const ПОЛУЧАТЕЛ = 'contact@meeplebg.com'
 
 const ТЕМИ: Record<string, string> = {
-  въпрос:     'Общ въпрос',
-  грешка:     'Докладване на грешка',
-  партньор:   'Партньорство / Реклама',
-  игра:       'Добавяне / корекция на игра',
+  въпрос:        'Общ въпрос',
+  грешка:        'Докладване на грешка',
+  партньор:      'Партньорство / Реклама',
+  игра:          'Добавяне / корекция на игра',
   поверителност: 'Поверителност и GDPR',
-  друго:      'Друго',
+  друго:         'Друго',
+}
+
+// Rate limiting: max 5 съобщения / час на IP
+const ipCache = new Map<string, { count: number; resetAt: number }>()
+const ЛИМИТ   = 5
+const ПРОЗОРЕЦ = 60 * 60_000
+
+function проверкаЛимит(ip: string): boolean {
+  const сега  = Date.now()
+  const запис = ipCache.get(ip)
+  if (!запис || сега > запис.resetAt) {
+    ipCache.set(ip, { count: 1, resetAt: сега + ПРОЗОРЕЦ })
+    return true
+  }
+  if (запис.count >= ЛИМИТ) return false
+  запис.count++
+  return true
 }
 
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
+  if (!проверкаЛимит(ip)) {
+    return Response.json(
+      { грешка: 'Твърде много заявки. Опитайте след час.' },
+      { status: 429 },
+    )
+  }
+
   let тяло: { тема?: string; съобщение?: string; email?: string }
 
   try {
@@ -40,32 +65,40 @@ export async function POST(req: NextRequest) {
   const emailЧист  = email.trim()
   const текст      = съобщение.trim()
 
-  await resend.emails.send({
-    from:     ИЗПРАЩАЧ,
-    to:       ПОЛУЧАТЕЛ,
-    replyTo:  emailЧист,
-    subject:  `[Контакт] ${темаЕтикет} — ${emailЧист}`,
-    text: `Тема: ${темаЕтикет}\nОт: ${emailЧист}\n\n${текст}`,
-    html: `
-      <h2 style="font-family:sans-serif;color:#111827">Ново съобщение от контактната форма</h2>
-      <table style="font-family:sans-serif;font-size:14px;color:#374151;border-collapse:collapse;width:100%">
-        <tr>
-          <td style="padding:8px 12px;background:#f9fafb;font-weight:600;width:120px">Тема</td>
-          <td style="padding:8px 12px;border-left:3px solid #2563eb">${темаЕтикет}</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 12px;background:#f9fafb;font-weight:600">Имейл</td>
-          <td style="padding:8px 12px;border-left:3px solid #2563eb">${emailЧист}</td>
-        </tr>
-        <tr>
-          <td style="padding:8px 12px;background:#f9fafb;font-weight:600;vertical-align:top">Съобщение</td>
-          <td style="padding:8px 12px;border-left:3px solid #2563eb;white-space:pre-wrap">${текст.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td>
-        </tr>
-      </table>
-    `,
-  })
+  try {
+    await resend.emails.send({
+      from:    ИЗПРАЩАЧ,
+      to:      ПОЛУЧАТЕЛ,
+      replyTo: emailЧист,
+      subject: `[Контакт] ${темаЕтикет} — ${emailЧист}`,
+      text: `Тема: ${темаЕтикет}\nОт: ${emailЧист}\n\n${текст}`,
+      html: `
+        <h2 style="font-family:sans-serif;color:#111827">Ново съобщение от контактната форма</h2>
+        <table style="font-family:sans-serif;font-size:14px;color:#374151;border-collapse:collapse;width:100%">
+          <tr>
+            <td style="padding:8px 12px;background:#f9fafb;font-weight:600;width:120px">Тема</td>
+            <td style="padding:8px 12px;border-left:3px solid #2563eb">${темаЕтикет}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;background:#f9fafb;font-weight:600">Имейл</td>
+            <td style="padding:8px 12px;border-left:3px solid #2563eb">${emailЧист}</td>
+          </tr>
+          <tr>
+            <td style="padding:8px 12px;background:#f9fafb;font-weight:600;vertical-align:top">Съобщение</td>
+            <td style="padding:8px 12px;border-left:3px solid #2563eb;white-space:pre-wrap">${текст.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</td>
+          </tr>
+        </table>
+      `,
+    })
+  } catch (err) {
+    console.error('Грешка при изпращане на контактен имейл:', err)
+    return Response.json(
+      { грешка: 'Грешка при изпращане. Моля, опитайте отново или пишете директно на contact@meeplebg.com.' },
+      { status: 502 },
+    )
+  }
 
-  // Потвърдително имейл до подателя
+  // Потвърдително имейл до подателя (некритично)
   await resend.emails.send({
     from:    ИЗПРАЩАЧ,
     to:      emailЧист,

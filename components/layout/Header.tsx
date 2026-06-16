@@ -54,7 +54,6 @@ export default function Header() {
 
           {/* Дясна страна */}
           <div className="flex items-center gap-3 ml-auto md:ml-0">
-            <LanguageSwitcher />
             <UserMenu />
 
             {/* Хамбургер — само мобилно */}
@@ -89,35 +88,6 @@ export default function Header() {
         <MainNav onNavClick={() => setМобилноМеню(false)} />
       </div>
     </header>
-  )
-}
-
-function LanguageSwitcher() {
-  const [език, setЕзик] = useState<'БГ' | 'EN'>('БГ')
-
-  return (
-    <div className="hidden sm:flex items-center rounded-lg border border-gray-200 overflow-hidden text-xs font-semibold">
-      <button
-        onClick={() => setЕзик('БГ')}
-        className={`px-2.5 py-1.5 transition-colors ${
-          език === 'БГ'
-            ? 'bg-blue-600 text-white'
-            : 'text-gray-500 hover:bg-gray-50'
-        }`}
-      >
-        БГ
-      </button>
-      <button
-        onClick={() => setЕзик('EN')}
-        className={`px-2.5 py-1.5 transition-colors ${
-          език === 'EN'
-            ? 'bg-blue-600 text-white'
-            : 'text-gray-500 hover:bg-gray-50'
-        }`}
-      >
-        EN
-      </button>
-    </div>
   )
 }
 
