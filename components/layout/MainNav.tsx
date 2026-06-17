@@ -5,7 +5,7 @@ import Link           from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession }  from 'next-auth/react'
 
-const ФОРУМ_URL = process.env.NEXT_PUBLIC_DISCOURSE_URL ?? 'https://forum.meeplebg.com'
+const ФОРУМ_URL = process.env.NEXT_PUBLIC_DISCOURSE_URL ?? 'https://forum.meeplesbg.com'
 
 const ЛИНКОВЕ = [
   { href: '/игри',   label: 'Игри',    dropdown: true },

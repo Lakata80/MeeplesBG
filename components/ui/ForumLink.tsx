@@ -4,7 +4,7 @@ import { useState }  from 'react'
 import Link          from 'next/link'
 import { useSession } from 'next-auth/react'
 
-const ФОРУМ_URL = process.env.NEXT_PUBLIC_DISCOURSE_URL ?? 'https://forum.meeplebg.com'
+const ФОРУМ_URL = process.env.NEXT_PUBLIC_DISCOURSE_URL ?? 'https://forum.meeplesbg.com'
 
 interface Props {
   children?: React.ReactNode

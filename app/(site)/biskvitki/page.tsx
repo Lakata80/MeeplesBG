@@ -145,8 +145,8 @@ export default function БисквиткиСтраница() {
       <Раздел заглавие="7. Контакт">
         <p>
           За въпроси относно бисквитките ни пишете на{' '}
-          <a href="mailto:privacy@meeplebg.com" className="text-blue-600 hover:underline">
-            privacy@meeplebg.com
+          <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+            privacy@meeplesbg.com
           </a>{' '}
           или вижте нашата пълна{' '}
           <Link href="/gdpr" className="text-blue-600 hover:underline">

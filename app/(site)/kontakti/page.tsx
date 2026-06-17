@@ -33,8 +33,8 @@ export default function КонтактиСтраница() {
                 <span className="text-lg flex-shrink-0">📧</span>
                 <div>
                   <p className="font-medium text-gray-900">Общи въпроси</p>
-                  <a href="mailto:contact@meeplebg.com" className="text-blue-600 hover:underline">
-                    contact@meeplebg.com
+                  <a href="mailto:contact@meeplesbg.com" className="text-blue-600 hover:underline">
+                    contact@meeplesbg.com
                   </a>
                 </div>
               </li>
@@ -42,8 +42,8 @@ export default function КонтактиСтраница() {
                 <span className="text-lg flex-shrink-0">🔒</span>
                 <div>
                   <p className="font-medium text-gray-900">Поверителност / GDPR</p>
-                  <a href="mailto:privacy@meeplebg.com" className="text-blue-600 hover:underline">
-                    privacy@meeplebg.com
+                  <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+                    privacy@meeplesbg.com
                   </a>
                 </div>
               </li>

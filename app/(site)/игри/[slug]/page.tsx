@@ -290,7 +290,7 @@ function BoardGameSchema({ игра, заглавие }: {
         ratingCount:   игра._count.comments + 1,
       },
     }),
-    url: `https://meeplesbg.bg/игри/${игра.slug}`,
+    url: `https://meeplesbg.com/игри/${игра.slug}`,
   }
 
   return (

@@ -134,7 +134,7 @@ export default async function СтатияСтраница(
     publisher: {
       '@type': 'Organization',
       name:    'MeeplesBG',
-      logo:    { '@type': 'ImageObject', url: 'https://meeplesbg.bg/logo.png' },
+      logo:    { '@type': 'ImageObject', url: 'https://meeplesbg.com/logo.png' },
     },
   }
 

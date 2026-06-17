@@ -19,9 +19,9 @@ Discourse приема потребителя (създава или свърз�
 ## Стъпка 1 — Конфигурирай .env.local
 
 ```env
-DISCOURSE_URL=https://forum.meeplebg.com
+DISCOURSE_URL=https://forum.meeplesbg.com
 DISCOURSE_SSO_SECRET=поне-10-символа-таен-ключ
-NEXT_PUBLIC_DISCOURSE_URL=https://forum.meeplebg.com
+NEXT_PUBLIC_DISCOURSE_URL=https://forum.meeplesbg.com
 ```
 
 > **Важно:** `DISCOURSE_SSO_SECRET` трябва да е идентичен в .env.local и в Discourse Admin.
@@ -33,7 +33,7 @@ NEXT_PUBLIC_DISCOURSE_URL=https://forum.meeplebg.com
 | Настройка | Стойност |
 |---|---|
 | `enable_sso` | ✅ включено |
-| `sso_url` | `https://meeplebg.com/api/discourse/sso` |
+| `sso_url` | `https://meeplesbg.com/api/discourse/sso` |
 | `sso_secret` | Същото като `DISCOURSE_SSO_SECRET` |
 | `sso_overrides_email` | ✅ включено |
 | `sso_overrides_username` | ✅ включено |
@@ -43,9 +43,9 @@ NEXT_PUBLIC_DISCOURSE_URL=https://forum.meeplebg.com
 
 ## Стъпка 3 — Провери
 
-1. Отиди на `https://forum.meeplebg.com`
+1. Отиди на `https://forum.meeplesbg.com`
 2. Кликни **Влез**
-3. Discourse трябва да те пренасочи към `https://meeplebg.com/вход`
+3. Discourse трябва да те пренасочи към `https://meeplesbg.com/вход`
 4. След вход в MeeplesBG → автоматично влизаш и в Discourse
 
 ## Дебъгване

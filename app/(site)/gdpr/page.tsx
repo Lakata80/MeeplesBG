@@ -21,12 +21,12 @@ export default function GDPRСтраница() {
         <p>
           Администратор на личните данни е <strong>MeeplesBG</strong> (по-нататък „ние",
           „нас" или „Сайтът"), достъпен на адрес{' '}
-          <a href="https://meeplebg.com" className="text-blue-600 hover:underline">
-            meeplebg.com
+          <a href="https://meeplesbg.com" className="text-blue-600 hover:underline">
+            meeplesbg.com
           </a>
           . За въпроси, свързани с обработването на лични данни, се свържете с нас на:{' '}
-          <a href="mailto:privacy@meeplebg.com" className="text-blue-600 hover:underline">
-            privacy@meeplebg.com
+          <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+            privacy@meeplesbg.com
           </a>
           .
         </p>
@@ -147,8 +147,8 @@ export default function GDPRСтраница() {
         <p className="mb-4">
           Като субект на данни разполагате с посочените по-долу права. За
           упражняването им изпратете писмено искане на{' '}
-          <a href="mailto:privacy@meeplebg.com" className="text-blue-600 hover:underline">
-            privacy@meeplebg.com
+          <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+            privacy@meeplesbg.com
           </a>
           . Ще отговорим в срок до <strong>30 дни</strong> от получаване на
           искането.
@@ -231,14 +231,14 @@ export default function GDPRСтраница() {
         <ul className="mt-3 space-y-1 text-gray-700">
           <li>
             📧 Имейл:{' '}
-            <a href="mailto:privacy@meeplebg.com" className="text-blue-600 hover:underline">
-              privacy@meeplebg.com
+            <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+              privacy@meeplesbg.com
             </a>
           </li>
           <li>
             🌐 Форма за контакт:{' '}
             <Link href="/kontakti" className="text-blue-600 hover:underline">
-              meeplebg.com/kontakti
+              meeplesbg.com/kontakti
             </Link>
           </li>
         </ul>

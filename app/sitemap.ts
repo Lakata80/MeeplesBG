@@ -3,7 +3,7 @@ import { prisma }             from '@/lib/prisma'
 import { getAllPostSlugs }    from '@/lib/sanity/queries'
 import { КАТЕГОРИИ_КЛАСАЦИИ } from '@/lib/rankings'
 
-const САЙТ = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://meeplebg.com'
+const САЙТ = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://meeplesbg.com'
 
 export const revalidate = 86400
 

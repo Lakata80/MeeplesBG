@@ -107,7 +107,7 @@ const СТИЛОВЕ = {
 export default function WelcomeEmail({
   email,
   unsubscribeUrl,
-  siteUrl = 'https://meeplebg.com',
+  siteUrl = 'https://meeplesbg.com',
 }: Props) {
   return (
     <Html lang="bg" dir="ltr">
@@ -177,7 +177,7 @@ export default function WelcomeEmail({
               </Link>
               {' · '}
               <Link href={siteUrl} style={СТИЛОВЕ.unsubLink}>
-                meeplebg.com
+                meeplesbg.com
               </Link>
             </Text>
           </Section>

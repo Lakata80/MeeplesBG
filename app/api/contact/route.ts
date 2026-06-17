@@ -1,7 +1,7 @@
 import type { NextRequest } from 'next/server'
 import { resend, ИЗПРАЩАЧ } from '@/lib/resend'
 
-const ПОЛУЧАТЕЛ = 'contact@meeplebg.com'
+const ПОЛУЧАТЕЛ = 'contact@meeplesbg.com'
 
 const ТЕМИ: Record<string, string> = {
   въпрос:        'Общ въпрос',
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest) {
   } catch (err) {
     console.error('Грешка при изпращане на контактен имейл:', err)
     return Response.json(
-      { грешка: 'Грешка при изпращане. Моля, опитайте отново или пишете директно на contact@meeplebg.com.' },
+      { грешка: 'Грешка при изпращане. Моля, опитайте отново или пишете директно на contact@meeplesbg.com.' },
       { status: 502 },
     )
   }

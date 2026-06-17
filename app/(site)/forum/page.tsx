@@ -78,7 +78,7 @@ function форматВреме(iso: string): string {
 // ── Ред с тема ────────────────────────────────────────────────
 
 function ТемаРед({ тема }: { тема: DiscourseTopic }) {
-  const discourseUrl = process.env.NEXT_PUBLIC_DISCOURSE_URL ?? 'https://forum.meeplebg.com'
+  const discourseUrl = process.env.NEXT_PUBLIC_DISCOURSE_URL ?? 'https://forum.meeplesbg.com'
   const href         = `${discourseUrl}/t/${тема.slug}/${тема.id}`
 
   return (
@@ -173,7 +173,7 @@ export default async function ФорумСтраница() {
         ].map((кат) => (
           <a
             key={кат.надпис}
-            href={discourseUrl ?? 'https://forum.meeplebg.com'}
+            href={discourseUrl ?? 'https://forum.meeplesbg.com'}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-200 hover:shadow-sm transition-all group"

@@ -196,7 +196,7 @@ export default async function КатегорияСтраница(
 
   const игри  = (await getRanking(kategoria)) ?? []
   const година = new Date().getFullYear()
-  const сайт  = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://meeplebg.com'
+  const сайт  = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://meeplesbg.com'
 
   const itemListSchema = {
     '@context':     'https://schema.org',

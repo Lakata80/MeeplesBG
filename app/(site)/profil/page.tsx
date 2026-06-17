@@ -139,7 +139,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
           <p className="text-sm text-blue-800">
             Публичен профил:{' '}
             <Link href={`/potrebiteli/${потребител.bggUsername}`} className="font-medium hover:underline">
-              meeplebg.com/potrebiteli/{потребител.bggUsername}
+              meeplesbg.com/potrebiteli/{потребител.bggUsername}
             </Link>
           </p>
           <Link

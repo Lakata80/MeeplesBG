@@ -3,7 +3,7 @@ import './globals.css'
 import SessionProvider from '@/components/ui/SessionProvider'
 import CookieBanner    from '@/components/cookies/CookieBanner'
 
-const САЙТ = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://meeplebg.com'
+const САЙТ = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://meeplesbg.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(САЙТ),
