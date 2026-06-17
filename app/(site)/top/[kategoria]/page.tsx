@@ -4,13 +4,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { КАТЕГОРИИ_КЛАСАЦИИ, getRanking, getCategory, type КласациоИгра } from '@/lib/rankings'
 
-export const revalidate = 86400
-
-// ── Статично генериране ──────────────────────────────────────
-
-export function generateStaticParams() {
-  return КАТЕГОРИИ_КЛАСАЦИИ.map((к) => ({ kategoria: к.slug }))
-}
+export const dynamic = 'force-dynamic'
 
 // ── SEO метаданни ────────────────────────────────────────────
 
