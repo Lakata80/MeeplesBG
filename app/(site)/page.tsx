@@ -8,6 +8,8 @@ import NewReleasesSection from '@/components/home/NewReleasesSection'
 import NewsSection from '@/components/home/NewsSection'
 import NewsletterSection from '@/components/home/NewsletterSection'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'MeeplesBG — Настолни игри на български',
   description:

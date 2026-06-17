@@ -5,7 +5,9 @@
       "PowerShell(cd C:\\\\MeeplesBG\\\\meeplesbg; $env:DATABASE_URL=\"postgresql://placeholder:placeholder@localhost:5432/placeholder\"; npx prisma generate 2>&1 | Select-Object -Last 8)",
       "Bash(node *)",
       "Bash(npm show *)",
-      "PowerShell(npm show *)"
+      "PowerShell(npm show *)",
+      "PowerShell(node --version)",
+      "PowerShell(npm install *)"
     ]
   }
 }
