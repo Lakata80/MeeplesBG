@@ -39,22 +39,7 @@ const getGame = cache(async (slug: string) => {
   })
 })
 
-// ── SSG — топ 500 игри ────────────────────────────────
-export async function generateStaticParams() {
-  try {
-    const игри = await prisma.game.findMany({
-      where:   { isActive: true },
-      orderBy: [{ bggRating: { sort: 'desc', nulls: 'last' } }],
-      take:    500,
-      select:  { slug: true },
-    })
-    return игри.map((и) => ({ slug: и.slug }))
-  } catch {
-    return []
-  }
-}
-
-export const revalidate = 3600 // 1 час
+export const dynamic = 'force-dynamic'
 
 // ── SEO метаданни ──────────────────────────────────────
 export async function generateMetadata({

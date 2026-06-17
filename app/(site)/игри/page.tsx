@@ -6,6 +6,8 @@ import SearchFilters      from '@/components/search/SearchFilters'
 import SortSelect         from '@/components/search/SortSelect'
 import Pagination         from '@/components/ui/Pagination'
 
+export const dynamic = 'force-dynamic'
+
 // ── Тип за searchParams в Next.js 16 ──────────
 type SearchParamsType = Promise<Record<string, string | string[] | undefined>>
 
