@@ -148,7 +148,7 @@ export default function РегистрацияСтраница() {
         {/* Линк вход */}
         <p className="text-center text-sm text-gray-500">
           Вече имаш акаунт?{' '}
-          <Link href="/вход" className="text-blue-600 font-medium hover:underline">
+          <Link href="/login" className="text-blue-600 font-medium hover:underline">
             Влез тук
           </Link>
         </p>

@@ -107,7 +107,7 @@ export async function GET(request: NextRequest) {
   if (!session?.user?.id) {
     // Не е влязъл — пренасочи към страницата за вход
     // След успешен вход ще бъде върнат тук за да продължи SSO потока
-    const loginUrl = new URL('/вход', request.url)
+    const loginUrl = new URL('/login', request.url)
     loginUrl.searchParams.set('callbackUrl', request.url)
     return NextResponse.redirect(loginUrl)
   }

@@ -18,7 +18,7 @@ const КОЛОНИ = [
       { href: '/novini',  label: 'Новини' },
       { href: '/forum',   label: 'Форум' },
       { href: '/top',     label: 'Топ класации' },
-      { href: '/вход',    label: 'Влез / Регистрирай се' },
+      { href: '/login',    label: 'Вход / Регистрация' },
     ],
   },
   {

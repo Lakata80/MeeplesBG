@@ -108,7 +108,7 @@ export default function MainNav({ onNavClick }: Props) {
                   </a>
                 ) : (
                   <Link
-                    href="/вход"
+                    href="/login"
                     onClick={onNavClick}
                     className="block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 text-gray-600 border-transparent hover:text-blue-600"
                   >

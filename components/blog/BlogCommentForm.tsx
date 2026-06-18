@@ -23,7 +23,7 @@ export default function BlogCommentForm({ postSlug, parentId, onДобавен }
   if (!session) {
     return (
       <p className="text-sm text-gray-500">
-        <Link href="/вход" className="text-blue-600 hover:underline font-medium">
+        <Link href="/login" className="text-blue-600 hover:underline font-medium">
           Влезте в профила си
         </Link>
         , за да оставите коментар.

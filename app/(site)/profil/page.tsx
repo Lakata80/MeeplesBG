@@ -26,7 +26,7 @@ const ТАБОВЕ: { id: Таб; label: string; status?: string }[] = [
 
 export default async function ПрофилСтраница({ searchParams }: { searchParams: SearchParams }) {
   const session = await auth()
-  if (!session?.user?.id) redirect('/вход')
+  if (!session?.user?.id) redirect('/login')
 
   const парам    = await searchParams
   const активен  = (typeof парам.tab === 'string' ? парам.tab : 'колекция') as Таб
@@ -46,7 +46,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
       },
     },
   })
-  if (!потребител) redirect('/вход')
+  if (!потребител) redirect('/login')
 
   // Вземи игри за активния таб
   const игри = таб.status
