@@ -67,7 +67,7 @@ export default function ForumLink({ children, className, variant = 'button' }: P
             </p>
             <div className="flex gap-3 justify-center">
               <Link
-                href={`/login?callbackUrl=${encodeURIComponent(ФОРУМ_URL)}`}}
+                href={`/login?callbackUrl=${encodeURIComponent(ФОРУМ_URL)}` }
                 className="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors"
               >
                 Влез в профила
