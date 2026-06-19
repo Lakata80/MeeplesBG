@@ -2,16 +2,23 @@
  * Скрипт за масов импорт на топ игри от BGG
  * Употреба: npm run import:bgg
  *
- * Извлича ID-та от официалния BGG data dump (ZIP/CSV),
- * след което зарежда детайлите чрез XML API.
+ * ID-тата се взимат от BGG data dump (ZIP/gzip/CSV).
+ * Ако BGG изисква вход, добави в .env:
+ *   BGG_SESSION_COOKIE=bggusername=xxx; SessionID=yyy
+ * Или свали файла ръчно и добави:
+ *   BGG_DUMP_FILE=./data/bg_ranks.zip
  */
 
-import { PrismaClient } from '@prisma/client'
-import AdmZip from 'adm-zip'
-import * as fs from 'fs'
-import * as path from 'path'
+import { PrismaClient }        from '@prisma/client'
+import AdmZip                  from 'adm-zip'
+import { gunzip }              from 'node:zlib'
+import { promisify }           from 'node:util'
+import * as fs                 from 'fs'
+import * as path               from 'path'
 import { fetchBGGHotness, fetchGamesByIds } from '../lib/bgg/client'
 import type { BggGameDetails } from '../lib/bgg/types'
+
+const gunzipAsync = promisify(gunzip)
 
 // ──────────────────────────────────────────────
 // Конфигурация
@@ -37,11 +44,11 @@ function slugify(text: string): string {
 }
 
 function прогрес(текущ: number, общо: number, заглавие: string) {
-  const процент  = Math.round((текущ / общо) * 100)
-  const дължина  = 32
+  const процент   = Math.round((текущ / общо) * 100)
+  const дължина   = 32
   const запълнени = Math.round((текущ / общо) * дължина)
-  const лента    = '█'.repeat(запълнени) + '░'.repeat(дължина - запълнени)
-  const кратко   = заглавие.slice(0, 28).padEnd(28)
+  const лента     = '█'.repeat(запълнени) + '░'.repeat(дължина - запълнени)
+  const кратко    = заглавие.slice(0, 28).padEnd(28)
   process.stdout.write(`\r[${лента}] ${String(текущ).padStart(4)}/${общо} ${кратко} (${String(процент).padStart(3)}%)`)
 }
 
@@ -62,8 +69,8 @@ async function намериУникаленСлъг(заглавие: string, bg
 // ──────────────────────────────────────────────
 function parseCSVLine(line: string): string[] {
   const result: string[] = []
-  let current   = ''
-  let inQuotes  = false
+  let current  = ''
+  let inQuotes = false
   for (const char of line) {
     if (char === '"') {
       inQuotes = !inQuotes
@@ -79,39 +86,17 @@ function parseCSVLine(line: string): string[] {
 }
 
 // ──────────────────────────────────────────────
-// Изтегля BGG data dump и връща топ ID-та
+// Парсира CSV текст → топ N ID-та
 // ──────────────────────────────────────────────
-async function изтеглиТопID(брой: number): Promise<number[]> {
-  process.stdout.write('  ⟳ Изтеглям BGG data dump (ZIP/CSV)...')
-
-  const res = await fetch(BGG_DUMP_URL, {
-    headers: {
-      'User-Agent':      BGG_UA,
-      'Accept':          'application/zip,application/octet-stream,*/*',
-      'Accept-Language': 'en-US,en;q=0.9',
-      'Referer':         'https://boardgamegeek.com/',
-    },
-    redirect: 'follow',
-  })
-
-  if (!res.ok) throw new Error(`BGG data dump HTTP ${res.status}`)
-
-  const buffer = Buffer.from(await res.arrayBuffer())
-  const zip    = new AdmZip(buffer)
-  const entry  = zip.getEntries().find((e) => e.entryName.endsWith('.csv'))
-  if (!entry) throw new Error('CSV не е намерен в ZIP архива')
-
-  const csv   = entry.getData().toString('utf8')
-  const lines = csv.split('\n')
-
-  // Прочети заглавния ред за да намерим колоните по име
-  const headers     = parseCSVLine(lines[0])
-  const idIdx       = headers.indexOf('id')
-  const rankIdx     = headers.indexOf('rank')
-  const isExpIdx    = headers.indexOf('is_expansion')
+function parseCSVDump(csv: string, брой: number): number[] {
+  const lines   = csv.split('\n')
+  const headers = parseCSVLine(lines[0])
+  const idIdx   = headers.indexOf('id')
+  const rankIdx = headers.indexOf('rank')
+  const expIdx  = headers.indexOf('is_expansion')
 
   if (idIdx === -1 || rankIdx === -1) {
-    throw new Error(`Непознат CSV формат. Заглавия: ${lines[0]}`)
+    throw new Error(`Непознат CSV формат. Заглавия: ${lines[0].slice(0, 120)}`)
   }
 
   const games: { id: number; rank: number }[] = []
@@ -119,22 +104,109 @@ async function изтеглиТопID(брой: number): Promise<number[]> {
   for (let i = 1; i < lines.length; i++) {
     const line = lines[i].trim()
     if (!line) continue
-
-    const cols       = parseCSVLine(line)
-    const id         = parseInt(cols[idIdx]  ?? '')
-    const rank       = parseInt(cols[rankIdx] ?? '')
-    const isExpansion = cols[isExpIdx] === '1'
-
+    const cols        = parseCSVLine(line)
+    const id          = parseInt(cols[idIdx]  ?? '')
+    const rank        = parseInt(cols[rankIdx] ?? '')
+    const isExpansion = cols[expIdx] === '1'
     if (!id || !rank || isExpansion) continue
     games.push({ id, rank })
   }
-
-  process.stdout.write(` ${games.length} класирани игри\n`)
 
   return games
     .sort((a, b) => a.rank - b.rank)
     .slice(0, брой)
     .map((g) => g.id)
+}
+
+// ──────────────────────────────────────────────
+// Разпакова буфер: ZIP → gzip → plain CSV
+// ──────────────────────────────────────────────
+async function разпакови(buffer: Buffer): Promise<string> {
+  // ZIP
+  try {
+    const zip   = new AdmZip(buffer)
+    const entry = zip.getEntries().find((e) => e.entryName.endsWith('.csv'))
+    if (entry) return entry.getData().toString('utf8')
+  } catch { /* не е ZIP */ }
+
+  // gzip
+  try {
+    return (await gunzipAsync(buffer)).toString('utf8')
+  } catch { /* не е gzip */ }
+
+  // plain CSV
+  const text = buffer.toString('utf8')
+  if (text.trimStart().startsWith('id,') || text.trimStart().startsWith('"id"')) {
+    return text
+  }
+
+  throw new Error('Неизвестен формат (не ZIP, не gzip, не CSV)')
+}
+
+// ──────────────────────────────────────────────
+// Извлича топ ID-та от BGG data dump
+// ──────────────────────────────────────────────
+async function изтеглиТопID(брой: number): Promise<number[]> {
+  // ── Локален файл (ако е зададен в .env) ──────
+  const localFile = process.env.BGG_DUMP_FILE
+  if (localFile) {
+    if (!fs.existsSync(localFile)) {
+      throw new Error(`BGG_DUMP_FILE не е намерен: ${localFile}`)
+    }
+    process.stdout.write(`  ⟳ Четем локален dump: ${localFile}...`)
+    const buffer = fs.readFileSync(localFile)
+    const csv    = await разпакови(buffer)
+    const ids    = parseCSVDump(csv, брой)
+    process.stdout.write(` ${ids.length} игри\n`)
+    return ids
+  }
+
+  // ── Изтегли от BGG ───────────────────────────
+  process.stdout.write('  ⟳ Изтеглям BGG data dump...')
+
+  const cookie = process.env.BGG_SESSION_COOKIE
+  const headers: Record<string, string> = {
+    'User-Agent':      BGG_UA,
+    'Accept':          'application/zip,application/octet-stream,*/*;q=0.8',
+    'Accept-Language': 'en-US,en;q=0.9',
+    'Referer':         'https://boardgamegeek.com/',
+  }
+  if (cookie) headers['Cookie'] = cookie
+
+  const res = await fetch(BGG_DUMP_URL, { headers, redirect: 'follow' })
+
+  if (!res.ok) throw new Error(`BGG data dump HTTP ${res.status}`)
+
+  const contentType = res.headers.get('content-type') ?? ''
+
+  // Ако BGG върна HTML — изисква вход
+  if (contentType.includes('text/html')) {
+    fs.mkdirSync(LOG_DIR, { recursive: true })
+    fs.writeFileSync(path.join(LOG_DIR, 'bgg-dump-response.html'), await res.text(), 'utf8')
+
+    throw new Error(
+      'BGG изисква вход за data dump.\n\n' +
+      '  ── Вариант А (препоръчан): Свали ръчно докато си логнат в BGG ──\n' +
+      '     1. Отвори https://boardgamegeek.com/data_dumps/bg_ranks в браузър\n' +
+      '     2. Свали файла (напр. boardgames_ranks.zip)\n' +
+      '     3. Добави в .env: BGG_DUMP_FILE=./data/boardgames_ranks.zip\n' +
+      '     4. Пусни отново: npm run import:bgg\n\n' +
+      '  ── Вариант Б: Session cookie от браузър ─────────────────────────\n' +
+      '     1. Логни се в boardgamegeek.com\n' +
+      '     2. Отвори DevTools → Application → Cookies → boardgamegeek.com\n' +
+      '     3. Копирай стойностите на bggusername и SessionID\n' +
+      '     4. Добави в .env:\n' +
+      '        BGG_SESSION_COOKIE=bggusername=ТВОЕТО_ИМЕ; SessionID=ТВОЯ_ID\n' +
+      '     5. Пусни отново: npm run import:bgg\n\n' +
+      '  Debug HTML е записан в: logs/bgg-dump-response.html'
+    )
+  }
+
+  const buffer = Buffer.from(await res.arrayBuffer())
+  const csv    = await разпакови(buffer)
+  const ids    = parseCSVDump(csv, брой)
+  process.stdout.write(` ${ids.length} игри\n`)
+  return ids
 }
 
 // ──────────────────────────────────────────────
@@ -155,7 +227,7 @@ async function запишиИгра(игра: BggGameDetails): Promise<'успе
       data: {
         bggId:         игра.id,
         slug,
-        titleBg:       игра.titleEn,           // временно; ще се превежда
+        titleBg:       игра.titleEn,
         titleEn:       игра.titleEn,
         descriptionBg: '',
         descriptionEn: игра.descriptionEn.slice(0, 10_000),
@@ -203,7 +275,7 @@ async function main() {
 
   const idSet = new Set<number>()
 
-  // Hotness (50 игри — за да са сигурно в топа)
+  // Hotness (50 игри)
   try {
     process.stdout.write('  ⟳ BGG Hotness списък...')
     const горещи = await fetchBGGHotness()
@@ -213,13 +285,12 @@ async function main() {
     process.stdout.write(` ⚠ Пропуснато: ${г}\n`)
   }
 
-  // BGG data dump — официален CSV с всички класирани игри
+  // BGG data dump
   try {
     const топId = await изтеглиТопID(БРОЙ_ИГРИ)
     топId.forEach((id) => idSet.add(id))
   } catch (г) {
-    console.error(`\n❌ Data dump грешка: ${г}`)
-    console.error('   Провери https://boardgamegeek.com/data_dumps/bg_ranks')
+    console.error(`\n❌ ${г}`)
     process.exit(1)
   }
 
@@ -233,9 +304,9 @@ async function main() {
   const всичкиИгри: BggGameDetails[] = []
 
   for (let i = 0; i < allIds.length; i += BATCH) {
-    const батч      = allIds.slice(i, i + BATCH)
-    const номБатч   = Math.floor(i / BATCH) + 1
-    const общоБатч  = Math.ceil(allIds.length / BATCH)
+    const батч     = allIds.slice(i, i + BATCH)
+    const номБатч  = Math.floor(i / BATCH) + 1
+    const общоБатч = Math.ceil(allIds.length / BATCH)
     process.stdout.write(`  ⟳ Батч ${номБатч}/${общоБатч} (${батч.length} игри)...`)
     try {
       const игри = await fetchGamesByIds(батч)
@@ -260,9 +331,9 @@ async function main() {
     прогрес(i + 1, всичкиИгри.length, игра.titleEn)
 
     const резултат = await запишиИгра(игра)
-    if (резултат === 'успешно')      успешно++
+    if (резултат === 'успешно')         успешно++
     else if (резултат === 'пропусната') пропуснати++
-    else                              грешки++
+    else                                грешки++
   }
 
   // ── Обобщение ────────────────────────────────

@@ -11,6 +11,9 @@ const BGG_HEADERS: Record<string, string> = {
   'Accept':          'application/xml,text/xml,text/html;q=0.9,*/*;q=0.8',
   'Accept-Language': 'en-US,en;q=0.9',
   'Referer':         'https://boardgamegeek.com/',
+  ...(process.env.BGG_SESSION_COOKIE
+    ? { 'Cookie': process.env.BGG_SESSION_COOKIE }
+    : {}),
 }
 
 // ──────────────────────────────────────────────
