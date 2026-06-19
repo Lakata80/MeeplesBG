@@ -264,6 +264,14 @@ async function main() {
     process.exit(1)
   }
 
+  // Диагностика на BGG cookie
+  const cookie = process.env.BGG_SESSION_COOKIE
+  if (cookie) {
+    console.log(`🍪 BGG_SESSION_COOKIE зареден: ${cookie.slice(0, 40)}...`)
+  } else {
+    console.warn('⚠  BGG_SESSION_COOKIE не е зададен — XML API заявките може да върнат 401')
+  }
+
   fs.mkdirSync(LOG_DIR, { recursive: true })
   fs.writeFileSync(LOG_FILE, `=== BGG Импорт ${new Date().toISOString()} ===\n`, 'utf8')
 
