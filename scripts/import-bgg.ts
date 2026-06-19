@@ -264,12 +264,12 @@ async function main() {
     process.exit(1)
   }
 
-  // Диагностика на BGG cookie
-  const cookie = process.env.BGG_SESSION_COOKIE
-  if (cookie) {
-    console.log(`🍪 BGG_SESSION_COOKIE зареден: ${cookie.slice(0, 40)}...`)
+  // Диагностика на BGG токен
+  const token = process.env.BGG_API_TOKEN
+  if (token) {
+    console.log(`🔑 BGG_API_TOKEN зареден: ${token.slice(0, 8)}...`)
   } else {
-    console.warn('⚠  BGG_SESSION_COOKIE не е зададен — XML API заявките може да върнат 401')
+    console.warn('⚠  BGG_API_TOKEN не е зададен — XML API заявките може да върнат 401')
   }
 
   fs.mkdirSync(LOG_DIR, { recursive: true })
