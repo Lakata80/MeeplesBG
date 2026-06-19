@@ -23,7 +23,7 @@ function прогрес(индексирани: number, общо: number) {
 
 async function main() {
   // ── Проверка на конфигурацията ───────────────
-  const url  = process.env.MEILISEARCH_URL ?? 'http://localhost:7700'
+  const url  = process.env.MEILI_HOST ?? 'http://localhost:7700'
   const dbUrl = process.env.DATABASE_URL
 
   if (!dbUrl) {

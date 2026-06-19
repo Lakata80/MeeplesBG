@@ -11,7 +11,7 @@
     "start": "next start",
     "lint": "eslint",
     "import:bgg": "npx tsx --env-file=.env scripts/import-bgg.ts",
-    "import:reindex": "npx tsx --env-file=.env scripts/reindex.ts"
+    "import:reindex": "npx tsx --env-file=.env --env-file=.env.local scripts/reindex.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

@@ -4,8 +4,8 @@ import type { GameDocument } from './types'
 export { type GameDocument }
 
 const клиент = new Meilisearch({
-  host:   process.env.MEILISEARCH_URL ?? 'http://localhost:7700',
-  apiKey: process.env.MEILISEARCH_KEY,
+  host:   process.env.MEILI_HOST ?? 'http://localhost:7700',
+  apiKey: process.env.MEILI_API_KEY,
 })
 
 // Индекс за настолни игри — типизиран с GameDocument
