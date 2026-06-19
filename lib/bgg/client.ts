@@ -6,6 +6,13 @@ export type { BggHotnessItem, BggGameDetails, BggCollectionItem }
 const BGG_BASE = process.env.BGG_API_URL ?? 'https://boardgamegeek.com/xmlapi2'
 const BGG_UA   = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36'
 
+const BGG_HEADERS: Record<string, string> = {
+  'User-Agent':      BGG_UA,
+  'Accept':          'application/xml,text/xml,text/html;q=0.9,*/*;q=0.8',
+  'Accept-Language': 'en-US,en;q=0.9',
+  'Referer':         'https://boardgamegeek.com/',
+}
+
 // ──────────────────────────────────────────────
 // Rate limiter — 1 заявка в секунда (BGG изисква)
 // ──────────────────────────────────────────────
@@ -32,7 +39,7 @@ async function bggFetch(url: string, maxRetries = 3): Promise<string> {
     try {
       await rateLimit()
 
-      const res = await fetch(url, { headers: { 'User-Agent': BGG_UA } })
+      const res = await fetch(url, { headers: BGG_HEADERS })
 
       if (res.status === 202) {
         // BGG обработва заявката — изчакай и опитай отново
@@ -59,40 +66,6 @@ async function bggFetch(url: string, maxRetries = 3): Promise<string> {
 export async function fetchBGGHotness(): Promise<BggHotnessItem[]> {
   const xml = await bggFetch(`${BGG_BASE}/hot?type=boardgame`)
   return parseHotness(xml)
-}
-
-// ──────────────────────────────────────────────
-// fetchBGGTop — топ игри по рейтинг, страница по страница
-// Парсира HTML browse страницата на BGG за да извлече ID-тата
-// ──────────────────────────────────────────────
-export async function fetchBGGTop(page: number): Promise<number[]> {
-  const url = `https://boardgamegeek.com/browse/boardgame?sort=rank&sortdir=asc&page=${page}`
-  await rateLimit()
-
-  const res = await fetch(url, {
-    headers: {
-      'User-Agent':                BGG_UA,
-      'Accept':                    'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      'Accept-Language':           'en-US,en;q=0.9',
-      'Accept-Encoding':           'gzip, deflate, br',
-      'Cache-Control':             'no-cache',
-      'Pragma':                    'no-cache',
-      'Upgrade-Insecure-Requests': '1',
-    },
-  })
-
-  if (!res.ok) throw new Error(`BGG browse HTTP ${res.status} (страница ${page})`)
-
-  const html = await res.text()
-
-  // Извлича ID от href="/boardgame/{id}/..."
-  const seen = new Set<number>()
-  for (const [, id] of html.matchAll(/href="\/boardgame\/(\d+)\//g)) {
-    const n = parseInt(id)
-    if (n > 0) seen.add(n)
-  }
-
-  return [...seen]
 }
 
 // ──────────────────────────────────────────────
