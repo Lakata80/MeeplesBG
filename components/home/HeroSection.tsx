@@ -34,13 +34,13 @@ export default function HeroSection() {
         {/* CTA бутони */}
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
-            href="/игри"
+            href="/igri"
             className="w-full sm:w-auto px-8 py-3.5 bg-white text-blue-700 font-semibold rounded-xl hover:bg-blue-50 transition-colors shadow-md text-sm"
           >
             Разгледай игрите
           </Link>
           <Link
-            href="/общност"
+            href="/forum"
             className="w-full sm:w-auto px-8 py-3.5 border-2 border-white/70 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors text-sm"
           >
             Присъедини се към общността

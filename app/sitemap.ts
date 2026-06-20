@@ -10,7 +10,7 @@ export const revalidate = 86400
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const статични: MetadataRoute.Sitemap = [
     { url: САЙТ,                  changeFrequency: 'daily',   priority: 1.0 },
-    { url: `${САЙТ}/игри`,        changeFrequency: 'daily',   priority: 0.9 },
+    { url: `${САЙТ}/igri`,        changeFrequency: 'daily',   priority: 0.9 },
     { url: `${САЙТ}/novini`,      changeFrequency: 'daily',   priority: 0.8 },
     { url: `${САЙТ}/top`,         changeFrequency: 'weekly',  priority: 0.8 },
     { url: `${САЙТ}/forum`,       changeFrequency: 'daily',   priority: 0.7 },
@@ -31,7 +31,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ])
 
   const игриПътища: MetadataRoute.Sitemap = игриБД.map((и) => ({
-    url:             `${САЙТ}/игри/${и.slug}`,
+    url:             `${САЙТ}/igri/${и.slug}`,
     lastModified:    и.updatedAt,
     changeFrequency: 'weekly' as const,
     priority:        0.7,

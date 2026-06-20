@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { searchGames, type SearchResult } from '@/lib/search/queries'
 import type { GameCardProps } from '@/components/games/GameCard'
@@ -115,7 +116,9 @@ export default async function ИгриСтраница({ searchParams }: { searc
       <div className="flex gap-8">
 
         {/* Филтри */}
-        <SearchFilters />
+        <Suspense fallback={null}>
+          <SearchFilters />
+        </Suspense>
 
         {/* Резултати */}
         <div className="flex-1 min-w-0">
@@ -131,7 +134,11 @@ export default async function ИгриСтраница({ searchParams }: { searc
                 </p>
               )}
             </div>
-            {!безРезултати && <SortSelect />}
+            {!безРезултати && (
+              <Suspense fallback={null}>
+                <SortSelect />
+              </Suspense>
+            )}
           </div>
 
           {/* Резултати */}
@@ -151,10 +158,12 @@ export default async function ИгриСтраница({ searchParams }: { searc
             <>
               <GameGrid игри={карти} колони={4} />
 
-              <Pagination
-                текущаСтраница={резултати.page}
-                общоСтраници={резултати.totalPages}
-              />
+              <Suspense fallback={null}>
+                <Pagination
+                  текущаСтраница={резултати.page}
+                  общоСтраници={резултати.totalPages}
+                />
+              </Suspense>
             </>
           )}
         </div>

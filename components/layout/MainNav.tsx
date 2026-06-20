@@ -8,19 +8,19 @@ import { useSession }  from 'next-auth/react'
 const ФОРУМ_URL = process.env.NEXT_PUBLIC_DISCOURSE_URL ?? 'https://forum.meeplesbg.com'
 
 const ЛИНКОВЕ = [
-  { href: '/игри',   label: 'Игри',    dropdown: true },
+  { href: '/igri',   label: 'Игри',    dropdown: true },
   { href: '/top',    label: 'Топ 100' },
   { href: '/novini', label: 'Новини' },
   { href: '/форум',  label: 'Форум',   forum: true },
 ]
 
 const КАТЕГОРИИ = [
-  { href: '/игри?types=Strategy',    label: 'Стратегически' },
-  { href: '/игри?types=Thematic',    label: 'Тематични' },
-  { href: '/игри?types=Family',      label: 'Семейни' },
-  { href: '/игри?types=Party',       label: 'Парти' },
-  { href: '/игри?types=Abstract',    label: 'Абстрактни' },
-  { href: '/игри?types=Cooperative', label: 'Кооперативни' },
+  { href: '/igri?types=Strategy',    label: 'Стратегически' },
+  { href: '/igri?types=Thematic',    label: 'Тематични' },
+  { href: '/igri?types=Family',      label: 'Семейни' },
+  { href: '/igri?types=Party',       label: 'Парти' },
+  { href: '/igri?types=Abstract',    label: 'Абстрактни' },
+  { href: '/igri?types=Cooperative', label: 'Кооперативни' },
 ]
 
 interface Props {
@@ -79,7 +79,7 @@ export default function MainNav({ onNavClick }: Props) {
                   ))}
                   <div className="border-t border-gray-100 mt-1 pt-1">
                     <Link
-                      href="/игри"
+                      href="/igri"
                       onClick={() => {
                         setИгриDropdown(false)
                         onNavClick?.()

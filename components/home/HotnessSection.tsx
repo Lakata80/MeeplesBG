@@ -37,7 +37,7 @@ export default async function HotnessSection() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">🔥 Горещо в момента</h2>
-          <Link href="/игри" className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
+          <Link href="/igri" className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
             Виж всички →
           </Link>
         </div>
@@ -46,8 +46,8 @@ export default async function HotnessSection() {
           {топ.map((игра, индекс) => {
             const slug = slugMap.get(игра.id)
             const href = slug
-              ? `/игри/${slug}`
-              : `/игри?q=${encodeURIComponent(игра.name)}`
+              ? `/igri/${slug}`
+              : `/igri?q=${encodeURIComponent(игра.name)}`
 
             return (
               <Link

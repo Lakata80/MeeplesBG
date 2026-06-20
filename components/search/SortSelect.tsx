@@ -25,7 +25,7 @@ export default function SortSelect() {
     }
     next.delete('stranica')
     startTransition(() => {
-      router.push(`/игри?${next.toString()}`, { scroll: false })
+      router.push(`/igri?${next.toString()}`, { scroll: false })
     })
   }
 

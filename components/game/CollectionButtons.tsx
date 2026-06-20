@@ -46,7 +46,7 @@ export default function CollectionButtons({ gameId, slug, текущСтатус
 
   function handleClick(статус: CollectionStatus) {
     if (!влязъл) {
-      router.push(`/login?callbackUrl=/игри/${slug}`)
+      router.push(`/login?callbackUrl=/igri/${slug}`)
       return
     }
 

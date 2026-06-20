@@ -39,7 +39,7 @@ const уебСайтСхема = {
     '@type': 'SearchAction',
     target: {
       '@type':       'EntryPoint',
-      urlTemplate:   `${САЙТ}/игри?q={search_term_string}`,
+      urlTemplate:   `${САЙТ}/igri?q={search_term_string}`,
     },
     'query-input': 'required name=search_term_string',
   },

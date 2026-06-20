@@ -139,7 +139,7 @@ export default async function ПубличенПрофил({ params }: { params:
           {колекция.map(({ game, rating }) => (
             <Link
               key={game.id}
-              href={`/игри/${game.slug}`}
+              href={`/igri/${game.slug}`}
               className="group flex flex-col rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-blue-400 hover:shadow-md transition-all"
             >
               <div className="aspect-square bg-gray-100 relative overflow-hidden">

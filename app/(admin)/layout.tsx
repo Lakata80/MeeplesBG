@@ -16,10 +16,10 @@ export default function AdminLayout({
           <a href="/dashboard" className="block px-3 py-2 rounded hover:bg-gray-800">
             Табло
           </a>
-          <a href="/admin/игри" className="block px-3 py-2 rounded hover:bg-gray-800">
+          <a href="/admin/igri" className="block px-3 py-2 rounded hover:bg-gray-800">
             Игри
           </a>
-          <a href="/admin/потребители" className="block px-3 py-2 rounded hover:bg-gray-800">
+          <a href="/admin/potrebiteli" className="block px-3 py-2 rounded hover:bg-gray-800">
             Потребители
           </a>
         </nav>

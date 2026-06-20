@@ -2,35 +2,39 @@ import { auth } from '@/auth'
 import { NextResponse } from 'next/server'
 
 export default auth((req) => {
-  // Handle legacy percent-encoded or Cyrillic paths and redirect to ASCII routes
   const rawPath = req.nextUrl.pathname
   let decodedPath = rawPath
   try {
     decodedPath = decodeURIComponent(rawPath)
-  } catch (e) {
+  } catch {
     decodedPath = rawPath
+  }
+
+  // Redirect стари Cyrillic URL-и към ASCII еквиваленти
+  if (decodedPath.startsWith('/игри')) {
+    const rest = decodedPath.slice('/игри'.length)
+    const redirectUrl = new URL(`/igri${rest}`, req.url)
+    redirectUrl.search = req.nextUrl.search
+    return NextResponse.redirect(redirectUrl, 301)
   }
 
   if (decodedPath === '/вход') {
     const redirectUrl = new URL('/login', req.url)
     redirectUrl.search = req.nextUrl.search
-    return NextResponse.redirect(redirectUrl)
+    return NextResponse.redirect(redirectUrl, 301)
   }
 
   if (decodedPath === '/регистрация') {
     const redirectUrl = new URL('/register', req.url)
     redirectUrl.search = req.nextUrl.search
-    return NextResponse.redirect(redirectUrl)
+    return NextResponse.redirect(redirectUrl, 301)
   }
 
   const { pathname } = req.nextUrl
   const влязъл = !!req.auth
 
-  // Профил и колекция — изисква вход
-  if (
-    pathname.startsWith('/профил') ||
-    pathname.startsWith('/колекция')
-  ) {
+  // Профил — изисква вход
+  if (pathname.startsWith('/profil')) {
     if (!влязъл) {
       const url = new URL('/login', req.url)
       url.searchParams.set('callbackUrl', pathname)
@@ -55,7 +59,5 @@ export default auth((req) => {
 })
 
 export const config = {
-  // Run proxy for all paths so legacy percent-encoded Cyrillic requests are caught.
-  // In production you can narrow this matcher to reduce overhead.
   matcher: ['/:path*'],
 }

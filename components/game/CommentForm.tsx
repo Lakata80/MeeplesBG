@@ -25,7 +25,7 @@ export default function CommentForm({ gameId, slug, parentId, onДобавен }
   if (status === 'unauthenticated') {
     return (
       <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center text-sm text-gray-600">
-        <Link href={`/login?callbackUrl=/игри/${slug}`} className="text-blue-600 hover:underline font-medium">
+        <Link href={`/login?callbackUrl=/igri/${slug}`} className="text-blue-600 hover:underline font-medium">
           Влез в акаунта си
         </Link>
         , за да коментираш.

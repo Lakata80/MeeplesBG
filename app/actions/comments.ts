@@ -39,7 +39,7 @@ export async function добавиКоментар(
         parentId: parentId ?? null,
       },
     })
-    revalidatePath(`/игри/${slug}`)
+    revalidatePath(`/igri/${slug}`)
     return { успех: true }
   } catch {
     return { грешка: 'Грешка при запис. Опитай отново.' }

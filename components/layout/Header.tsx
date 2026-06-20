@@ -17,7 +17,7 @@ export default function Header() {
       е.preventDefault()
       const query = търсене.trim()
       if (query) {
-        router.push(`/игри?q=${encodeURIComponent(query)}`)
+        router.push(`/igri?q=${encodeURIComponent(query)}`)
         setТърсене('')
       }
     },

@@ -40,7 +40,7 @@ export default function Pagination({ текущаСтраница, общоСт�
       next.set('stranica', String(страница))
     }
     startTransition(() => {
-      router.push(`/игри?${next.toString()}`, { scroll: true })
+      router.push(`/igri?${next.toString()}`, { scroll: true })
     })
   }
 

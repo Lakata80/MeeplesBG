@@ -110,7 +110,7 @@ function КласациоРед({
 
       {/* Снимка + заглавие */}
       <td className="px-3 py-3">
-        <Link href={`/игри/${игра.slug}`} className="flex items-center gap-3 group">
+        <Link href={`/igri/${игра.slug}`} className="flex items-center gap-3 group">
           <div className="relative w-10 h-10 shrink-0 rounded-lg overflow-hidden bg-gray-100">
             {снимка ? (
               <Image
@@ -210,7 +210,7 @@ export default async function КатегорияСтраница(
       item: {
         '@type': 'BoardGame',
         name:     игра.titleBg || игра.titleEn || '',
-        url:      `${сайт}/игри/${игра.slug}`,
+        url:      `${сайт}/igri/${игра.slug}`,
       },
     })),
   }

@@ -23,7 +23,7 @@ export default function SearchBar({
     е.preventDefault()
     const query = стойност.trim()
     if (query) {
-      router.push(`/игри?q=${encodeURIComponent(query)}`)
+      router.push(`/igri?q=${encodeURIComponent(query)}`)
       setСтойност('')
     }
   }

@@ -51,7 +51,7 @@ export default async function BestsellersSection() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">🏆 Най-продавани</h2>
-          <Link href="/топ-100" className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
+          <Link href="/top" className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
             Топ 100 →
           </Link>
         </div>

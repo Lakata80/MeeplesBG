@@ -38,7 +38,7 @@ export default function GameCard({
 
   return (
     <Link
-      href={`/игри/${slug}`}
+      href={`/igri/${slug}`}
       className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all duration-200"
     >
       {/* Снимка */}

@@ -77,7 +77,7 @@ export default function SearchFilters() {
     if (!value) next.delete(key); else next.set(key, value)
     next.delete('stranica')
     startTransition(() => {
-      router.push(`/игри?${next.toString()}`, { scroll: false })
+      router.push(`/igri?${next.toString()}`, { scroll: false })
     })
   }
 
@@ -93,7 +93,7 @@ export default function SearchFilters() {
     const next = new URLSearchParams()
     if (q) next.set('q', q)
     startTransition(() => {
-      router.push(`/игри?${next.toString()}`, { scroll: false })
+      router.push(`/igri?${next.toString()}`, { scroll: false })
     })
   }
 

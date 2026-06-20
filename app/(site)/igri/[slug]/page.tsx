@@ -76,7 +76,7 @@ function Breadcrumb({ заглавие }: { заглавие: string }) {
         <ol className="flex items-center gap-1.5 text-xs text-gray-500 flex-wrap">
           <li><Link href="/" className="hover:text-blue-600 transition-colors">Начало</Link></li>
           <li aria-hidden>/</li>
-          <li><Link href="/игри" className="hover:text-blue-600 transition-colors">Игри</Link></li>
+          <li><Link href="/igri" className="hover:text-blue-600 transition-colors">Игри</Link></li>
           <li aria-hidden>/</li>
           <li className="text-gray-900 font-medium truncate max-w-48">{заглавие}</li>
         </ol>
@@ -290,7 +290,7 @@ function BoardGameSchema({ игра, заглавие }: {
         ratingCount:   игра._count.comments + 1,
       },
     }),
-    url: `https://meeplesbg.com/игри/${игра.slug}`,
+    url: `https://meeplesbg.com/igri/${игра.slug}`,
   }
 
   return (
@@ -318,7 +318,7 @@ export default async function GamePage({
         where:  { bggId },
         select: { slug: true },
       })
-      if (поBggId) redirect(`/игри/${поBggId.slug}`)
+      if (поBggId) redirect(`/igri/${поBggId.slug}`)
     }
     notFound()
   }

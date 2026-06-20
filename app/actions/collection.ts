@@ -21,7 +21,7 @@ export async function добавиВКолекция(
       update: { status: статус },
       create: { userId: сесия.user.id, gameId, status: статус },
     })
-    revalidatePath(`/игри/${slug}`)
+    revalidatePath(`/igri/${slug}`)
     return { успех: true }
   } catch {
     return { грешка: 'Грешка при запис. Опитай отново.' }
@@ -41,7 +41,7 @@ export async function премахниОтКолекция(
     await prisma.userCollection.deleteMany({
       where: { userId: сесия.user.id, gameId },
     })
-    revalidatePath(`/игри/${slug}`)
+    revalidatePath(`/igri/${slug}`)
     return { успех: true }
   } catch {
     return { грешка: 'Грешка при изтриване. Опитай отново.' }

@@ -5,11 +5,11 @@ const КОЛОНИ = [
   {
     заглавие: 'Игри',
     линкове: [
-      { href: '/игри',                 label: 'Всички игри' },
+      { href: '/igri',                 label: 'Всички игри' },
       { href: '/top/top-100',          label: 'Топ 100' },
-      { href: '/игри?types=Strategy',  label: 'Стратегически' },
-      { href: '/игри?types=Family',    label: 'Семейни' },
-      { href: '/игри?types=Party',     label: 'Парти игри' },
+      { href: '/igri?types=Strategy',  label: 'Стратегически' },
+      { href: '/igri?types=Family',    label: 'Семейни' },
+      { href: '/igri?types=Party',     label: 'Парти игри' },
     ],
   },
   {

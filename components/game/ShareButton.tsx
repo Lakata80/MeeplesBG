@@ -11,7 +11,7 @@ export default function ShareButton({ заглавие, slug }: Props) {
   const [копирано, setКопирано] = useState(false)
 
   async function handleShare() {
-    const url = `${window.location.origin}/игри/${slug}`
+    const url = `${window.location.origin}/igri/${slug}`
 
     if (typeof navigator.share === 'function') {
       try {

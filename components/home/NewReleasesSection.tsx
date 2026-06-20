@@ -31,7 +31,7 @@ export default async function NewReleasesSection() {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">🚀 Нови издания</h2>
           <Link
-            href="/игри?sort=year"
+            href="/igri?sort=year"
             className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
           >
             Виж всички →
@@ -46,7 +46,7 @@ export default async function NewReleasesSection() {
             return (
               <Link
                 key={игра.slug}
-                href={`/игри/${игра.slug}`}
+                href={`/igri/${игра.slug}`}
                 className="flex-shrink-0 w-44 snap-start group"
               >
                 <div className="relative aspect-[3/4] bg-gray-100 rounded-xl overflow-hidden mb-3 shadow-sm">

@@ -213,7 +213,7 @@ function КартичкаИгра({
   изиграванияБрой:  number
 }) {
   return (
-    <Link href={`/игри/${slug}`} className="group flex flex-col rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-blue-400 hover:shadow-md transition-all">
+    <Link href={`/igri/${slug}`} className="group flex flex-col rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-blue-400 hover:shadow-md transition-all">
       <div className="aspect-square bg-gray-100 relative overflow-hidden">
         {снимка ? (
           <Image
@@ -261,7 +261,7 @@ function АктивностТаб({ последни }: { последни: { ga
     <div className="space-y-3">
       <h2 className="text-sm font-semibold text-gray-700 mb-4">Последно добавени игри</h2>
       {последни.map(({ game, createdAt }) => (
-        <Link key={game.slug} href={`/игри/${game.slug}`} className="flex items-center gap-3 rounded-xl border border-gray-200 p-3 hover:border-blue-300 transition-colors">
+        <Link key={game.slug} href={`/igri/${game.slug}`} className="flex items-center gap-3 rounded-xl border border-gray-200 p-3 hover:border-blue-300 transition-colors">
           <div className="w-10 h-10 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden relative">
             {game.thumbnailUrl ? (
               <Image src={game.thumbnailUrl} alt="" fill className="object-cover" sizes="40px" />
