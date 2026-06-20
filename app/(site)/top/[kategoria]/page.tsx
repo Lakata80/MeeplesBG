@@ -117,7 +117,7 @@ function КласациоРед({
                 src={снимка}
                 alt={заглавие}
                 fill
-                className="object-cover group-hover:scale-110 transition-transform duration-200"
+                className="object-cover group-hover:brightness-110 transition-all duration-200"
                 sizes="40px"
               />
             ) : (
