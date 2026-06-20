@@ -85,7 +85,7 @@ export async function fetchGameById(bggId: number): Promise<BggGameDetails | nul
 export async function fetchGamesByIds(bggIds: number[]): Promise<BggGameDetails[]> {
   if (bggIds.length === 0) return []
 
-  const BATCH = 200
+  const BATCH = 20
   const results: BggGameDetails[] = []
 
   for (let i = 0; i < bggIds.length; i += BATCH) {

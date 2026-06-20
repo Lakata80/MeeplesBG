@@ -308,7 +308,7 @@ async function main() {
   // ── Стъпка 2: Зареди детайли батчове ────────
   console.log('📦 Стъпка 2: Зареждане на детайли от BGG XML API...\n')
 
-  const BATCH = 200
+  const BATCH = 20
   const всичкиИгри: BggGameDetails[] = []
 
   for (let i = 0; i < allIds.length; i += BATCH) {
