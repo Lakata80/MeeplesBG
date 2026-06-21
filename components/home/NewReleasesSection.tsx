@@ -41,7 +41,7 @@ export default async function NewReleasesSection() {
         <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory -mx-4 px-4">
           {игри.map((игра) => {
             const заглавие = игра.titleBg || игра.titleEn || 'Непозната игра'
-            const снимка = игра.thumbnailUrl || игра.imageUrl
+            const снимка = игра.imageUrl || игра.thumbnailUrl
 
             return (
               <Link

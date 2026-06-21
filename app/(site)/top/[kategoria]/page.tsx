@@ -98,7 +98,7 @@ function КласациоРед({
   позиция: number
 }) {
   const заглавие = игра.titleBg || игра.titleEn || 'Непозната игра'
-  const снимка   = игра.thumbnailUrl ?? игра.imageUrl
+  const снимка   = игра.imageUrl ?? игра.thumbnailUrl
 
   return (
     <tr className={`${редЦвят(позиция)} border-b border-gray-100 hover:bg-blue-50/30 transition-colors`}>

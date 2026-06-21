@@ -34,7 +34,7 @@ export default function GameCard({
   types = [],
 }: GameCardProps) {
   const заглавие = titleBg || titleEn || 'Непозната игра'
-  const снимка = thumbnailUrl || imageUrl
+  const снимка = imageUrl || thumbnailUrl
 
   return (
     <Link

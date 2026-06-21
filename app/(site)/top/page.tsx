@@ -62,7 +62,7 @@ export default async function TopPage() {
               {кат.топ3.length > 0 && (
                 <div className="flex gap-3 mb-5">
                   {кат.топ3.map((игра, i) => {
-                    const снимка = игра.thumbnailUrl ?? игра.imageUrl
+                    const снимка = игра.imageUrl ?? игра.thumbnailUrl
                     const медали = ['🥇', '🥈', '🥉']
                     return (
                       <Link
