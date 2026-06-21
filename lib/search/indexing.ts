@@ -60,6 +60,9 @@ export async function configureIndex(): Promise<void> {
       'yearPublished',
       'titleBg',
     ],
+    pagination: {
+      maxTotalHits: 10000,
+    },
     distinctAttribute: 'id',
     typoTolerance: {
       enabled:       true,
