@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "eslint",
     "import:bgg": "npx tsx --env-file=.env scripts/import-bgg.ts",
-    "import:reindex": "npx tsx --env-file=.env --env-file=.env.local scripts/reindex.ts"
+    "import:reindex": "npx tsx --env-file=.env --env-file=.env.local scripts/reindex.ts",
+    "translate": "npx tsx --env-file=.env scripts/translate-descriptions.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -34,6 +35,7 @@
     "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
+    "@anthropic-ai/sdk": "^0.105.0",
     "@prisma/client": "^5.22.0",
     "@tailwindcss/postcss": "^4",
     "@types/adm-zip": "^0.5.8",
