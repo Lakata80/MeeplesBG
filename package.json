@@ -12,7 +12,8 @@
     "lint": "eslint",
     "import:bgg": "npx tsx --env-file=.env scripts/import-bgg.ts",
     "import:reindex": "npx tsx --env-file=.env --env-file=.env.local scripts/reindex.ts",
-    "translate": "npx tsx --env-file=.env scripts/translate-descriptions.ts"
+    "translate": "npx tsx --env-file=.env scripts/translate-descriptions.ts",
+    "upload:images": "npx tsx --env-file=.env scripts/upload-images.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -36,6 +37,7 @@
   },
   "devDependencies": {
     "@anthropic-ai/sdk": "^0.105.0",
+    "@aws-sdk/client-s3": "^3.1073.0",
     "@prisma/client": "^5.22.0",
     "@tailwindcss/postcss": "^4",
     "@types/adm-zip": "^0.5.8",
@@ -43,10 +45,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/sharp": "^0.31.1",
     "adm-zip": "^0.5.17",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "prisma": "^5.22.0",
+    "sharp": "^0.35.2",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
     "typescript": "^5"
