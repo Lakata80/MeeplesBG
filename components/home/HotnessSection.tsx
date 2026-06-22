@@ -61,6 +61,7 @@ export default async function HotnessSection() {
                       src={игра.thumbnailUrl}
                       alt={игра.name}
                       fill
+                      unoptimized
                       className="object-cover group-hover:scale-105 transition-transform duration-300"
                       sizes="128px"
                     />
