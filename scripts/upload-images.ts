@@ -60,9 +60,15 @@ function закъснение(ms: number) {
 }
 
 async function свалиКатоБуфер(url: string): Promise<Buffer> {
+  const headers: Record<string, string> = {
+    'User-Agent': 'MeeplesBG/1.0 image-migration',
+  }
+  const cookie = process.env.BGG_SESSION_COOKIE
+  if (cookie) headers['Cookie'] = `bggusersessionid=${cookie}`
+
   const res = await fetch(url, {
-    headers: { 'User-Agent': 'MeeplesBG/1.0 image-migration' },
-    signal:  AbortSignal.timeout(30_000),
+    headers,
+    signal: AbortSignal.timeout(30_000),
   })
   if (!res.ok) throw new Error(`HTTP ${res.status} при сваляне на ${url}`)
   return Buffer.from(await res.arrayBuffer())
