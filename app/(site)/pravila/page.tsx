@@ -43,7 +43,7 @@ export default function ПравилаСтраница() {
             'Запазваме правото да прекратим или спрем достъп до акаунт при нарушение на тези условия.',
           ].map((т, i) => (
             <li key={i} className="flex gap-2">
-              <span className="mt-1 text-blue-500 flex-shrink-0">▸</span>
+              <span className="mt-1 text-brand-500 flex-shrink-0">▸</span>
               <span>{т}</span>
             </li>
           ))}
@@ -123,7 +123,7 @@ export default function ПравилаСтраница() {
             'Спойлерите за игри трябва да са обозначени изрично.',
           ].map((т, i) => (
             <li key={i} className="flex gap-2">
-              <span className="mt-1 text-blue-500 flex-shrink-0">▸</span>
+              <span className="mt-1 text-brand-500 flex-shrink-0">▸</span>
               <span>{т}</span>
             </li>
           ))}
@@ -146,7 +146,7 @@ export default function ПравилаСтраница() {
             href="https://boardgamegeek.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-600 hover:underline"
+            className="text-brand-600 hover:underline"
           >
             BoardGameGeek
           </a>{' '}
@@ -197,13 +197,13 @@ export default function ПравилаСтраница() {
         <ul className="mt-2 space-y-1 text-gray-700">
           <li>
             📧{' '}
-            <a href="mailto:contact@meeplesbg.com" className="text-blue-600 hover:underline">
+            <a href="mailto:contact@meeplesbg.com" className="text-brand-600 hover:underline">
               contact@meeplesbg.com
             </a>
           </li>
           <li>
             🌐{' '}
-            <Link href="/kontakti" className="text-blue-600 hover:underline">
+            <Link href="/kontakti" className="text-brand-600 hover:underline">
               Форма за контакт
             </Link>
           </li>
@@ -218,7 +218,7 @@ export default function ПравилаСтраница() {
 function Хедър({ заглавие, актуализация }: { заглавие: string; актуализация: string }) {
   return (
     <div className="mb-10">
-      <p className="text-sm text-blue-600 font-medium mb-2">Правна информация</p>
+      <p className="text-sm text-brand-600 font-medium mb-2">Правна информация</p>
       <h1 className="text-3xl font-bold text-gray-900 mb-3">{заглавие}</h1>
       <p className="text-sm text-gray-400">Последна актуализация: {актуализация}</p>
       <div className="mt-6 h-px bg-gray-200" />

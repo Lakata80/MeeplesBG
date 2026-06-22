@@ -54,7 +54,7 @@ function ОценкаЗнак({ стойност }: { стойност: number |
   if (!стойност) return <span className="text-gray-400 text-sm">—</span>
   const цвят =
     стойност >= 8 ? 'bg-green-100 text-green-700' :
-    стойност >= 7 ? 'bg-blue-100 text-blue-700' :
+    стойност >= 7 ? 'bg-brand-100 text-brand-700' :
     стойност >= 6 ? 'bg-yellow-100 text-yellow-700' :
                     'bg-gray-100 text-gray-600'
   return (
@@ -101,7 +101,7 @@ function КласациоРед({
   const снимка   = игра.imageUrl ?? игра.thumbnailUrl
 
   return (
-    <tr className={`${редЦвят(позиция)} border-b border-gray-100 hover:bg-blue-50/30 transition-colors`}>
+    <tr className={`${редЦвят(позиция)} border-b border-gray-100 hover:bg-brand-50/30 transition-colors`}>
 
       {/* Позиция */}
       <td className="px-3 py-3 text-center w-12">
@@ -125,7 +125,7 @@ function КласациоРед({
             )}
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors leading-tight">
+            <p className="text-sm font-semibold text-gray-900 group-hover:text-brand-600 transition-colors leading-tight">
               {заглавие}
             </p>
             {игра.titleEn && игра.titleBg && (
@@ -133,7 +133,7 @@ function КласациоРед({
             )}
             {/* Тип бадж — видим на мобилни */}
             {игра.types[0] && (
-              <span className="md:hidden inline-block mt-1 text-[10px] px-1.5 py-0.5 bg-blue-100 text-blue-700 rounded-md">
+              <span className="md:hidden inline-block mt-1 text-[10px] px-1.5 py-0.5 bg-brand-100 text-brand-700 rounded-md">
                 {игра.types[0]}
               </span>
             )}
@@ -225,9 +225,9 @@ export default async function КатегорияСтраница(
 
       {/* Хлебни трохи */}
       <nav aria-label="Хлебни трохи" className="text-sm text-gray-400 mb-6 flex items-center gap-1.5">
-        <Link href="/" className="hover:text-blue-600 transition-colors">Начало</Link>
+        <Link href="/" className="hover:text-brand-600 transition-colors">Начало</Link>
         <span>›</span>
-        <Link href="/top" className="hover:text-blue-600 transition-colors">Топ класации</Link>
+        <Link href="/top" className="hover:text-brand-600 transition-colors">Топ класации</Link>
         <span>›</span>
         <span className="text-gray-700 font-medium">{кат.заглавие}</span>
       </nav>
@@ -301,7 +301,7 @@ export default async function КатегорияСтраница(
             <Link
               key={к.slug}
               href={`/top/${к.slug}`}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-blue-100 hover:text-blue-700 text-gray-700 text-sm rounded-full transition-colors"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-brand-100 hover:text-brand-700 text-gray-700 text-sm rounded-full transition-colors"
             >
               <span aria-hidden>{к.икона}</span>
               {к.заглавие}

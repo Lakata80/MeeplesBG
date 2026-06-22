@@ -72,7 +72,7 @@ export default function RegisterClient() {
               type="text"
               autoComplete="name"
               placeholder="Иван Петров"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
             {стат?.грешки?.ime && (
               <p className="mt-1 text-xs text-red-600">{стат.грешки.ime[0]}</p>
@@ -89,7 +89,7 @@ export default function RegisterClient() {
               type="email"
               autoComplete="email"
               placeholder="ime@primer.com"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
             {стат?.грешки?.email && (
               <p className="mt-1 text-xs text-red-600">{стат.грешки.email[0]}</p>
@@ -106,7 +106,7 @@ export default function RegisterClient() {
               type="password"
               autoComplete="new-password"
               placeholder="Поне 8 символа"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
             {стат?.грешки?.парола && (
               <p className="mt-1 text-xs text-red-600">{стат.грешки.парола[0]}</p>
@@ -126,7 +126,7 @@ export default function RegisterClient() {
               type="password"
               autoComplete="new-password"
               placeholder="••••••••"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
             {стат?.грешки?.потвърдиПарола && (
               <p className="mt-1 text-xs text-red-600">{стат.грешки.потвърдиПарола[0]}</p>
@@ -136,7 +136,7 @@ export default function RegisterClient() {
           <button
             type="submit"
             disabled={зареждане}
-            className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {зареждане ? 'Регистриране...' : 'Регистрирай се'}
           </button>
@@ -149,7 +149,7 @@ export default function RegisterClient() {
         {/* Линк вход */}
         <p className="text-center text-sm text-gray-500">
           Вече имаш акаунт?{' '}
-          <Link href="/login" className="text-blue-600 font-medium hover:underline">
+          <Link href="/login" className="text-brand-600 font-medium hover:underline">
             Влез тук
           </Link>
         </p>

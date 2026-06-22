@@ -36,7 +36,7 @@ function Аватар({ image, name }: { image: string | null; name: string | nu
       <Image src={image} alt={name ?? ''} fill className="object-cover" sizes="32px" />
     </div>
   ) : (
-    <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-sm font-semibold shrink-0">
+    <div className="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-600 text-sm font-semibold shrink-0">
       {initials}
     </div>
   )
@@ -76,7 +76,7 @@ function КоментарРед({
           {!е_отговор && (
             <button
               onClick={() => setОтговор((v) => !v)}
-              className="mt-1.5 ml-2 text-xs text-gray-400 hover:text-blue-600 transition-colors"
+              className="mt-1.5 ml-2 text-xs text-gray-400 hover:text-brand-600 transition-colors"
             >
               {отговор ? 'Откажи' : 'Отговори'}
             </button>

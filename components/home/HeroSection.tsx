@@ -3,7 +3,7 @@ import SearchBar from '@/components/ui/SearchBar'
 
 export default function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white overflow-hidden">
+    <section className="relative bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 text-white overflow-hidden">
       {/* Декоративен фон */}
       <div aria-hidden className="absolute inset-0 opacity-[0.07] select-none pointer-events-none">
         <span className="absolute top-8 left-10 text-9xl">🎲</span>
@@ -16,10 +16,10 @@ export default function HeroSection() {
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 tracking-tight">
           Всичко за настолни игри
           <br />
-          <span className="text-blue-200">в България</span>
+          <span className="text-brand-200">в България</span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-blue-100 mb-10 font-light">
+        <p className="text-xl md:text-2xl text-brand-100 mb-10 font-light">
           Открий, играй, сподели
         </p>
 
@@ -35,7 +35,7 @@ export default function HeroSection() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link
             href="/igri"
-            className="w-full sm:w-auto px-8 py-3.5 bg-white text-blue-700 font-semibold rounded-xl hover:bg-blue-50 transition-colors shadow-md text-sm"
+            className="w-full sm:w-auto px-8 py-3.5 bg-white text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition-colors shadow-md text-sm"
           >
             Разгледай игрите
           </Link>
@@ -48,7 +48,7 @@ export default function HeroSection() {
         </div>
 
         {/* Бързи статистики */}
-        <div className="flex flex-wrap justify-center gap-8 mt-14 text-blue-100">
+        <div className="flex flex-wrap justify-center gap-8 mt-14 text-brand-100">
           <Стат число="2 000+" текст="игри в базата" />
           <Стат число="100%" текст="на български" />
           <Стат число="Безплатно" текст="за всички" />

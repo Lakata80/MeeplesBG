@@ -15,8 +15,8 @@ interface Props {
 const БУТОНИ: { статус: CollectionStatus; активен: string; неактивен: string; икона: string }[] = [
   {
     статус:    'OWNS',
-    активен:   'bg-blue-600 text-white border-blue-600',
-    неактивен: 'border-gray-300 text-gray-700 hover:border-blue-400 hover:text-blue-600',
+    активен:   'bg-brand-600 text-white border-brand-600',
+    неактивен: 'border-gray-300 text-gray-700 hover:border-brand-400 hover:text-brand-600',
     икона:     '📦',
   },
   {

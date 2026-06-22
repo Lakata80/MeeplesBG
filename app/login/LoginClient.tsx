@@ -82,7 +82,7 @@ export default function LoginClient() {
               type="email"
               autoComplete="email"
               placeholder="ime@primer.com"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
             {стат?.грешки?.email && (
               <p className="mt-1 text-xs text-red-600">{стат.грешки.email[0]}</p>
@@ -99,7 +99,7 @@ export default function LoginClient() {
               type="password"
               autoComplete="current-password"
               placeholder="••••••••"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
             {стат?.грешки?.парола && (
               <p className="mt-1 text-xs text-red-600">{стат.грешки.парола[0]}</p>
@@ -109,7 +109,7 @@ export default function LoginClient() {
           <button
             type="submit"
             disabled={зареждане}
-            className="w-full py-3 px-4 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3 px-4 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {зареждане ? 'Влизане...' : 'Влез'}
           </button>
@@ -118,7 +118,7 @@ export default function LoginClient() {
         {/* Линк регистрация */}
         <p className="text-center text-sm text-gray-500">
           Нямаш акаунт?{' '}
-          <Link href="/register" className="text-blue-600 font-medium hover:underline">
+          <Link href="/register" className="text-brand-600 font-medium hover:underline">
             Регистрирай се
           </Link>
         </p>

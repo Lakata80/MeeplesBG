@@ -43,7 +43,7 @@ export default async function NewsSection() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">📰 Новини</h2>
-          <Link href="/novini" className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
+          <Link href="/novini" className="text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors">
             Всички новини →
           </Link>
         </div>
@@ -53,7 +53,7 @@ export default async function NewsSection() {
             <Link
               key={п.slug}
               href={`/новини/${п.slug}`}
-              className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all duration-200"
+              className="group bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:border-brand-200 transition-all duration-200"
             >
               {/* Снимка */}
               <div className="relative aspect-video bg-gray-100 overflow-hidden">
@@ -71,7 +71,7 @@ export default async function NewsSection() {
                   </div>
                 )}
                 <div className="absolute top-3 left-3">
-                  <span className="bg-blue-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
+                  <span className="bg-brand-600 text-white text-xs font-semibold px-2.5 py-1 rounded-full">
                     {КАТЕГОРИЯ_ЕТИКЕТ[п.category]}
                   </span>
                 </div>
@@ -79,7 +79,7 @@ export default async function NewsSection() {
 
               {/* Съдържание */}
               <div className="p-4">
-                <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors mb-2">
+                <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 group-hover:text-brand-600 transition-colors mb-2">
                   {п.titleBg}
                 </h3>
 

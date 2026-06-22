@@ -43,7 +43,7 @@ export default function SearchBar({
           placeholder={placeholder}
           autoFocus={autoFocus}
           aria-label="Търси настолна игра"
-          className={`w-full rounded-2xl border border-gray-200 bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+          className={`w-full rounded-2xl border border-gray-200 bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 ${
             голям
               ? 'pl-12 pr-36 py-4 text-base'
               : 'pl-10 pr-28 py-3 text-sm'
@@ -51,7 +51,7 @@ export default function SearchBar({
         />
         <button
           type="submit"
-          className={`absolute right-2 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 active:bg-blue-800 transition-colors ${
+          className={`absolute right-2 bg-brand-600 text-white font-semibold rounded-xl hover:bg-brand-700 active:bg-brand-800 transition-colors ${
             голям ? 'px-5 py-2.5 text-sm' : 'px-4 py-2 text-xs'
           }`}
         >

@@ -52,8 +52,8 @@ export default function MainNav({ onNavClick }: Props) {
                 onClick={onNavClick}
                 className={`flex items-center gap-1 px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 ${
                   isActive(линк.href)
-                    ? 'text-blue-600 border-blue-600'
-                    : 'text-gray-600 border-transparent hover:text-blue-600'
+                    ? 'text-brand-600 border-brand-600'
+                    : 'text-gray-600 border-transparent hover:text-brand-600'
                 }`}
               >
                 {линк.label}
@@ -72,7 +72,7 @@ export default function MainNav({ onNavClick }: Props) {
                         setИгриDropdown(false)
                         onNavClick?.()
                       }}
-                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                      className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-600 transition-colors"
                     >
                       {к.label}
                     </Link>
@@ -84,7 +84,7 @@ export default function MainNav({ onNavClick }: Props) {
                         setИгриDropdown(false)
                         onNavClick?.()
                       }}
-                      className="block px-4 py-2.5 text-sm font-semibold text-blue-600 hover:bg-blue-50 transition-colors"
+                      className="block px-4 py-2.5 text-sm font-semibold text-brand-600 hover:bg-brand-50 transition-colors"
                     >
                       Всички игри →
                     </Link>
@@ -102,7 +102,7 @@ export default function MainNav({ onNavClick }: Props) {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={onNavClick}
-                    className="block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 text-gray-600 border-transparent hover:text-blue-600"
+                    className="block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 text-gray-600 border-transparent hover:text-brand-600"
                   >
                     {линк.label}
                   </a>
@@ -110,7 +110,7 @@ export default function MainNav({ onNavClick }: Props) {
                   <Link
                     href="/login"
                     onClick={onNavClick}
-                    className="block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 text-gray-600 border-transparent hover:text-blue-600"
+                    className="block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 text-gray-600 border-transparent hover:text-brand-600"
                   >
                     {линк.label}
                   </Link>
@@ -121,8 +121,8 @@ export default function MainNav({ onNavClick }: Props) {
                   onClick={onNavClick}
                   className={`block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 ${
                     isActive(линк.href)
-                      ? 'text-blue-600 border-blue-600'
-                      : 'text-gray-600 border-transparent hover:text-blue-600'
+                      ? 'text-brand-600 border-brand-600'
+                      : 'text-gray-600 border-transparent hover:text-brand-600'
                   }`}
                 >
                   {линк.label}

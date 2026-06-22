@@ -26,13 +26,13 @@ export default async function NewReleasesSection() {
   if (игри.length === 0) return null
 
   return (
-    <section className="py-12 bg-blue-50/40">
+    <section className="py-12 bg-brand-50/40">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-gray-900">🚀 Нови издания</h2>
           <Link
             href="/igri?sort=year"
-            className="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors"
+            className="text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors"
           >
             Виж всички →
           </Link>
@@ -70,7 +70,7 @@ export default async function NewReleasesSection() {
                   )}
                 </div>
 
-                <p className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight">
+                <p className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-brand-600 transition-colors leading-tight">
                   {заглавие}
                 </p>
 

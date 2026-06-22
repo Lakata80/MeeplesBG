@@ -78,7 +78,7 @@ export default function CookieBanner() {
             Задължителните са необходими за работата на сайта. Можеш да
             разрешиш аналитичните и функционалните, за да ни помогнеш да
             подобряваме услугата. Прочети{' '}
-            <Link href="/biskvitki" className="underline hover:text-blue-600 whitespace-nowrap">
+            <Link href="/biskvitki" className="underline hover:text-brand-600 whitespace-nowrap">
               Политиката ни за бисквитки
             </Link>
             .
@@ -105,8 +105,8 @@ export default function CookieBanner() {
             <button
               onClick={приемиВсички}
               className="
-                rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white
-                hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+                rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white
+                hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2
                 transition-colors
               "
             >
@@ -183,9 +183,9 @@ export default function CookieBanner() {
               <button
                 onClick={запазиИзбор}
                 className="
-                  rounded-xl bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white
-                  hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2
-                  focus:ring-blue-500 focus:ring-offset-2
+                  rounded-xl bg-brand-600 px-6 py-2.5 text-sm font-semibold text-white
+                  hover:bg-brand-700 transition-colors focus:outline-none focus:ring-2
+                  focus:ring-brand-500 focus:ring-offset-2
                 "
               >
                 Запази настройките
@@ -221,7 +221,7 @@ function ОпцияБисквитка({
       className={`flex items-start gap-4 rounded-xl border p-4 transition-colors ${
         disabled
           ? 'border-gray-100 bg-gray-50 cursor-default'
-          : 'border-gray-200 cursor-pointer hover:border-blue-300 hover:bg-blue-50'
+          : 'border-gray-200 cursor-pointer hover:border-brand-300 hover:bg-brand-50'
       }`}
     >
       <input
@@ -230,7 +230,7 @@ function ОпцияБисквитка({
         checked={checked}
         disabled={disabled}
         onChange={onChange ? (e) => onChange(e.target.checked) : undefined}
-        className="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 flex-shrink-0"
+        className="mt-1 h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500 flex-shrink-0"
       />
       <div className="flex-1 min-w-0">
         <p className={`text-sm font-medium ${disabled ? 'text-gray-500' : 'text-gray-900'}`}>

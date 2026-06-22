@@ -38,7 +38,7 @@ const КАТЕГОРИЯ_НАДПИС: Record<КатегорияСтатия, st
 }
 
 const КАТЕГОРИЯ_ЦВЯТ: Record<КатегорияСтатия, string> = {
-  NEWS:   'bg-blue-100 text-blue-700',
+  NEWS:   'bg-brand-100 text-brand-700',
   REVIEW: 'bg-purple-100 text-purple-700',
   BLOG:   'bg-gray-100 text-gray-700',
   GUIDE:  'bg-green-100 text-green-700',
@@ -165,9 +165,9 @@ export default async function СтатияСтраница(
 
           {/* Хлебни трохи */}
           <nav aria-label="Хлебни трохи" className="text-sm text-gray-400 mb-6 flex items-center gap-1.5">
-            <Link href="/" className="hover:text-blue-600 transition-colors">Начало</Link>
+            <Link href="/" className="hover:text-brand-600 transition-colors">Начало</Link>
             <span>›</span>
-            <Link href="/novini" className="hover:text-blue-600 transition-colors">Новини</Link>
+            <Link href="/novini" className="hover:text-brand-600 transition-colors">Новини</Link>
             <span>›</span>
             <span className="text-gray-700 truncate max-w-[200px]">{статия.title}</span>
           </nav>

@@ -45,7 +45,7 @@ export default function GallerySection({ imageUrl, thumbnailUrl, заглави�
             <button
               key={i}
               onClick={() => setАктивна(url)}
-              className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden group focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="relative aspect-square bg-gray-100 rounded-xl overflow-hidden group focus:outline-none focus:ring-2 focus:ring-brand-500"
               aria-label={`Снимка ${i + 1} на ${заглавие}`}
             >
               <Image

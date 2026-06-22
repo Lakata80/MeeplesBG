@@ -1,26 +1,46 @@
 @import "tailwindcss";
+@config "../tailwind.config.ts";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAF7F2;
+  --foreground: #1C1917;
+  --muted: #78716C;
+  --border: #E7E5E4;
+  --card: #FFFFFF;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Brand (горско зелено) */
+  --color-brand-50:  #f0fdf4;
+  --color-brand-100: #dcfce7;
+  --color-brand-200: #bbf7d0;
+  --color-brand-300: #86efac;
+  --color-brand-400: #4ade80;
+  --color-brand-500: #2D6A4F;
+  --color-brand-600: #1B4332;
+  --color-brand-700: #163829;
+  --color-brand-800: #112d21;
+  --color-brand-900: #0c2118;
+  --color-brand-950: #061310;
+
+  /* Злато */
+  --color-gold-400: #F5D07A;
+  --color-gold-500: #E4A835;
+  --color-gold-600: #C9901A;
+  --color-gold-700: #A97515;
+
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-playfair), Georgia, serif;
 }

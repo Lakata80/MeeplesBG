@@ -65,8 +65,8 @@ export default function NewsletterForm({ вариант = 'нормален' }: 
           disabled={статус === 'зареждане'}
           className="
             min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm
-            placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-1
-            focus:ring-blue-500 disabled:opacity-50
+            placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-1
+            focus:ring-brand-500 disabled:opacity-50
             dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500
           "
         />
@@ -74,8 +74,8 @@ export default function NewsletterForm({ вариант = 'нормален' }: 
           type="submit"
           disabled={статус === 'зареждане'}
           className="
-            rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white
-            hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+            rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white
+            hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2
             disabled:opacity-50 transition-colors
           "
         >
@@ -100,8 +100,8 @@ export default function NewsletterForm({ вариант = 'нормален' }: 
           disabled={статус === 'зареждане'}
           className="
             w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base
-            placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2
-            focus:ring-blue-500 disabled:opacity-50
+            placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-2
+            focus:ring-brand-500 disabled:opacity-50
             dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500
           "
         />
@@ -115,8 +115,8 @@ export default function NewsletterForm({ вариант = 'нормален' }: 
         type="submit"
         disabled={статус === 'зареждане'}
         className="
-          rounded-xl bg-blue-600 px-6 py-3 text-base font-semibold text-white
-          hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+          rounded-xl bg-brand-600 px-6 py-3 text-base font-semibold text-white
+          hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2
           disabled:opacity-50 transition-colors whitespace-nowrap
         "
       >

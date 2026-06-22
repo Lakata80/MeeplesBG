@@ -89,13 +89,13 @@ function ТемаРед({ тема }: { тема: DiscourseTopic }) {
       className="flex items-start gap-4 py-4 border-b border-gray-100 last:border-0 hover:bg-gray-50 -mx-4 px-4 rounded-lg transition-colors group"
     >
       {/* Иконка */}
-      <div className="mt-0.5 w-9 h-9 shrink-0 rounded-lg bg-blue-100 flex items-center justify-center text-base">
+      <div className="mt-0.5 w-9 h-9 shrink-0 rounded-lg bg-brand-100 flex items-center justify-center text-base">
         {тема.pinned ? '📌' : тема.closed ? '🔒' : '💬'}
       </div>
 
       {/* Съдържание */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition-colors leading-snug truncate">
+        <p className="text-sm font-semibold text-gray-900 group-hover:text-brand-600 transition-colors leading-snug truncate">
           {тема.title}
         </p>
         <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
@@ -107,7 +107,7 @@ function ТемаРед({ тема }: { тема: DiscourseTopic }) {
         </div>
       </div>
 
-      <span className="hidden sm:block text-xs text-gray-300 group-hover:text-blue-400 mt-1 transition-colors shrink-0">
+      <span className="hidden sm:block text-xs text-gray-300 group-hover:text-brand-400 mt-1 transition-colors shrink-0">
         →
       </span>
     </a>
@@ -132,7 +132,7 @@ export default async function ФорумСтраница() {
             Обсъждай, питай и споделяй с общността на MeeplesBG.
           </p>
         </div>
-        <ForumLink className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors shrink-0">
+        <ForumLink className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors shrink-0">
           Отвори форума →
         </ForumLink>
       </div>
@@ -176,10 +176,10 @@ export default async function ФорумСтраница() {
             href={discourseUrl ?? 'https://forum.meeplesbg.com'}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-xl hover:border-blue-200 hover:shadow-sm transition-all group"
+            className="flex items-center gap-3 p-4 bg-white border border-gray-200 rounded-xl hover:border-brand-200 hover:shadow-sm transition-all group"
           >
             <span className="text-2xl">{кат.икона}</span>
-            <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 transition-colors">
+            <span className="text-sm font-medium text-gray-700 group-hover:text-brand-600 transition-colors">
               {кат.надпис}
             </span>
           </a>
@@ -187,7 +187,7 @@ export default async function ФорумСтраница() {
       </div>
 
       {/* Съвет за SSO */}
-      <div className="mt-8 bg-blue-50 rounded-xl p-4 text-sm text-blue-700">
+      <div className="mt-8 bg-brand-50 rounded-xl p-4 text-sm text-brand-700">
         <strong>Съвет:</strong> Входът в MeeplesBG автоматично ви влиза и в Discourse форума —
         не е нужно да се регистрирате отново.
       </div>

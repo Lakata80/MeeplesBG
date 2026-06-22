@@ -90,7 +90,7 @@ export default async function ПубличенПрофил({ params }: { params:
             className="rounded-full border-2 border-gray-200 flex-shrink-0"
           />
         ) : (
-          <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center text-2xl font-bold text-blue-600 flex-shrink-0">
+          <div className="w-20 h-20 rounded-full bg-brand-100 flex items-center justify-center text-2xl font-bold text-brand-600 flex-shrink-0">
             {(потребител.name ?? потребител.bggUsername ?? '?')[0].toUpperCase()}
           </div>
         )}
@@ -103,7 +103,7 @@ export default async function ПубличенПрофил({ params }: { params:
               href={`https://boardgamegeek.com/user/${потребител.bggUsername}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-blue-600 hover:underline"
+              className="text-sm text-brand-600 hover:underline"
             >
               BoardGameGeek профил ↗
             </a>
@@ -140,7 +140,7 @@ export default async function ПубличенПрофил({ params }: { params:
             <Link
               key={game.id}
               href={`/igri/${game.slug}`}
-              className="group flex flex-col rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-blue-400 hover:shadow-md transition-all"
+              className="group flex flex-col rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-brand-400 hover:shadow-md transition-all"
             >
               <div className="aspect-square bg-gray-100 relative overflow-hidden">
                 {game.thumbnailUrl ? (

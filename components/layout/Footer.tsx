@@ -39,7 +39,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Лого и описание */}
           <div>
-            <Link href="/" className="text-xl font-bold text-blue-600 hover:text-blue-700 transition-colors">
+            <Link href="/" className="text-xl font-bold text-brand-600 hover:text-brand-700 transition-colors">
               🎲 MeeplesBG
             </Link>
             <p className="mt-3 text-sm text-gray-500 leading-relaxed">
@@ -61,7 +61,7 @@ export default function Footer() {
                   <li key={л.href}>
                     <Link
                       href={л.href}
-                      className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
+                      className="text-sm text-gray-500 hover:text-brand-600 transition-colors"
                     >
                       {л.label}
                     </Link>
@@ -92,7 +92,7 @@ export default function Footer() {
               href="https://boardgamegeek.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-600 transition-colors"
+              className="hover:text-brand-600 transition-colors"
             >
               BoardGameGeek
             </a>
@@ -118,7 +118,7 @@ function SocialLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-200 text-gray-500 hover:bg-blue-600 hover:text-white transition-colors"
+      className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-200 text-gray-500 hover:bg-brand-600 hover:text-white transition-colors"
     >
       {children}
     </a>

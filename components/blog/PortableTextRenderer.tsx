@@ -44,7 +44,7 @@ const компоненти = {
       <h4 className="mt-4 mb-2 text-lg font-semibold text-gray-900">{children}</h4>
     ),
     blockquote: ({ children }: { children?: React.ReactNode }) => (
-      <blockquote className="my-6 pl-4 border-l-4 border-blue-400 text-gray-700 italic">
+      <blockquote className="my-6 pl-4 border-l-4 border-brand-400 text-gray-700 italic">
         {children}
       </blockquote>
     ),
@@ -94,7 +94,7 @@ const компоненти = {
         href={value?.href}
         target={value?.blank ? '_blank' : undefined}
         rel={value?.blank ? 'noopener noreferrer' : undefined}
-        className="text-blue-600 hover:underline"
+        className="text-brand-600 hover:underline"
       >
         {children}
       </a>

@@ -38,7 +38,7 @@ export default function DescriptionSection({ descriptionBg, descriptionEn }: Pro
         {дълъг && (
           <button
             onClick={() => setРазширено((п) => !п)}
-            className="mt-3 text-sm font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1 transition-colors"
+            className="mt-3 text-sm font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors"
           >
             {разширено ? (
               <>

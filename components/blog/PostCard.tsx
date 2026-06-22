@@ -13,7 +13,7 @@ const КАТЕГОРИЯ_НАДПИС: Record<КатегорияСтатия, st
 }
 
 const КАТЕГОРИЯ_ЦВЯТ: Record<КатегорияСтатия, string> = {
-  NEWS:   'bg-blue-100 text-blue-700',
+  NEWS:   'bg-brand-100 text-brand-700',
   REVIEW: 'bg-purple-100 text-purple-700',
   BLOG:   'bg-gray-100 text-gray-700',
   GUIDE:  'bg-green-100 text-green-700',
@@ -37,7 +37,7 @@ export default function PostCard({ статия }: { статия: Статия�
   return (
     <Link
       href={`/novini/${статия.slug.current}`}
-      className="group flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-blue-200 transition-all duration-200"
+      className="group flex flex-col bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-brand-200 transition-all duration-200"
     >
       {/* Снимка */}
       <div className="relative aspect-video bg-gray-100 overflow-hidden">
@@ -63,7 +63,7 @@ export default function PostCard({ статия }: { статия: Статия�
 
       {/* Съдържание */}
       <div className="flex flex-col flex-1 p-5">
-        <h2 className="text-base font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2 mb-2">
+        <h2 className="text-base font-bold text-gray-900 group-hover:text-brand-600 transition-colors line-clamp-2 mb-2">
           {статия.title}
         </h2>
 

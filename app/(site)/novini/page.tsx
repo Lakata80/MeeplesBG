@@ -100,7 +100,7 @@ export default async function НовиниСтраница({ searchParams }: { s
               href={tabHref(т.kat)}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 активен
-                  ? 'bg-blue-600 text-white shadow-sm'
+                  ? 'bg-brand-600 text-white shadow-sm'
                   : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
               }`}
             >
@@ -156,7 +156,7 @@ export default async function НовиниСтраница({ searchParams }: { s
                             aria-current={n === страница ? 'page' : undefined}
                             className={`w-9 h-9 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
                               n === страница
-                                ? 'bg-blue-600 text-white'
+                                ? 'bg-brand-600 text-white'
                                 : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
                             }`}
                           >

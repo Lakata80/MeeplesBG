@@ -74,9 +74,9 @@ function Breadcrumb({ заглавие }: { заглавие: string }) {
     <nav aria-label="Навигационна пътека" className="border-b border-gray-100 py-3">
       <div className="container mx-auto px-4 max-w-5xl">
         <ol className="flex items-center gap-1.5 text-xs text-gray-500 flex-wrap">
-          <li><Link href="/" className="hover:text-blue-600 transition-colors">Начало</Link></li>
+          <li><Link href="/" className="hover:text-brand-600 transition-colors">Начало</Link></li>
           <li aria-hidden>/</li>
-          <li><Link href="/igri" className="hover:text-blue-600 transition-colors">Игри</Link></li>
+          <li><Link href="/igri" className="hover:text-brand-600 transition-colors">Игри</Link></li>
           <li aria-hidden>/</li>
           <li className="text-gray-900 font-medium truncate max-w-48">{заглавие}</li>
         </ol>
@@ -102,7 +102,7 @@ function RatingBar({ заглавие, стойност, максимум = 10, 
   цвят?: 'blue' | 'amber'
 }) {
   const процент = Math.min((стойност / максимум) * 100, 100)
-  const барКлас = цвят === 'amber' ? 'bg-amber-500' : 'bg-blue-600'
+  const барКлас = цвят === 'amber' ? 'bg-amber-500' : 'bg-brand-600'
 
   return (
     <div>
@@ -138,8 +138,8 @@ function PlaytimeSection({ минPlaytime, максPlaytime, минPlayeri, ма
           {играчи.map((н) => {
             const минути = Math.round(минPlaytime + диапазон / 4 * (н - 1))
             return (
-              <div key={н} className="bg-blue-50 rounded-xl p-4 text-center">
-                <div className="text-2xl font-bold text-blue-600 mb-1">
+              <div key={н} className="bg-brand-50 rounded-xl p-4 text-center">
+                <div className="text-2xl font-bold text-brand-600 mb-1">
                   {formatPlaytime(минути)}
                 </div>
                 <div className="text-xs text-gray-500">
@@ -381,7 +381,7 @@ export default async function GamePage({
                   href={`https://boardgamegeek.com/boardgame/${игра.bggId}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-gray-400 hover:text-blue-600 transition-colors"
+                  className="text-xs text-gray-400 hover:text-brand-600 transition-colors"
                 >
                   BGG #{игра.bggId}
                 </a>
@@ -406,7 +406,7 @@ export default async function GamePage({
                   {тагове.map((таг) => (
                     <span
                       key={таг}
-                      className="text-xs px-2.5 py-1 bg-blue-50 text-blue-700 rounded-full border border-blue-100 font-medium"
+                      className="text-xs px-2.5 py-1 bg-brand-50 text-brand-700 rounded-full border border-brand-100 font-medium"
                     >
                       {таг}
                     </span>
@@ -508,9 +508,9 @@ export default async function GamePage({
       <section className="py-8 border-t border-gray-100">
         <div className="container mx-auto px-4 max-w-4xl">
           <h2 className="text-xl font-bold text-gray-900 mb-3">🛒 Цени в магазини</h2>
-          <div className="bg-blue-50 border border-blue-100 rounded-xl p-6 text-center text-sm text-blue-600">
+          <div className="bg-brand-50 border border-brand-100 rounded-xl p-6 text-center text-sm text-brand-600">
             <p className="font-medium mb-1">Скоро — цени от български магазини</p>
-            <p className="text-blue-400 text-xs">
+            <p className="text-brand-400 text-xs">
               Работим по интеграция с онлайн магазините. Очаквайте!
             </p>
           </div>

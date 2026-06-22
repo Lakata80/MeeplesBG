@@ -11,7 +11,7 @@ export default function NotFound() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="max-w-lg w-full text-center py-20">
 
-        <p className="text-9xl font-black text-blue-600 leading-none select-none mb-2">404</p>
+        <p className="text-9xl font-black text-brand-600 leading-none select-none mb-2">404</p>
         <h1 className="text-2xl font-bold text-gray-900 mb-3">Страницата не е намерена</h1>
         <p className="text-gray-500 text-sm leading-relaxed mb-8">
           Страницата, която търсите, не съществува или е преместена.
@@ -21,7 +21,7 @@ export default function NotFound() {
         <div className="flex flex-wrap gap-3 justify-center mb-10">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 transition-colors"
           >
             ← Начало
           </Link>
@@ -53,7 +53,7 @@ export default function NotFound() {
               <Link
                 key={href}
                 href={href}
-                className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-blue-600 transition-colors"
+                className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-brand-600 transition-colors"
               >
                 {label}
               </Link>

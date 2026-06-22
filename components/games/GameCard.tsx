@@ -39,7 +39,7 @@ export default function GameCard({
   return (
     <Link
       href={`/igri/${slug}`}
-      className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:border-blue-200 transition-all duration-200"
+      className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:border-brand-200 transition-all duration-200"
     >
       {/* Снимка */}
       <div className="relative aspect-[3/4] bg-gray-100 overflow-hidden">
@@ -59,7 +59,7 @@ export default function GameCard({
 
         {/* Рейтинг */}
         {bggRating != null && bggRating > 0 && (
-          <div className="absolute top-2 right-2 bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-sm">
+          <div className="absolute top-2 right-2 bg-brand-600 text-white text-xs font-bold px-2 py-1 rounded-lg shadow-sm">
             ★ {formatRating(bggRating)}
           </div>
         )}
@@ -76,7 +76,7 @@ export default function GameCard({
 
       {/* Информация */}
       <div className="p-3">
-        <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 group-hover:text-blue-600 transition-colors">
+        <h3 className="font-semibold text-gray-900 text-sm leading-tight line-clamp-2 group-hover:text-brand-600 transition-colors">
           {заглавие}
         </h3>
 
@@ -108,7 +108,7 @@ export default function GameCard({
           <div className="mt-2 flex items-center gap-1.5">
             <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-blue-500 rounded-full"
+                className="h-full bg-brand-500 rounded-full"
                 style={{ width: `${(weight / 5) * 100}%` }}
               />
             </div>

@@ -19,8 +19,8 @@ export default function ForumLink({ children, className, variant = 'button' }: P
   const label = children ?? 'Към Форума →'
   const cls   = className ?? (
     variant === 'button'
-      ? 'inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors'
-      : 'text-gray-700 hover:text-blue-600 transition-colors'
+      ? 'inline-flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors'
+      : 'text-gray-700 hover:text-brand-600 transition-colors'
   )
 
   // Зареждане — показваме неутрален линк
@@ -68,7 +68,7 @@ export default function ForumLink({ children, className, variant = 'button' }: P
             <div className="flex gap-3 justify-center">
               <Link
                 href={`/login?callbackUrl=${encodeURIComponent(ФОРУМ_URL)}` }
-                className="px-5 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors"
+                className="px-5 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
               >
                 Влез в профила
               </Link>

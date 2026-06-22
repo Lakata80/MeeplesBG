@@ -21,11 +21,11 @@ export default function GDPRСтраница() {
         <p>
           Администратор на личните данни е <strong>MeeplesBG</strong> (по-нататък „ние",
           „нас" или „Сайтът"), достъпен на адрес{' '}
-          <a href="https://meeplesbg.com" className="text-blue-600 hover:underline">
+          <a href="https://meeplesbg.com" className="text-brand-600 hover:underline">
             meeplesbg.com
           </a>
           . За въпроси, свързани с обработването на лични данни, се свържете с нас на:{' '}
-          <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+          <a href="mailto:privacy@meeplesbg.com" className="text-brand-600 hover:underline">
             privacy@meeplesbg.com
           </a>
           .
@@ -104,7 +104,7 @@ export default function GDPRСтраница() {
             ['Аналитични данни (агрегирани)', 'До 26 месеца'],
           ].map(([вид, срок]) => (
             <li key={вид} className="flex gap-2">
-              <span className="mt-1 text-blue-500 flex-shrink-0">▸</span>
+              <span className="mt-1 text-brand-500 flex-shrink-0">▸</span>
               <span>
                 <strong>{вид}:</strong> {срок}
               </span>
@@ -130,7 +130,7 @@ export default function GDPRСтраница() {
             ['Sanity.io', 'Управление на съдържанието (CMS)'],
           ].map(([партньор, роля]) => (
             <li key={партньор} className="flex gap-2">
-              <span className="mt-1 text-blue-500 flex-shrink-0">▸</span>
+              <span className="mt-1 text-brand-500 flex-shrink-0">▸</span>
               <span>
                 <strong>{партньор}:</strong> {роля}
               </span>
@@ -147,7 +147,7 @@ export default function GDPRСтраница() {
         <p className="mb-4">
           Като субект на данни разполагате с посочените по-долу права. За
           упражняването им изпратете писмено искане на{' '}
-          <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+          <a href="mailto:privacy@meeplesbg.com" className="text-brand-600 hover:underline">
             privacy@meeplesbg.com
           </a>
           . Ще отговорим в срок до <strong>30 дни</strong> от получаване на
@@ -208,7 +208,7 @@ export default function GDPRСтраница() {
       <Раздел заглавие="8. Бисквитки">
         <p>
           Използваме бисквитки съгласно нашата{' '}
-          <Link href="/biskvitki" className="text-blue-600 hover:underline">
+          <Link href="/biskvitki" className="text-brand-600 hover:underline">
             Политика за бисквитки
           </Link>
           . Можете да управлявате предпочитанията си по всяко време чрез
@@ -231,13 +231,13 @@ export default function GDPRСтраница() {
         <ul className="mt-3 space-y-1 text-gray-700">
           <li>
             📧 Имейл:{' '}
-            <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+            <a href="mailto:privacy@meeplesbg.com" className="text-brand-600 hover:underline">
               privacy@meeplesbg.com
             </a>
           </li>
           <li>
             🌐 Форма за контакт:{' '}
-            <Link href="/kontakti" className="text-blue-600 hover:underline">
+            <Link href="/kontakti" className="text-brand-600 hover:underline">
               meeplesbg.com/kontakti
             </Link>
           </li>
@@ -252,7 +252,7 @@ export default function GDPRСтраница() {
 function Хедър({ заглавие, актуализация }: { заглавие: string; актуализация: string }) {
   return (
     <div className="mb-10">
-      <p className="text-sm text-blue-600 font-medium mb-2">Правна информация</p>
+      <p className="text-sm text-brand-600 font-medium mb-2">Правна информация</p>
       <h1 className="text-3xl font-bold text-gray-900 mb-3">{заглавие}</h1>
       <p className="text-sm text-gray-400">Последна актуализация: {актуализация}</p>
       <div className="mt-6 h-px bg-gray-200" />

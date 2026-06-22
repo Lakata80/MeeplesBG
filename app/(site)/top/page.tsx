@@ -39,7 +39,7 @@ export default async function TopPage() {
         {данни.map((кат) => (
           <div
             key={кат.slug}
-            className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-blue-200 transition-all duration-200 flex flex-col"
+            className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:shadow-md hover:border-brand-200 transition-all duration-200 flex flex-col"
           >
             <div className="p-6 flex flex-col flex-1">
 
@@ -105,7 +105,7 @@ export default async function TopPage() {
               <div className="mt-auto">
                 <Link
                   href={`/top/${кат.slug}`}
-                  className="inline-flex items-center gap-1 text-sm text-blue-600 font-medium hover:gap-2 transition-all"
+                  className="inline-flex items-center gap-1 text-sm text-brand-600 font-medium hover:gap-2 transition-all"
                 >
                   Виж класацията
                   <span aria-hidden>→</span>

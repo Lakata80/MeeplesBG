@@ -34,7 +34,7 @@ export default function SortSelect() {
       value={current}
       onChange={handleChange}
       aria-label="Наредба на резултатите"
-      className="text-sm border border-gray-300 rounded-xl px-3 py-2 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer"
+      className="text-sm border border-gray-300 rounded-xl px-3 py-2 bg-white text-gray-700 focus:outline-none focus:ring-2 focus:ring-brand-500 cursor-pointer"
     >
       {ОПЦИИ.map(({ стойност, надпис }) => (
         <option key={стойност} value={стойност}>

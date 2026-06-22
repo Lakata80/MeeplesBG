@@ -41,7 +41,7 @@ export default function CommentList({ коментари, gameId, slug }: Props)
           <CommentCard коментар={к}>
             <button
               onClick={() => setОтговорКъм(отговорКъм === к.id ? null : к.id)}
-              className="text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors"
+              className="text-xs text-brand-600 hover:text-brand-700 font-medium transition-colors"
             >
               {отговорКъм === к.id ? 'Отказ' : 'Отговори'}
             </button>
@@ -104,7 +104,7 @@ function CommentCard({
           />
         ) : (
           <div
-            className={`rounded-full bg-blue-100 text-blue-600 font-semibold flex items-center justify-center ${
+            className={`rounded-full bg-brand-100 text-brand-600 font-semibold flex items-center justify-center ${
               размер === 'малък' ? 'w-7 h-7 text-xs' : 'w-9 h-9 text-sm'
             }`}
           >

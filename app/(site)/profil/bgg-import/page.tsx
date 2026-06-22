@@ -101,7 +101,7 @@ export default function BggИмпортСтраница() {
 
       {/* Хедър */}
       <div className="mb-8">
-        <Link href="/profil" className="text-sm text-blue-600 hover:underline mb-3 inline-block">
+        <Link href="/profil" className="text-sm text-brand-600 hover:underline mb-3 inline-block">
           ← Назад към профила
         </Link>
         <h1 className="text-2xl font-bold text-gray-900">Импортирай колекция от BGG</h1>
@@ -130,16 +130,16 @@ export default function BggИмпортСтраница() {
             spellCheck={false}
             className="
               flex-1 rounded-xl border border-gray-300 px-4 py-2.5 text-sm
-              placeholder:text-gray-400 focus:border-blue-500 focus:outline-none
-              focus:ring-2 focus:ring-blue-500 disabled:opacity-50
+              placeholder:text-gray-400 focus:border-brand-500 focus:outline-none
+              focus:ring-2 focus:ring-brand-500 disabled:opacity-50
             "
           />
           <button
             onClick={стартирай}
             disabled={!username.trim() || статус === 'зареждане'}
             className="
-              rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white
-              hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500
+              rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white
+              hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500
               focus:ring-offset-2 disabled:opacity-50 transition-colors whitespace-nowrap
             "
           >
@@ -156,7 +156,7 @@ export default function BggИмпортСтраница() {
         <div className="mt-6 rounded-2xl border border-gray-200 bg-gray-50">
           <div className="flex items-center gap-2 px-4 py-3 border-b border-gray-200">
             {статус === 'зареждане' && (
-              <span className="inline-block h-3 w-3 rounded-full bg-blue-500 animate-pulse" />
+              <span className="inline-block h-3 w-3 rounded-full bg-brand-500 animate-pulse" />
             )}
             <span className="text-sm font-medium text-gray-700">Прогрес на импорта</span>
           </div>
@@ -171,7 +171,7 @@ export default function BggИмпортСтраница() {
               </p>
             ))}
             {статус === 'зареждане' && (
-              <p className="flex gap-2 text-blue-500">
+              <p className="flex gap-2 text-brand-500">
                 <span className="text-gray-400 flex-shrink-0">  </span>
                 <span>▌</span>
               </p>
@@ -244,9 +244,9 @@ export default function BggИмпортСтраница() {
       )}
 
       {/* Бележки */}
-      <div className="mt-8 rounded-xl bg-blue-50 border border-blue-100 p-4">
-        <h3 className="text-sm font-semibold text-blue-900 mb-2">Как работи?</h3>
-        <ul className="space-y-1.5 text-sm text-blue-800">
+      <div className="mt-8 rounded-xl bg-brand-50 border border-brand-100 p-4">
+        <h3 className="text-sm font-semibold text-brand-900 mb-2">Как работи?</h3>
+        <ul className="space-y-1.5 text-sm text-brand-800">
           <li className="flex gap-2"><span>🎲</span><span><strong>Притежаваш</strong> → добавя се като "Колекция"</span></li>
           <li className="flex gap-2"><span>🎯</span><span><strong>Искаш да играеш</strong> → добавя се като "Искам да играя"</span></li>
           <li className="flex gap-2"><span>🕹️</span><span><strong>Играл преди</strong> → добавя се като "Играл съм"</span></li>
@@ -270,7 +270,7 @@ function РезултатКутия({
 }) {
   const стилове = {
     green:  'bg-green-100 text-green-800',
-    blue:   'bg-blue-100 text-blue-800',
+    blue:   'bg-brand-100 text-brand-800',
     purple: 'bg-purple-100 text-purple-800',
   }
   return (

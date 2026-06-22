@@ -25,7 +25,7 @@ export default function CommentForm({ gameId, slug, parentId, onДобавен }
   if (status === 'unauthenticated') {
     return (
       <div className="bg-gray-50 border border-gray-200 rounded-xl p-4 text-center text-sm text-gray-600">
-        <Link href={`/login?callbackUrl=/igri/${slug}`} className="text-blue-600 hover:underline font-medium">
+        <Link href={`/login?callbackUrl=/igri/${slug}`} className="text-brand-600 hover:underline font-medium">
           Влез в акаунта си
         </Link>
         , за да коментираш.
@@ -64,7 +64,7 @@ export default function CommentForm({ gameId, slug, parentId, onДобавен }
         placeholder={parentId ? 'Напиши отговор...' : 'Напиши коментар...'}
         rows={parentId ? 3 : 4}
         maxLength={2000}
-        className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        className="w-full px-4 py-3 rounded-xl border border-gray-300 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
       />
 
       <div className="flex items-center justify-between gap-3">
@@ -84,7 +84,7 @@ export default function CommentForm({ gameId, slug, parentId, onДобавен }
           <button
             type="submit"
             disabled={зарежда || текст.trim().length < 3}
-            className="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {зарежда ? 'Изпращане...' : parentId ? 'Отговори' : 'Публикувай'}
           </button>

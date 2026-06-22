@@ -168,9 +168,9 @@ export default function SearchFilters() {
               type="checkbox"
               checked={cTypes.includes(стойност)}
               onChange={() => toggleType(стойност)}
-              className="w-4 h-4 accent-blue-600 cursor-pointer"
+              className="w-4 h-4 accent-brand-600 cursor-pointer"
             />
-            <span className="text-sm text-gray-700 group-hover:text-blue-600 transition-colors">
+            <span className="text-sm text-gray-700 group-hover:text-brand-600 transition-colors">
               {надпис}
             </span>
           </label>
@@ -195,7 +195,7 @@ export default function SearchFilters() {
               const v = parseFloat((е.target as HTMLInputElement).value)
               setParam('slozhnost', v >= MAX_WEIGHT ? null : v.toString())
             }}
-            className="w-full accent-blue-600 cursor-pointer"
+            className="w-full accent-brand-600 cursor-pointer"
           />
           <div className="flex justify-between text-xs text-gray-400 mt-1">
             <span>Лесна</span>
@@ -228,7 +228,7 @@ export default function SearchFilters() {
           <FilterIcon />
           Филтри
           {активниБрой > 0 && (
-            <span className="ml-1 px-1.5 py-0.5 bg-blue-600 text-white text-xs rounded-full">
+            <span className="ml-1 px-1.5 py-0.5 bg-brand-600 text-white text-xs rounded-full">
               {активниБрой}
             </span>
           )}
@@ -240,7 +240,7 @@ export default function SearchFilters() {
         <div className="flex items-center justify-between mb-4">
           <h2 className="font-semibold text-gray-900">Филтри</h2>
           {активниБрой > 0 && (
-            <span className="text-xs text-blue-600 font-medium">{активниБрой} активни</span>
+            <span className="text-xs text-brand-600 font-medium">{активниБрой} активни</span>
           )}
         </div>
         {filterPanel}
@@ -269,7 +269,7 @@ export default function SearchFilters() {
             <div className="sticky bottom-0 bg-white border-t border-gray-100 p-4">
               <button
                 onClick={() => setDrawer(false)}
-                className="w-full py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors"
+                className="w-full py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
               >
                 Виж резултатите
               </button>
@@ -301,7 +301,7 @@ function FilterSection({
         {активен && (
           <button
             onClick={onИзчисти}
-            className="text-xs text-blue-600 hover:text-blue-700 transition-colors"
+            className="text-xs text-brand-600 hover:text-brand-700 transition-colors"
           >
             Изчисти
           </button>
@@ -333,9 +333,9 @@ function RadioOption({
         value={стойност}
         checked={checked}
         onChange={onChange}
-        className="w-4 h-4 accent-blue-600 cursor-pointer"
+        className="w-4 h-4 accent-brand-600 cursor-pointer"
       />
-      <span className={`text-sm transition-colors ${checked ? 'text-blue-600 font-medium' : 'text-gray-700 group-hover:text-blue-600'}`}>
+      <span className={`text-sm transition-colors ${checked ? 'text-brand-600 font-medium' : 'text-gray-700 group-hover:text-brand-600'}`}>
         {надпис}
       </span>
     </label>

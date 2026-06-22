@@ -82,7 +82,7 @@ export default function ContactForm() {
           disabled={статус === 'зареждане'}
           className="
             w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm
-            focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500
+            focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500
             disabled:opacity-50 text-gray-900
           "
         >
@@ -109,8 +109,8 @@ export default function ContactForm() {
           autoComplete="email"
           className="
             w-full rounded-xl border border-gray-300 px-4 py-3 text-sm
-            placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2
-            focus:ring-blue-500 disabled:opacity-50
+            placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-2
+            focus:ring-brand-500 disabled:opacity-50
           "
         />
       </div>
@@ -132,8 +132,8 @@ export default function ContactForm() {
           disabled={статус === 'зареждане'}
           className="
             w-full rounded-xl border border-gray-300 px-4 py-3 text-sm resize-y
-            placeholder:text-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2
-            focus:ring-blue-500 disabled:opacity-50
+            placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-2
+            focus:ring-brand-500 disabled:opacity-50
           "
         />
         <p className="mt-1 text-xs text-gray-400 text-right">
@@ -154,8 +154,8 @@ export default function ContactForm() {
         type="submit"
         disabled={статус === 'зареждане'}
         className="
-          w-full rounded-xl bg-blue-600 px-6 py-3 text-base font-semibold text-white
-          hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+          w-full rounded-xl bg-brand-600 px-6 py-3 text-base font-semibold text-white
+          hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2
           disabled:opacity-50 transition-colors
         "
       >
@@ -164,7 +164,7 @@ export default function ContactForm() {
 
       <p className="text-xs text-gray-400 text-center">
         Личните ви данни се обработват съгласно нашата{' '}
-        <Link href="/gdpr" className="underline hover:text-blue-600">
+        <Link href="/gdpr" className="underline hover:text-brand-600">
           Политика за поверителност
         </Link>
         .

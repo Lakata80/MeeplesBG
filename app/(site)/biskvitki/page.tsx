@@ -45,7 +45,7 @@ export default function БисквиткиСтраница() {
             <tbody>
               {БИСКВИТКИ.map((б) => (
                 <tr key={б.name} className="hover:bg-gray-50">
-                  <td className="border border-gray-200 px-4 py-3 font-mono text-xs text-blue-700">{б.name}</td>
+                  <td className="border border-gray-200 px-4 py-3 font-mono text-xs text-brand-700">{б.name}</td>
                   <td className="border border-gray-200 px-4 py-3 text-gray-700">{б.цел}</td>
                   <td className="border border-gray-200 px-4 py-3">
                     <span className={`inline-block rounded-full px-2 py-0.5 text-xs font-medium ${б.badge}`}>
@@ -70,7 +70,7 @@ export default function БисквиткиСтраница() {
             },
             {
               name:  'Аналитични',
-              badge: 'bg-blue-100 text-blue-800',
+              badge: 'bg-brand-100 text-brand-800',
               desc:  'Помагат ни да разберем как посетителите използват сайта чрез събиране на анонимна информация. Могат да бъдат изключени.',
             },
             {
@@ -114,7 +114,7 @@ export default function БисквиткиСтраница() {
             ['Microsoft Edge', 'Настройки → Бисквитки и разрешения за сайтове'],
           ].map(([браузър, път]) => (
             <li key={браузър} className="flex gap-2">
-              <span className="mt-1 text-blue-500 flex-shrink-0">▸</span>
+              <span className="mt-1 text-brand-500 flex-shrink-0">▸</span>
               <span>
                 <strong>{браузър}:</strong> {път}
               </span>
@@ -145,11 +145,11 @@ export default function БисквиткиСтраница() {
       <Раздел заглавие="7. Контакт">
         <p>
           За въпроси относно бисквитките ни пишете на{' '}
-          <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+          <a href="mailto:privacy@meeplesbg.com" className="text-brand-600 hover:underline">
             privacy@meeplesbg.com
           </a>{' '}
           или вижте нашата пълна{' '}
-          <Link href="/gdpr" className="text-blue-600 hover:underline">
+          <Link href="/gdpr" className="text-brand-600 hover:underline">
             Политика за защита на личните данни
           </Link>
           .
@@ -194,14 +194,14 @@ const БИСКВИТКИ = [
     name:      '_ga',
     цел:       'Google Analytics — разграничава потребителите',
     категория: 'Аналитична',
-    badge:     'bg-blue-100 text-blue-800',
+    badge:     'bg-brand-100 text-brand-800',
     срок:      '2 години',
   },
   {
     name:      '_ga_XXXXXXXX',
     цел:       'Google Analytics — запазва статуса на сесията',
     категория: 'Аналитична',
-    badge:     'bg-blue-100 text-blue-800',
+    badge:     'bg-brand-100 text-brand-800',
     срок:      '2 години',
   },
   {
@@ -218,7 +218,7 @@ const БИСКВИТКИ = [
 function Хедър({ заглавие, актуализация }: { заглавие: string; актуализация: string }) {
   return (
     <div className="mb-10">
-      <p className="text-sm text-blue-600 font-medium mb-2">Правна информация</p>
+      <p className="text-sm text-brand-600 font-medium mb-2">Правна информация</p>
       <h1 className="text-3xl font-bold text-gray-900 mb-3">{заглавие}</h1>
       <p className="text-sm text-gray-400">Последна актуализация: {актуализация}</p>
       <div className="mt-6 h-px bg-gray-200" />

@@ -86,7 +86,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
             className="rounded-full border-2 border-gray-200 flex-shrink-0"
           />
         ) : (
-          <div className="w-[72px] h-[72px] rounded-full bg-blue-100 flex items-center justify-center text-2xl font-bold text-blue-600 flex-shrink-0">
+          <div className="w-[72px] h-[72px] rounded-full bg-brand-100 flex items-center justify-center text-2xl font-bold text-brand-600 flex-shrink-0">
             {(потребител.name ?? потребител.email ?? '?')[0].toUpperCase()}
           </div>
         )}
@@ -99,7 +99,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
               href={`https://boardgamegeek.com/user/${потребител.bggUsername}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-blue-600 hover:underline"
+              className="text-sm text-brand-600 hover:underline"
             >
               BGG: {потребител.bggUsername}
             </a>
@@ -135,8 +135,8 @@ export default async function ПрофилСтраница({ searchParams }: { s
 
       {/* Публичен профил линк */}
       {потребител.bggUsername && (
-        <div className="mb-6 rounded-xl bg-blue-50 border border-blue-100 px-4 py-3 flex items-center justify-between gap-3">
-          <p className="text-sm text-blue-800">
+        <div className="mb-6 rounded-xl bg-brand-50 border border-brand-100 px-4 py-3 flex items-center justify-between gap-3">
+          <p className="text-sm text-brand-800">
             Публичен профил:{' '}
             <Link href={`/potrebiteli/${потребител.bggUsername}`} className="font-medium hover:underline">
               meeplesbg.com/potrebiteli/{потребител.bggUsername}
@@ -144,7 +144,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
           </p>
           <Link
             href={`/potrebiteli/${потребител.bggUsername}`}
-            className="text-xs text-blue-600 hover:underline whitespace-nowrap"
+            className="text-xs text-brand-600 hover:underline whitespace-nowrap"
           >
             Прегледай →
           </Link>
@@ -159,7 +159,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
             href={tabUrl(t.id)}
             className={`px-4 py-2.5 text-sm font-medium whitespace-nowrap transition-colors border-b-2 -mb-px ${
               t.id === активен
-                ? 'border-blue-600 text-blue-600'
+                ? 'border-brand-600 text-brand-600'
                 : 'border-transparent text-gray-500 hover:text-gray-800 hover:border-gray-300'
             }`}
           >
@@ -213,7 +213,7 @@ function КартичкаИгра({
   изиграванияБрой:  number
 }) {
   return (
-    <Link href={`/igri/${slug}`} className="group flex flex-col rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-blue-400 hover:shadow-md transition-all">
+    <Link href={`/igri/${slug}`} className="group flex flex-col rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-brand-400 hover:shadow-md transition-all">
       <div className="aspect-square bg-gray-100 relative overflow-hidden">
         {снимка ? (
           <Image
@@ -237,7 +237,7 @@ function КартичкаИгра({
         <div className="flex items-center justify-between mt-1.5">
           {година && <span className="text-[10px] text-gray-400">{година}</span>}
           {изиграванияБрой > 0 && (
-            <span className="text-[10px] text-blue-600 font-medium">{изиграванияБрой}× изигр.</span>
+            <span className="text-[10px] text-brand-600 font-medium">{изиграванияБрой}× изигр.</span>
           )}
           {личенРейтинг && (
             <span className="text-[10px] text-yellow-600 font-medium">★ {личенРейтинг}</span>
@@ -261,7 +261,7 @@ function АктивностТаб({ последни }: { последни: { ga
     <div className="space-y-3">
       <h2 className="text-sm font-semibold text-gray-700 mb-4">Последно добавени игри</h2>
       {последни.map(({ game, createdAt }) => (
-        <Link key={game.slug} href={`/igri/${game.slug}`} className="flex items-center gap-3 rounded-xl border border-gray-200 p-3 hover:border-blue-300 transition-colors">
+        <Link key={game.slug} href={`/igri/${game.slug}`} className="flex items-center gap-3 rounded-xl border border-gray-200 p-3 hover:border-brand-300 transition-colors">
           <div className="w-10 h-10 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden relative">
             {game.thumbnailUrl ? (
               <Image src={game.thumbnailUrl} alt="" fill className="object-cover" sizes="40px" />
@@ -295,7 +295,7 @@ function ПразноСъстояние({ таб }: { таб: Таб }) {
       <p className="text-gray-500 text-sm max-w-sm mx-auto mb-5">{текст}</p>
       <Link
         href="/profil/bgg-import"
-        className="inline-block rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition-colors"
+        className="inline-block rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 transition-colors"
       >
         Импортирай от BGG
       </Link>

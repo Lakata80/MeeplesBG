@@ -12,7 +12,7 @@ export default function КонтактиСтраница() {
   return (
     <main className="container mx-auto px-4 py-12 max-w-4xl">
       <div className="mb-10">
-        <p className="text-sm text-blue-600 font-medium mb-2">Свържете се с нас</p>
+        <p className="text-sm text-brand-600 font-medium mb-2">Свържете се с нас</p>
         <h1 className="text-3xl font-bold text-gray-900 mb-3">Контакти</h1>
         <p className="text-gray-500">
           Имате въпрос, предложение или забелязахте проблем? Пишете ни!
@@ -33,7 +33,7 @@ export default function КонтактиСтраница() {
                 <span className="text-lg flex-shrink-0">📧</span>
                 <div>
                   <p className="font-medium text-gray-900">Общи въпроси</p>
-                  <a href="mailto:contact@meeplesbg.com" className="text-blue-600 hover:underline">
+                  <a href="mailto:contact@meeplesbg.com" className="text-brand-600 hover:underline">
                     contact@meeplesbg.com
                   </a>
                 </div>
@@ -42,7 +42,7 @@ export default function КонтактиСтраница() {
                 <span className="text-lg flex-shrink-0">🔒</span>
                 <div>
                   <p className="font-medium text-gray-900">Поверителност / GDPR</p>
-                  <a href="mailto:privacy@meeplesbg.com" className="text-blue-600 hover:underline">
+                  <a href="mailto:privacy@meeplesbg.com" className="text-brand-600 hover:underline">
                     privacy@meeplesbg.com
                   </a>
                 </div>
@@ -57,14 +57,14 @@ export default function КонтактиСтраница() {
             </ul>
           </div>
 
-          <div className="rounded-2xl border border-blue-100 bg-blue-50 p-6">
-            <h2 className="text-sm font-semibold text-blue-900 mb-3">🎲 Форум на общността</h2>
-            <p className="text-sm text-blue-700 mb-3">
+          <div className="rounded-2xl border border-brand-100 bg-brand-50 p-6">
+            <h2 className="text-sm font-semibold text-brand-900 mb-3">🎲 Форум на общността</h2>
+            <p className="text-sm text-brand-700 mb-3">
               За бързи въпроси относно настолни игри форумът е най-доброто място.
             </p>
             <Link
               href="/forum"
-              className="inline-block text-sm font-medium text-blue-600 hover:underline"
+              className="inline-block text-sm font-medium text-brand-600 hover:underline"
             >
               Към форума →
             </Link>
@@ -74,17 +74,17 @@ export default function КонтактиСтраница() {
             <h2 className="text-sm font-semibold text-gray-900 mb-3">📋 Правна информация</h2>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/gdpr" className="text-blue-600 hover:underline">
+                <Link href="/gdpr" className="text-brand-600 hover:underline">
                   Политика за поверителност (GDPR)
                 </Link>
               </li>
               <li>
-                <Link href="/biskvitki" className="text-blue-600 hover:underline">
+                <Link href="/biskvitki" className="text-brand-600 hover:underline">
                   Политика за бисквитки
                 </Link>
               </li>
               <li>
-                <Link href="/pravila" className="text-blue-600 hover:underline">
+                <Link href="/pravila" className="text-brand-600 hover:underline">
                   Правила за ползване
                 </Link>
               </li>

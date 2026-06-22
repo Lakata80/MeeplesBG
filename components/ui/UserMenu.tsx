@@ -29,7 +29,7 @@ export default function UserMenu() {
     return (
       <Link
         href="/login"
-        className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
+        className="px-4 py-2 text-sm font-medium text-white bg-brand-600 rounded-lg hover:bg-brand-700 transition-colors"
       >
         Вход / Регистрация
       </Link>
@@ -46,7 +46,7 @@ export default function UserMenu() {
       {/* Аватар бутон */}
       <button
         onClick={() => setОтворено(!отворено)}
-        className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+        className="flex items-center gap-2 rounded-full focus:outline-none focus:ring-2 focus:ring-brand-500"
         aria-label="Потребителско меню"
         aria-expanded={отворено}
       >
@@ -59,7 +59,7 @@ export default function UserMenu() {
             className="rounded-full object-cover"
           />
         ) : (
-          <div className="w-9 h-9 rounded-full bg-blue-600 text-white text-sm font-semibold flex items-center justify-center">
+          <div className="w-9 h-9 rounded-full bg-brand-600 text-white text-sm font-semibold flex items-center justify-center">
             {инициали}
           </div>
         )}

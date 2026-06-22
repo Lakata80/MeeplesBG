@@ -2,7 +2,7 @@ export default function Зареждане() {
   return (
     <div className="animate-pulse">
       {/* Hero skeleton */}
-      <div className="h-72 bg-blue-100" />
+      <div className="h-72 bg-brand-100" />
 
       {/* Hotness skeleton */}
       <div className="py-12 bg-orange-50/60">
@@ -36,7 +36,7 @@ export default function Зареждане() {
       </div>
 
       {/* New Releases skeleton */}
-      <div className="py-12 bg-blue-50/40">
+      <div className="py-12 bg-brand-50/40">
         <div className="container mx-auto px-4">
           <div className="h-7 w-48 bg-gray-200 rounded-lg mb-6" />
           <div className="flex gap-4">

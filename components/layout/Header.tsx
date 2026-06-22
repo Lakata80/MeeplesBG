@@ -32,7 +32,7 @@ export default function Header() {
           {/* Лого */}
           <Link
             href="/"
-            className="flex-shrink-0 text-xl font-bold text-blue-600 hover:text-blue-700 transition-colors"
+            className="flex-shrink-0 text-xl font-bold text-brand-600 hover:text-brand-700 transition-colors"
           >
             🎲 MeeplesBG
           </Link>
@@ -46,7 +46,7 @@ export default function Header() {
                 value={търсене}
                 onChange={(е) => setТърсене(е.target.value)}
                 placeholder="Търси игра..."
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-gray-50"
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-gray-50"
               />
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
             </div>
@@ -76,7 +76,7 @@ export default function Header() {
               value={търсене}
               onChange={(е) => setТърсене(е.target.value)}
               placeholder="Търси игра..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-50"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 bg-gray-50"
             />
             <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>

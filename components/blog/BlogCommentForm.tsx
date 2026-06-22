@@ -23,7 +23,7 @@ export default function BlogCommentForm({ postSlug, parentId, onДобавен }
   if (!session) {
     return (
       <p className="text-sm text-gray-500">
-        <Link href="/login" className="text-blue-600 hover:underline font-medium">
+        <Link href="/login" className="text-brand-600 hover:underline font-medium">
           Влезте в профила си
         </Link>
         , за да оставите коментар.
@@ -57,7 +57,7 @@ export default function BlogCommentForm({ postSlug, parentId, onДобавен }
           maxLength={МАКС}
           rows={parentId ? 3 : 4}
           required
-          className="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          className="w-full resize-none rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500 disabled:opacity-50"
           disabled={pending}
         />
         <span className={`absolute bottom-3 right-3 text-xs ${текст.length > МАКС * 0.9 ? 'text-orange-500' : 'text-gray-400'}`}>
@@ -77,7 +77,7 @@ export default function BlogCommentForm({ postSlug, parentId, onДобавен }
         <button
           type="submit"
           disabled={pending || текст.trim().length < 3}
-          className="px-5 py-2 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="px-5 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
           {pending ? 'Изпращане…' : parentId ? 'Отговори' : 'Коментирай'}
         </button>

@@ -9,40 +9,44 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        // Системни шрифтове без нужда от мрежова заявка
         sans: [
+          'var(--font-inter)',
           'system-ui',
           '-apple-system',
-          'BlinkMacSystemFont',
-          '"Segoe UI"',
-          'Roboto',
-          'Oxygen',
-          'Ubuntu',
           'sans-serif',
+        ],
+        serif: [
+          'var(--font-playfair)',
+          'Georgia',
+          'serif',
         ],
         mono: [
           '"SF Mono"',
           'SFMono-Regular',
           '"Fira Code"',
           'Consolas',
-          '"Liberation Mono"',
           'monospace',
         ],
       },
       colors: {
-        // Цветова схема за MeeplesBG
         brand: {
-          50:  '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554',
+          50:  '#f0fdf4',
+          100: '#dcfce7',
+          200: '#bbf7d0',
+          300: '#86efac',
+          400: '#4ade80',
+          500: '#2D6A4F',
+          600: '#1B4332',
+          700: '#163829',
+          800: '#112d21',
+          900: '#0c2118',
+          950: '#061310',
+        },
+        gold: {
+          400: '#F5D07A',
+          500: '#E4A835',
+          600: '#C9901A',
+          700: '#A97515',
         },
       },
     },

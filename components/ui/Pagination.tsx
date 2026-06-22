@@ -72,7 +72,7 @@ export default function Pagination({ текущаСтраница, общоСт�
             aria-current={n === текущаСтраница ? 'page' : undefined}
             className={`w-9 h-9 flex items-center justify-center rounded-lg text-sm font-medium transition-colors ${
               n === текущаСтраница
-                ? 'bg-blue-600 text-white border border-blue-600'
+                ? 'bg-brand-600 text-white border border-brand-600'
                 : 'border border-gray-300 text-gray-700 hover:bg-gray-50'
             }`}
           >
