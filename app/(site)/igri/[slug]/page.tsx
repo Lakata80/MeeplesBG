@@ -348,11 +348,40 @@ export default async function GamePage({
     return 'Много трудна'
   }
 
+  // Временна карта за тест на банери — ще дойде от DB по-нататък
+  const БАНЕРИ: Record<string, string> = {
+    'scythe': '/banners/scythe.png',
+  }
+  const банер = БАНЕРИ[slug] ?? null
+
   return (
     <>
       <BoardGameSchema игра={игра} заглавие={заглавие} />
 
       <Breadcrumb заглавие={заглавие} />
+
+      {/* ── Банер ── */}
+      {банер && (
+        <div className="relative h-64 md:h-80 overflow-hidden">
+          <Image
+            src={банер}
+            alt={заглавие}
+            fill
+            className="object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
+          <div className="absolute bottom-6 left-0 right-0 container mx-auto px-4 max-w-5xl">
+            <h1 className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg">
+              {заглавие}
+            </h1>
+            {игра.yearPublished && (
+              <p className="text-white/70 mt-1 text-sm">{игра.yearPublished}</p>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── Hero секция ── */}
       <section className="py-8 border-b border-gray-100">
@@ -390,9 +419,12 @@ export default async function GamePage({
 
             {/* Информация */}
             <div className="flex-1 min-w-0">
-              <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-1">
-                {заглавие}
-              </h1>
+              {!банер && (
+                <h1 className="text-3xl font-bold text-gray-900 leading-tight mb-1">
+                  {заглавие}
+                </h1>
+              )}
+              {банер && <h2 className="text-3xl font-bold text-gray-900 leading-tight mb-1">{заглавие}</h2>}
               {игра.titleEn && игра.titleBg && (
                 <p className="text-sm text-gray-400 mb-2">{игра.titleEn}</p>
               )}
