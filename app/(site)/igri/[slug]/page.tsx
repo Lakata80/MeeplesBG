@@ -389,13 +389,13 @@ export default async function GamePage({
           <div className="flex flex-col md:flex-row gap-8">
             {/* Снимка */}
             <div className="flex-shrink-0 flex flex-col items-center gap-3">
-              <div className="relative w-48 h-48 bg-gray-100 rounded-2xl overflow-hidden shadow-md">
+              <div className="relative w-48 h-48 bg-[var(--background)] rounded-2xl overflow-hidden shadow-md border border-[var(--border)]">
                 {игра.imageUrl ? (
                   <Image
                     src={игра.imageUrl}
                     alt={заглавие}
                     fill
-                    className="object-cover"
+                    className="object-contain p-2"
                     priority
                     sizes="192px"
                   />

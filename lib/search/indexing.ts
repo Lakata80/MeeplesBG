@@ -65,7 +65,7 @@ export async function configureIndex(): Promise<void> {
     distinctAttribute: 'id',
     typoTolerance: {
       enabled:       true,
-      minWordSizeForTypos: { oneTypo: 4, twoTypos: 8 },
+      minWordSizeForTypos: { oneTypo: 6, twoTypos: 10 },
     },
   })
 }
