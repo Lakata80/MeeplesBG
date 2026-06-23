@@ -1,17 +1,17 @@
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 async function main() {
-  const игри = await prisma.game.findMany({
-    where: { slug: { contains: 'pandemic-legacy-season-1' } },
-    select: { titleEn: true, slug: true, types: true, categories: true }
+  // Маркирай счупения APPROVED запис (сочи към основната снимка) като REJECTED
+  const result = await prisma.pendingImage.updateMany({
+    where: { status: 'APPROVED', url: { contains: 'games/242705.webp' } },
+    data:  { status: 'REJECTED' },
   })
-  for (const г of игри) {
-    console.log(г.titleEn, '-', г.slug)
-    console.log('  types:', JSON.stringify(г.types))
-    console.log('  categories:', JSON.stringify(г.categories))
-  }
-  // Колко игри имат Thematic в types изобщо?
-  const count = await prisma.game.count({ where: { types: { has: 'Thematic' } } })
-  console.log('\nИгри с types=Thematic:', count)
+  console.log('Изчистени счупени записи:', result.count)
+
+  // Покажи текущото състояние
+  const all = await prisma.pendingImage.findMany({
+    include: { game: { select: { slug: true } } }
+  })
+  all.forEach(p => console.log(p.status.padEnd(10), p.url.slice(-50), p.game.slug))
 }
 main().finally(() => prisma.$disconnect())

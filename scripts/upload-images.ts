@@ -49,7 +49,7 @@ function прогрес(текущ: number, общо: number, заглавие: 
   process.stdout.write(`\r[${лента}] ${процент}% (${текущ}/${общо}) ${заглавие.slice(0, 38).padEnd(38)}`)
 }
 
-function логГрешка(бггId: number, заглавие: string, грешка: string) {
+function логГрешка(бггId: number | null, заглавие: string, грешка: string) {
   if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true })
   const ред = `[${new Date().toISOString()}] bggId=${бггId} "${заглавие}" — ${грешка}\n`
   fs.appendFileSync(LOG_FILE, ред)

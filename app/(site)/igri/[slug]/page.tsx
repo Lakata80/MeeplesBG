@@ -11,6 +11,7 @@ import { auth }              from '@/auth'
 import { formatPlaytime, formatPlayers, formatRating } from '@/lib/utils'
 import CollectionButtons     from '@/components/game/CollectionButtons'
 import ShareButton           from '@/components/game/ShareButton'
+import ImageUploadButton     from '@/components/game/ImageUploadButton'
 import DescriptionSection    from '@/components/game/DescriptionSection'
 import GallerySection        from '@/components/game/GallerySection'
 import YouTubeSection        from '@/components/game/YouTubeSection'
@@ -336,6 +337,14 @@ export default async function GamePage({
     колекцияСтатус = запис?.status ?? null
   }
 
+  // Одобрени потребителски снимки за галерията
+  const одобрениСнимки = await prisma.pendingImage.findMany({
+    where:   { gameId: игра.id, status: 'APPROVED' },
+    select:  { url: true },
+    orderBy: { createdAt: 'asc' },
+  })
+  const галерия = одобрениСнимки.map((с) => с.url)
+
   // Slugове на механики за линкове
   const механикиСлугове = await prisma.mechanic.findMany({
     where:  { name: { in: игра.mechanics } },
@@ -417,6 +426,9 @@ export default async function GamePage({
                     <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                   </svg>
                 </a>
+              )}
+              {сесия?.user && (
+                <ImageUploadButton slug={игра.slug} />
               )}
             </div>
 
@@ -546,6 +558,7 @@ export default async function GamePage({
         imageUrl={игра.imageUrl}
         thumbnailUrl={игра.thumbnailUrl}
         заглавие={заглавие}
+        галерия={галерия}
       />
 
       {/* ── YouTube видео уроци ── */}

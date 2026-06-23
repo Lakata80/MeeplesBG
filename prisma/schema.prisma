@@ -77,6 +77,7 @@ model User {
   comments      Comment[]
   blogComments  BlogComment[]
   blogPosts     BlogPost[]
+  pendingImages PendingImage[]
 }
 
 // =====================
@@ -114,6 +115,7 @@ model Game {
   userCollections UserCollection[]
   reviews         Review[]
   comments        Comment[]
+  pendingImages   PendingImage[]
 }
 
 // =====================
@@ -224,6 +226,27 @@ model BlogComment {
   replies    BlogComment[] @relation("BlogCommentReplies")
 
   @@index([postSlug])
+}
+
+// =====================
+// ПОТРЕБИТЕЛСКИ СНИМКИ (ОЧАКВАЩИ ОДОБРЕНИЕ)
+// =====================
+
+enum ImageStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model PendingImage {
+  id        String      @id @default(cuid())
+  gameId    String
+  userId    String
+  url       String
+  status    ImageStatus @default(PENDING)
+  createdAt DateTime    @default(now())
+  game      Game        @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // =====================

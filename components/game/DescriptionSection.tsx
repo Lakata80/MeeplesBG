@@ -52,14 +52,6 @@ export default function DescriptionSection({ descriptionBg, descriptionEn }: Pro
           </button>
         )}
 
-        {descriptionBg && descriptionEn && (
-          <p className="mt-2 text-xs text-gray-400">Описанието е на английски — преводът предстои.</p>
-        )}
-        {!descriptionBg && descriptionEn && (
-          <p className="mt-2 text-xs text-gray-400">
-            Описанието е на английски — преводът предстои.
-          </p>
-        )}
       </div>
     </section>
   )

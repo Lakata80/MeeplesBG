@@ -7,12 +7,13 @@ interface Props {
   imageUrl?: string | null
   thumbnailUrl?: string | null
   заглавие: string
+  галерия?: string[]
 }
 
-export default function GallerySection({ imageUrl, thumbnailUrl, заглавие }: Props) {
+export default function GallerySection({ imageUrl, thumbnailUrl, заглавие, галерия = [] }: Props) {
   const снимки = [
-    imageUrl,
-    thumbnailUrl !== imageUrl ? thumbnailUrl : null,
+    imageUrl ?? thumbnailUrl,
+    ...галерия,
   ].filter(Boolean) as string[]
 
   const [активна, setАктивна] = useState<string | null>(null)
