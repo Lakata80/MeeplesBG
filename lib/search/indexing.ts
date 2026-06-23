@@ -49,6 +49,7 @@ export async function configureIndex(): Promise<void> {
       'weight',
       'types',
       'categories',
+      'mechanics',
       'yearPublished',
       'bggRating',
       'ourRating',

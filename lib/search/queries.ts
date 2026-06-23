@@ -71,8 +71,24 @@ export async function searchGames(params: SearchParams): Promise<SearchResult> {
   }
 
   if (types && types.length > 0) {
-    const списък = types.map((t) => `"${t}"`).join(', ')
-    части.push(`types IN [${списък}]`)
+    // 'Cooperative' не съществува в BGG type ranks — кооперативните игри
+    // са категоризирани като categories: ['Cooperative Game']
+    const бизКооп = types.filter((t) => t !== 'Cooperative')
+    const имаКооп = types.includes('Cooperative')
+
+    const typeFilters: string[] = []
+    if (бизКооп.length > 0) {
+      typeFilters.push(`types IN [${бизКооп.map((t) => `"${t}"`).join(', ')}]`)
+    }
+    if (имаКооп) {
+      typeFilters.push(`mechanics IN ["Cooperative Game"]`)
+    }
+
+    if (typeFilters.length === 1) {
+      части.push(typeFilters[0])
+    } else {
+      части.push(`(${typeFilters.join(' OR ')})`)
+    }
   }
 
   if (categories && categories.length > 0) {

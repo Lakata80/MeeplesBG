@@ -12,7 +12,7 @@ const parser = new XMLParser({
 // Картографиране на BGG family rank names към тип игра
 const BGG_TYPE_MAP: Record<string, string> = {
   strategygames: 'Strategy',
-  thematicgames: 'Thematic',
+  thematic: 'Thematic',
   familygames: 'Family',
   partygames: 'Party',
   abstracts: 'Abstract',

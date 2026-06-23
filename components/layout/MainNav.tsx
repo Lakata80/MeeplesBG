@@ -15,12 +15,12 @@ const ЛИНКОВЕ = [
 ]
 
 const КАТЕГОРИИ = [
-  { href: '/igri?types=Strategy',    label: 'Стратегически' },
-  { href: '/igri?types=Thematic',    label: 'Тематични' },
-  { href: '/igri?types=Family',      label: 'Семейни' },
-  { href: '/igri?types=Party',       label: 'Парти' },
-  { href: '/igri?types=Abstract',    label: 'Абстрактни' },
-  { href: '/igri?types=Cooperative', label: 'Кооперативни' },
+  { href: '/igri?tip=Strategy',    label: 'Стратегически' },
+  { href: '/igri?tip=Thematic',    label: 'Тематични' },
+  { href: '/igri?tip=Family',      label: 'Семейни' },
+  { href: '/igri?tip=Party',       label: 'Парти' },
+  { href: '/igri?tip=Abstract',    label: 'Абстрактни' },
+  { href: '/igri?tip=Cooperative', label: 'Кооперативни' },
 ]
 
 interface Props {
