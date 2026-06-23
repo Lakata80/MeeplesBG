@@ -449,7 +449,7 @@ export default async function GamePage({
                       <Link
                         key={таг}
                         href={`/mehaniki/${mechanicSlug}`}
-                        className="text-xs px-2.5 py-1 bg-brand-50 text-brand-700 rounded-full border border-brand-100 font-medium hover:bg-brand-100 hover:border-brand-300 transition-colors"
+                        className="text-xs px-2.5 py-1 bg-white text-brand-700 rounded-full border border-brand-400 font-medium hover:bg-brand-600 hover:text-white hover:border-brand-600 transition-colors shadow-sm"
                       >
                         {таг}
                       </Link>

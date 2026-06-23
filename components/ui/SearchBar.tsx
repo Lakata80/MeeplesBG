@@ -43,7 +43,7 @@ export default function SearchBar({
           placeholder={placeholder}
           autoFocus={autoFocus}
           aria-label="Търси настолна игра"
-          className={`w-full rounded-2xl border border-gray-200 bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 ${
+          className={`w-full rounded-2xl border border-gray-200 bg-white text-gray-900 placeholder:text-gray-400 shadow-md focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 ${
             голям
               ? 'pl-12 pr-36 py-4 text-base'
               : 'pl-10 pr-28 py-3 text-sm'
