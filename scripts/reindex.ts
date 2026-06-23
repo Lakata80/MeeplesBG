@@ -66,7 +66,7 @@ async function main() {
   console.log('\n⚙️  Конфигуриране на атрибутите...')
   await configureIndex()
   console.log('   ✓ Атрибутите са конфигурирани')
-  console.log('   Searchable : titleBg, titleEn, descriptionBg, categories, mechanics')
+  console.log('   Searchable : titleBg, titleEn, categories, mechanics')
   console.log('   Filterable : minPlayers, maxPlayers, minAge, maxPlaytime, weight,')
   console.log('                types, categories, yearPublished, bggRating, ourRating')
   console.log('   Sortable   : bggRating, ourRating, yearPublished, titleBg')
