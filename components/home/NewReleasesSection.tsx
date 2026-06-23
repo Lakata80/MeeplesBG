@@ -29,7 +29,7 @@ export default async function NewReleasesSection() {
     <section className="py-12 bg-brand-50/40">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">🚀 Нови издания</h2>
+          <h2 className="text-2xl font-bold text-brand-800">🚀 Нови издания</h2>
           <Link
             href="/igri?sort=year"
             className="text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors"

@@ -9,7 +9,8 @@
       "PowerShell(node --version)",
       "PowerShell(npm install *)",
       "PowerShell(try { $r = Invoke-WebRequest -Uri \"https://api.geekdo.com/api/geekitems?objecttype=thing&subtype=boardgame&sort=rank&start=0&length=3\" -UseBasicParsing -ErrorAction Stop; Write-Host \"Status: $\\($r.StatusCode\\)\"; Write-Host $r.Content.Substring\\(0, [Math]::Min\\(500, $r.Content.Length\\)\\) } catch { Write-Host \"Error: $\\($_.Exception.Message\\)\"; if \\($_.Exception.Response\\) { Write-Host \"Status: $\\($_.Exception.Response.StatusCode.value__\\)\" } })",
-      "PowerShell(cd C:\\\\MeeplesBG\\\\meeplesbg; npx tsc --noEmit --skipLibCheck 2>&1 | Where-Object { $_ -match \"bgg|import-bgg|scripts\" })"
+      "PowerShell(cd C:\\\\MeeplesBG\\\\meeplesbg; npx tsc --noEmit --skipLibCheck 2>&1 | Where-Object { $_ -match \"bgg|import-bgg|scripts\" })",
+      "Skill(run)"
     ]
   }
 }

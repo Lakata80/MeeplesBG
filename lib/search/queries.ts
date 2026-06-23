@@ -88,9 +88,7 @@ export async function searchGames(params: SearchParams): Promise<SearchResult> {
     hitsPerPage: НА_СТРАНИЦА,
     filter,
     sort: [SORT_MAP[sort]],
-    attributesToHighlight:       ['titleBg', 'titleEn', 'descriptionBg'],
-    attributesToCrop:            ['descriptionBg'],
-    cropLength:                  120,
+    attributesToHighlight: ['titleBg', 'titleEn'],
   })
 
   return {

@@ -38,7 +38,6 @@ export async function configureIndex(): Promise<void> {
     searchableAttributes: [
       'titleBg',
       'titleEn',
-      'descriptionBg',
       'categories',
       'mechanics',
     ],

@@ -34,15 +34,15 @@ const КОЛОНИ = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-50 border-t border-gray-200">
+    <footer className="bg-brand-900 text-brand-100">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Лого и описание */}
           <div>
-            <Link href="/" className="text-xl font-bold text-brand-600 hover:text-brand-700 transition-colors">
+            <Link href="/" className="text-xl font-bold text-white hover:text-brand-200 transition-colors">
               🎲 MeeplesBG
             </Link>
-            <p className="mt-3 text-sm text-gray-500 leading-relaxed">
+            <p className="mt-3 text-sm text-brand-300 leading-relaxed">
               Най-голямата онлайн общност за настолни игри в България. Открий, колекционирай и играй.
             </p>
             <div className="flex items-center gap-3 mt-4">
@@ -55,13 +55,13 @@ export default function Footer() {
           {/* Динамични колони */}
           {КОЛОНИ.map((колона) => (
             <div key={колона.заглавие}>
-              <h3 className="text-sm font-semibold text-gray-900 mb-3">{колона.заглавие}</h3>
+              <h3 className="text-sm font-semibold text-white mb-3">{колона.заглавие}</h3>
               <ul className="space-y-2">
                 {колона.линкове.map((л) => (
                   <li key={л.href}>
                     <Link
                       href={л.href}
-                      className="text-sm text-gray-500 hover:text-brand-600 transition-colors"
+                      className="text-sm text-brand-300 hover:text-white transition-colors"
                     >
                       {л.label}
                     </Link>
@@ -73,26 +73,26 @@ export default function Footer() {
         </div>
 
         {/* Бюлетин */}
-        <div className="mt-10 pt-8 border-t border-gray-200">
+        <div className="mt-10 pt-8 border-t border-brand-800">
           <div className="max-w-sm">
-            <h3 className="text-sm font-semibold text-gray-900 mb-1">Бюлетин</h3>
-            <p className="text-sm text-gray-500 mb-3">Седмичен дайджест с нови игри и новини.</p>
+            <h3 className="text-sm font-semibold text-white mb-1">Бюлетин</h3>
+            <p className="text-sm text-brand-300 mb-3">Седмичен дайджест с нови игри и новини.</p>
             <NewsletterForm вариант="компактен" />
           </div>
         </div>
 
         {/* Долна лента */}
-        <div className="mt-10 pt-6 border-t border-gray-200 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm text-gray-400">
+        <div className="mt-10 pt-6 border-t border-brand-800 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-sm text-brand-400">
             © {new Date().getFullYear()} MeeplesBG. Всички права запазени.
           </p>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-brand-400">
             Данните за игрите са предоставени от{' '}
             <a
               href="https://boardgamegeek.com"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-brand-600 transition-colors"
+              className="hover:text-brand-200 transition-colors"
             >
               BoardGameGeek
             </a>
@@ -118,7 +118,7 @@ function SocialLink({
       target="_blank"
       rel="noopener noreferrer"
       aria-label={label}
-      className="w-8 h-8 flex items-center justify-center rounded-lg bg-gray-200 text-gray-500 hover:bg-brand-600 hover:text-white transition-colors"
+      className="w-8 h-8 flex items-center justify-center rounded-lg bg-brand-800 text-brand-300 hover:bg-white hover:text-brand-900 transition-colors"
     >
       {children}
     </a>

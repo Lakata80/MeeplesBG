@@ -50,7 +50,7 @@ export default async function BestsellersSection() {
     <section className="py-12">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">🏆 Най-продавани</h2>
+          <h2 className="text-2xl font-bold text-brand-800">🏆 Най-добри игри</h2>
           <Link href="/top" className="text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors">
             Топ 100 →
           </Link>

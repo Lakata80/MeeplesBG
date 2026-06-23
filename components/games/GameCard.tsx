@@ -39,7 +39,7 @@ export default function GameCard({
   return (
     <Link
       href={`/igri/${slug}`}
-      className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-md hover:border-brand-200 transition-all duration-200"
+      className="group block bg-[var(--card)] rounded-xl border border-[var(--border)] overflow-hidden hover:shadow-lg hover:border-brand-300 hover:-translate-y-0.5 transition-all duration-200"
     >
       {/* Снимка */}
       <div className="relative aspect-[3/4] bg-gray-100 overflow-hidden">

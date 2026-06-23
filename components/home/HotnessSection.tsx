@@ -33,10 +33,10 @@ export default async function HotnessSection() {
   const slugMap = new Map(dbИгри.map((и) => [и.bggId, и.slug]))
 
   return (
-    <section className="py-12 bg-orange-50/60">
+    <section className="py-12 bg-brand-50">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-gray-900">🔥 Горещо в момента</h2>
+          <h2 className="text-2xl font-bold text-brand-800">🔥 Горещо в момента</h2>
           <Link href="/igri" className="text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors">
             Виж всички →
           </Link>

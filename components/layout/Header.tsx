@@ -25,7 +25,7 @@ export default function Header() {
   )
 
   return (
-    <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <header className="sticky top-0 z-50 bg-[var(--background)] border-b border-[var(--border)] shadow-sm">
       <div className="container mx-auto px-4">
         {/* Главна лента */}
         <div className="flex items-center gap-4 h-16">
@@ -46,7 +46,7 @@ export default function Header() {
                 value={търсене}
                 onChange={(е) => setТърсене(е.target.value)}
                 placeholder="Търси игра..."
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-gray-50"
+                className="w-full pl-10 pr-4 py-2 rounded-lg border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
               />
               <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
             </div>
@@ -76,7 +76,7 @@ export default function Header() {
               value={търсене}
               onChange={(е) => setТърсене(е.target.value)}
               placeholder="Търси игра..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 bg-gray-50"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
             />
             <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
           </div>
@@ -84,7 +84,7 @@ export default function Header() {
       </div>
 
       {/* Навигация */}
-      <div className={`border-t border-gray-100 ${мобилноМеню ? 'block' : 'hidden md:block'}`}>
+      <div className={`border-t border-[var(--border)] ${мобилноМеню ? 'block' : 'hidden md:block'}`}>
         <MainNav onNavClick={() => setМобилноМеню(false)} />
       </div>
     </header>
