@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import UserMenu from '@/components/ui/UserMenu'
 import MainNav from './MainNav'
 
@@ -10,7 +10,9 @@ export default function Header() {
   const [мобилноМеню, setМобилноМеню] = useState(false)
   const [търсене, setТърсене] = useState('')
   const router = useRouter()
+  const pathname = usePathname()
   const inputRef = useRef<HTMLInputElement>(null)
+  const скриТърсене = pathname === '/'
 
   const handleSearch = useCallback(
     (е: React.FormEvent) => {
@@ -37,8 +39,8 @@ export default function Header() {
             🎲 MeeplesBG
           </Link>
 
-          {/* Търсачка — десктоп */}
-          <form onSubmit={handleSearch} className="hidden md:flex flex-1 max-w-xl mx-auto">
+          {/* Търсачка — десктоп (скрита на началната страница) */}
+          <form onSubmit={handleSearch} className={`hidden md:flex flex-1 max-w-xl mx-auto ${скриТърсене ? 'md:hidden' : ''}`}>
             <div className="relative w-full">
               <input
                 ref={inputRef}
@@ -68,8 +70,8 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Търсачка — мобилно */}
-        <form onSubmit={handleSearch} className="md:hidden pb-3">
+        {/* Търсачка — мобилно (скрита на началната страница) */}
+        <form onSubmit={handleSearch} className={`md:hidden pb-3 ${скриТърсене ? 'hidden' : ''}`}>
           <div className="relative">
             <input
               type="search"
