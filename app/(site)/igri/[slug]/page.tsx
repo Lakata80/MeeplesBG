@@ -348,11 +348,7 @@ export default async function GamePage({
     return 'Много трудна'
   }
 
-  // Временна карта за тест на банери — ще дойде от DB по-нататък
-  const БАНЕРИ: Record<string, string> = {
-    'scythe': '/banners/scythe.png',
-  }
-  const банер = БАНЕРИ[slug] ?? null
+  const банер = игра.imageUrl ?? null
 
   return (
     <>
