@@ -49,13 +49,13 @@ export default async function NewReleasesSection() {
                 href={`/igri/${игра.slug}`}
                 className="flex-shrink-0 w-44 snap-start group"
               >
-                <div className="relative aspect-[3/4] bg-gray-100 rounded-xl overflow-hidden mb-3 shadow-sm">
+                <div className="relative aspect-[3/4] bg-[var(--background)] rounded-xl overflow-hidden mb-3 shadow-sm">
                   {снимка ? (
                     <Image
                       src={снимка}
                       alt={заглавие}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="object-contain p-1 group-hover:scale-105 transition-transform duration-300"
                       sizes="176px"
                     />
                   ) : (

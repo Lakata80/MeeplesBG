@@ -42,13 +42,13 @@ export default function GameCard({
       className="group block bg-[var(--card)] rounded-xl border border-[var(--border)] overflow-hidden hover:shadow-lg hover:border-brand-300 hover:-translate-y-0.5 transition-all duration-200"
     >
       {/* Снимка */}
-      <div className="relative aspect-[3/4] bg-gray-100 overflow-hidden">
+      <div className="relative aspect-[3/4] bg-[var(--background)] overflow-hidden">
         {снимка ? (
           <Image
             src={снимка}
             alt={заглавие}
             fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            className="object-contain p-1 group-hover:scale-105 transition-transform duration-300"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
           />
         ) : (
