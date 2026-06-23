@@ -13,7 +13,8 @@
     "import:bgg": "npx tsx --env-file=.env scripts/import-bgg.ts",
     "import:reindex": "npx tsx --env-file=.env --env-file=.env.local scripts/reindex.ts",
     "translate": "npx tsx --env-file=.env scripts/translate-descriptions.ts",
-    "upload:images": "npx tsx --env-file=.env scripts/upload-images.ts"
+    "upload:images": "npx tsx --env-file=.env scripts/upload-images.ts",
+    "import:mechanics": "npx tsx --env-file=.env scripts/import-mechanics.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

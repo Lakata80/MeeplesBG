@@ -336,8 +336,12 @@ export default async function GamePage({
     колекцияСтатус = запис?.status ?? null
   }
 
-  // Тагове (типове + механики)
-  const тагове = [...игра.types, ...игра.mechanics.slice(0, 6)]
+  // Slugове на механики за линкове
+  const механикиСлугове = await prisma.mechanic.findMany({
+    where:  { name: { in: игра.mechanics } },
+    select: { name: true, slug: true },
+  })
+  const механикаСлуг = new Map(механикиСлугове.map((м) => [м.name, м.slug]))
 
   // Сложност (weight) в текст
   function сложностТекст(w: number): string {
@@ -429,9 +433,9 @@ export default async function GamePage({
               )}
 
               {/* Тагове */}
-              {тагове.length > 0 && (
+              {(игра.types.length > 0 || игра.mechanics.length > 0) && (
                 <div className="flex flex-wrap gap-1.5 mb-5">
-                  {тагове.map((таг) => (
+                  {игра.types.map((таг) => (
                     <span
                       key={таг}
                       className="text-xs px-2.5 py-1 bg-brand-50 text-brand-700 rounded-full border border-brand-100 font-medium"
@@ -439,6 +443,25 @@ export default async function GamePage({
                       {таг}
                     </span>
                   ))}
+                  {игра.mechanics.slice(0, 6).map((таг) => {
+                    const mechanicSlug = механикаСлуг.get(таг)
+                    return mechanicSlug ? (
+                      <Link
+                        key={таг}
+                        href={`/mehaniki/${mechanicSlug}`}
+                        className="text-xs px-2.5 py-1 bg-brand-50 text-brand-700 rounded-full border border-brand-100 font-medium hover:bg-brand-100 hover:border-brand-300 transition-colors"
+                      >
+                        {таг}
+                      </Link>
+                    ) : (
+                      <span
+                        key={таг}
+                        className="text-xs px-2.5 py-1 bg-brand-50 text-brand-700 rounded-full border border-brand-100 font-medium"
+                      >
+                        {таг}
+                      </span>
+                    )
+                  })}
                 </div>
               )}
 
