@@ -134,22 +134,23 @@ export default async function ПрофилСтраница({ searchParams }: { s
       </div>
 
       {/* Публичен профил линк */}
-      {потребител.bggUsername && (
-        <div className="mb-6 rounded-xl bg-brand-50 border border-brand-100 px-4 py-3 flex items-center justify-between gap-3">
-          <p className="text-sm text-brand-800">
-            Публичен профил:{' '}
-            <Link href={`/potrebiteli/${потребител.bggUsername}`} className="font-medium hover:underline">
-              meeplesbg.com/potrebiteli/{потребител.bggUsername}
+      {(() => {
+        const publicSlug = потребител.bggUsername ?? потребител.id
+        const publicUrl  = `/potrebiteli/${publicSlug}`
+        return (
+          <div className="mb-6 rounded-xl bg-brand-50 border border-brand-100 px-4 py-3 flex items-center justify-between gap-3">
+            <p className="text-sm text-brand-800">
+              Публичен профил:{' '}
+              <Link href={publicUrl} className="font-medium hover:underline">
+                meeplesbg.com{publicUrl}
+              </Link>
+            </p>
+            <Link href={publicUrl} className="text-xs text-brand-600 hover:underline whitespace-nowrap">
+              Прегледай →
             </Link>
-          </p>
-          <Link
-            href={`/potrebiteli/${потребител.bggUsername}`}
-            className="text-xs text-brand-600 hover:underline whitespace-nowrap"
-          >
-            Прегледай →
-          </Link>
-        </div>
-      )}
+          </div>
+        )
+      })()}
 
       {/* Табове */}
       <div className="flex gap-1 border-b border-gray-200 mb-6 overflow-x-auto">

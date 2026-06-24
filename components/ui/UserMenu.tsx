@@ -88,12 +88,12 @@ export default function UserMenu() {
           {/* Меню опции */}
           <nav className="py-1">
             <Link
-              href="/profil"
+              href={`/potrebiteli/${(потребител as { bggUsername?: string | null }).bggUsername ?? потребител.id}`}
               onClick={() => setОтворено(false)}
               className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
             >
               <ProfileIcon />
-              Профил
+              Публичен профил
             </Link>
             <Link
               href="/profil"
