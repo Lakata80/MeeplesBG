@@ -136,7 +136,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
       {/* Публичен профил линк */}
       {(() => {
         const publicSlug = потребител.bggUsername ?? потребител.id
-        const publicUrl  = `/potrebiteli/${publicSlug}`
+        const publicUrl  = `/potrebiteli/${encodeURIComponent(publicSlug)}`
         return (
           <div className="mb-6 rounded-xl bg-brand-50 border border-brand-100 px-4 py-3 flex items-center justify-between gap-3">
             <p className="text-sm text-brand-800">
