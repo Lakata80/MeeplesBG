@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 interface Props {
   descriptionBg?: string | null
@@ -12,6 +12,13 @@ const ПРАГОВ_БРОЙ_СИМВОЛИ = 600
 export default function DescriptionSection({ descriptionBg, descriptionEn }: Props) {
   const текст = descriptionBg || descriptionEn
   const [разширено, setРазширено] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
+  useEffect(() => {
+    if (разширено) {
+      buttonRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
+  }, [разширено])
 
   if (!текст) return null
 
@@ -37,8 +44,10 @@ export default function DescriptionSection({ descriptionBg, descriptionEn }: Pro
 
         {дълъг && (
           <button
+            ref={buttonRef}
+            type="button"
             onClick={() => setРазширено((п) => !п)}
-            className="mt-3 text-sm font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors"
+            className="mt-3 py-2 pr-2 text-sm font-medium text-brand-600 hover:text-brand-700 flex items-center gap-1 transition-colors"
           >
             {разширено ? (
               <>

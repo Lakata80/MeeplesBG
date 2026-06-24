@@ -1,17 +1,14 @@
 'use client'
 
-import { useState }   from 'react'
-import Link           from 'next/link'
+import { useState }    from 'react'
+import Link            from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useSession }  from 'next-auth/react'
-
-const ФОРУМ_URL = process.env.NEXT_PUBLIC_DISCOURSE_URL ?? 'https://forum.meeplesbg.com'
 
 const ЛИНКОВЕ = [
-  { href: '/igri',   label: 'Игри',    dropdown: true },
-  { href: '/top',    label: 'Топ 100' },
-  { href: '/novini', label: 'Новини' },
-  { href: '/форум',  label: 'Форум',   forum: true },
+  { href: '/igri',      label: 'Игри',     dropdown: true },
+  { href: '/top',       label: 'Топ 100' },
+  { href: '/novini',    label: 'Новини' },
+  { href: '/obshtnost', label: 'Общност' },
 ]
 
 const КАТЕГОРИИ = [
@@ -29,7 +26,6 @@ interface Props {
 
 export default function MainNav({ onNavClick }: Props) {
   const pathname = usePathname()
-  const { data: session } = useSession()
   const [игриDropdown, setИгриDropdown] = useState(false)
 
   function isActive(href: string) {
@@ -94,40 +90,17 @@ export default function MainNav({ onNavClick }: Props) {
             </li>
           ) : (
             <li key={линк.href}>
-              {(линк as { forum?: boolean }).forum ? (
-                // Форум — директно към Discourse ако е влязъл, иначе към /вход
-                session ? (
-                  <a
-                    href={ФОРУМ_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={onNavClick}
-                    className="block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 text-gray-600 border-transparent hover:text-brand-600"
-                  >
-                    {линк.label}
-                  </a>
-                ) : (
-                  <Link
-                    href="/login"
-                    onClick={onNavClick}
-                    className="block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 text-gray-600 border-transparent hover:text-brand-600"
-                  >
-                    {линк.label}
-                  </Link>
-                )
-              ) : (
-                <Link
-                  href={линк.href}
-                  onClick={onNavClick}
-                  className={`block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 ${
-                    isActive(линк.href)
-                      ? 'text-brand-600 border-brand-600'
-                      : 'text-gray-600 border-transparent hover:text-brand-600'
-                  }`}
-                >
-                  {линк.label}
-                </Link>
-              )}
+              <Link
+                href={линк.href}
+                onClick={onNavClick}
+                className={`block px-3 py-3 md:py-4 text-sm font-medium transition-colors border-b-2 ${
+                  isActive(линк.href)
+                    ? 'text-brand-600 border-brand-600'
+                    : 'text-gray-600 border-transparent hover:text-brand-600'
+                }`}
+              >
+                {линк.label}
+              </Link>
             </li>
           )
         )}

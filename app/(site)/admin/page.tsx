@@ -21,6 +21,13 @@ export default async function AdminPage() {
 
   const секции = [
     {
+      href:    '/studio',
+      label:   'Новини и Статии (CMS)',
+      desc:    'Публикувай новини, ревюта и блог статии чрез Sanity Studio',
+      badge:   null,
+      icon:    '📝',
+    },
+    {
       href:    '/admin/pending-images',
       label:   'Снимки за одобрение',
       desc:    'Преглед и одобрение на снимки от потребители',

@@ -40,10 +40,10 @@ export default function HeroSection() {
             Разгледай игрите
           </Link>
           <Link
-            href="/forum"
+            href="/novini"
             className="w-full sm:w-auto px-8 py-3.5 border-2 border-white/70 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors text-sm"
           >
-            Присъедини се към общността
+            Новини и статии
           </Link>
         </div>
 

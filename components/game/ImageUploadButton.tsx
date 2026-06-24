@@ -8,6 +8,36 @@ interface Props {
 
 type State = 'idle' | 'uploading' | 'success' | 'error'
 
+async function compressImage(file: File): Promise<File> {
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    const url = URL.createObjectURL(file)
+    img.onload = () => {
+      URL.revokeObjectURL(url)
+      const MAX = 1920
+      let { width, height } = img
+      if (width > MAX || height > MAX) {
+        if (width > height) { height = Math.round(height * MAX / width); width = MAX }
+        else { width = Math.round(width * MAX / height); height = MAX }
+      }
+      const canvas = document.createElement('canvas')
+      canvas.width = width
+      canvas.height = height
+      canvas.getContext('2d')!.drawImage(img, 0, 0, width, height)
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) { reject(new Error('Compression failed')); return }
+          resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }))
+        },
+        'image/jpeg',
+        0.85,
+      )
+    }
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image load failed')) }
+    img.src = url
+  })
+}
+
 export default function ImageUploadButton({ slug }: Props) {
   const [state, setState] = useState<State>('idle')
   const [errorMsg, setErrorMsg] = useState('')
@@ -21,15 +51,21 @@ export default function ImageUploadButton({ slug }: Props) {
       setState('error')
       return
     }
-    if (file.size > 5 * 1024 * 1024) {
-      setErrorMsg('Максимален размер: 5MB')
+
+    setState('uploading')
+
+    let compressed: File
+    try {
+      compressed = await compressImage(file)
+    } catch {
+      setErrorMsg('Грешка при обработка на снимката')
       setState('error')
+      setTimeout(() => setState('idle'), 3000)
       return
     }
 
-    setState('uploading')
     const form = new FormData()
-    form.append('file', file)
+    form.append('file', compressed)
 
     try {
       const res = await fetch(`/api/game-image/${slug}`, { method: 'POST', body: form })
@@ -56,7 +92,7 @@ export default function ImageUploadButton({ slug }: Props) {
   }
 
   return (
-    <div className="w-48">
+    <div className="w-full sm:w-48">
       <input
         ref={inputRef}
         type="file"
@@ -70,7 +106,7 @@ export default function ImageUploadButton({ slug }: Props) {
         onDragOver={(е) => { е.preventDefault(); if (state === 'idle') setDragging(true) }}
         onDragLeave={() => setDragging(false)}
         onDrop={handleDrop}
-        className={`border-2 border-dashed rounded-xl p-2.5 text-center transition-colors ${
+        className={`border-2 border-dashed rounded-xl p-3 text-center transition-colors ${
           state === 'success'
             ? 'border-green-300 bg-green-50 cursor-default'
             : state === 'uploading'
@@ -80,7 +116,7 @@ export default function ImageUploadButton({ slug }: Props) {
                 : 'border-gray-200 hover:border-brand-400 hover:bg-brand-50/40 cursor-pointer'
         }`}
       >
-        {state === 'uploading' && <p className="text-xs text-gray-400">Качване...</p>}
+        {state === 'uploading' && <p className="text-xs text-gray-400">Обработване и качване...</p>}
         {state === 'success' && (
           <p className="text-xs text-green-600 font-medium">
             ✓ Изпратена{count > 1 ? ` (${count})` : ''}
@@ -90,13 +126,13 @@ export default function ImageUploadButton({ slug }: Props) {
           <>
             <UploadIcon className="w-4 h-4 mx-auto mb-1 text-gray-400" />
             <p className="text-xs font-medium text-brand-600">Предложи снимка</p>
-            <p className="text-xs text-gray-400">JPG / PNG / WebP · до 5MB</p>
+            <p className="text-xs text-gray-400">JPG / PNG / WebP</p>
           </>
         )}
       </div>
 
       {state === 'error' && (
-        <p className="text-xs text-red-500 mt-1 text-center">{errorMsg}</p>
+        <p className="text-sm font-medium text-red-600 mt-2 text-center px-1">{errorMsg}</p>
       )}
       {count > 0 && state === 'idle' && (
         <p className="text-xs text-gray-400 mt-1 text-center">{count} изпратени</p>

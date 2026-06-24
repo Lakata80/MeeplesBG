@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import UserMenu from '@/components/ui/UserMenu'
 import MainNav from './MainNav'
+import NotificationBell from '@/components/obshtnost/NotificationBell'
 
 export default function Header() {
   const [мобилноМеню, setМобилноМеню] = useState(false)
@@ -56,6 +57,7 @@ export default function Header() {
 
           {/* Дясна страна */}
           <div className="flex items-center gap-3 ml-auto md:ml-0">
+            <NotificationBell />
             <UserMenu />
 
             {/* Хамбургер — само мобилно */}

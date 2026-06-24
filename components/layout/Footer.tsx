@@ -15,10 +15,11 @@ const КОЛОНИ = [
   {
     заглавие: 'Общност',
     линкове: [
-      { href: '/novini',  label: 'Новини' },
-      { href: '/forum',   label: 'Форум' },
-      { href: '/top',     label: 'Топ класации' },
-      { href: '/login',    label: 'Вход / Регистрация' },
+      { href: '/novini',           label: 'Новини' },
+      { href: '/obshtnost',        label: 'Общност' },
+      { href: '/obshtnost/pazar',  label: 'Купувам / Продавам' },
+      { href: '/obshtnost/sreshti', label: 'Игрални срещи' },
+      { href: '/login',            label: 'Вход / Регистрация' },
     ],
   },
   {

@@ -220,15 +220,15 @@ export default function SearchFilters() {
   return (
     <>
       {/* Мобилен бутон */}
-      <div className="md:hidden mb-4">
+      <div className="md:hidden">
         <button
           onClick={() => setDrawer(true)}
-          className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:border-gray-400 transition-colors"
+          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-brand-600 text-white rounded-xl text-sm font-semibold hover:bg-brand-700 transition-colors shadow-sm"
         >
           <FilterIcon />
           Филтри
           {активниБрой > 0 && (
-            <span className="ml-1 px-1.5 py-0.5 bg-brand-600 text-white text-xs rounded-full">
+            <span className="ml-1 px-1.5 py-0.5 bg-white text-brand-600 text-xs rounded-full font-bold">
               {активниБрой}
             </span>
           )}

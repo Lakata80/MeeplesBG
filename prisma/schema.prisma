@@ -77,7 +77,10 @@ model User {
   comments      Comment[]
   blogComments  BlogComment[]
   blogPosts     BlogPost[]
-  pendingImages PendingImage[]
+  pendingImages  PendingImage[]
+  threads        Thread[]        @relation("ThreadAuthor")
+  threadReplies  ThreadReply[]   @relation("ThreadReplyAuthor")
+  notifications  Notification[]
 }
 
 // =====================
@@ -262,6 +265,85 @@ model Mechanic {
   descriptionBg String?  @db.Text
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
+}
+
+// =====================
+// ОБЩНОСТ — ФОРУМ
+// =====================
+
+enum ThreadCategory {
+  IZBOR    // Помощ при избор
+  PRAVILA  // Правила и стратегии
+  PAZAR    // Купувам / Продавам / Разменям
+  SRESHTI  // Игрални срещи
+}
+
+model Thread {
+  id         String         @id @default(cuid())
+  slug       String         @unique
+  title      String
+  body       String         @db.Text
+  category   ThreadCategory
+  authorId   String
+  author     User           @relation("ThreadAuthor", fields: [authorId], references: [id])
+  replies    ThreadReply[]
+
+  // Модерация
+  isPinned   Boolean        @default(false)
+  isClosed   Boolean        @default(false)
+
+  // Помощ при избор
+  isSolved   Boolean        @default(false)
+
+  // Купувам/Продавам/Разменям
+  price      String?
+  expiresAt  DateTime?
+
+  // Игрални срещи
+  eventDate  DateTime?
+  eventCity  String?
+  eventSpots Int?
+  eventClub  String?
+
+  notifications Notification[]
+
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@index([category])
+  @@index([createdAt])
+}
+
+model ThreadReply {
+  id        String   @id @default(cuid())
+  body      String   @db.Text
+  threadId  String
+  thread    Thread   @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  authorId  String
+  author    User     @relation("ThreadReplyAuthor", fields: [authorId], references: [id])
+  isHelpful Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([threadId])
+}
+
+// =====================
+// ИЗВЕСТИЯ
+// =====================
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      String
+  threadId  String?
+  thread    Thread?  @relation(fields: [threadId], references: [id], onDelete: SetNull)
+  replyId   String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
 }
 
 // =====================

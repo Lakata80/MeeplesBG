@@ -1,5 +1,18 @@
+const os = require('os')
+
+function localNetworkIPs() {
+  const ips = []
+  for (const nets of Object.values(os.networkInterfaces())) {
+    for (const net of nets ?? []) {
+      if (net.family === 'IPv4' && !net.internal) ips.push(net.address)
+    }
+  }
+  return ips
+}
+
 /** @type {import('next').NextConfig} */
 module.exports = {
+  allowedDevOrigins: localNetworkIPs(),
   images: {
     remotePatterns: [
       // BGG изображения
