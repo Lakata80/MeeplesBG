@@ -16,6 +16,7 @@ import DescriptionSection    from '@/components/game/DescriptionSection'
 import GallerySection        from '@/components/game/GallerySection'
 import YouTubeSection        from '@/components/game/YouTubeSection'
 import CommentsSection       from '@/components/game/CommentsSection'
+import ReviewSection         from '@/components/game/ReviewSection'
 import GameGrid              from '@/components/games/GameGrid'
 import type { GameCardProps } from '@/components/games/GameCard'
 
@@ -337,6 +338,15 @@ export default async function GamePage({
     колекцияСтатус = запис?.status ?? null
   }
 
+  // Средна оценка от ревюта
+  const ревютаАгрегация = await prisma.review.aggregate({
+    where:   { gameId: игра.id, isPublished: true },
+    _avg:    { rating: true },
+    _count:  { rating: true },
+  })
+  const общностнаОценка = ревютаАгрегация._avg.rating
+  const броИРевюта      = ревютаАгрегация._count.rating
+
   // Одобрени потребителски снимки за галерията
   const одобрениСнимки = await prisma.pendingImage.findMany({
     where:   { gameId: игра.id, status: 'APPROVED' },
@@ -515,8 +525,15 @@ export default async function GamePage({
                 {игра.bggRating && игра.bggRating > 0 && (
                   <RatingBar заглавие="BGG рейтинг" стойност={игра.bggRating} цвят="blue" />
                 )}
+                {общностнаОценка && общностнаОценка > 0 && (
+                  <RatingBar
+                    заглавие={`MeeplesBG общност (${броИРевюта} ${броИРевюта === 1 ? 'ревю' : 'ревюта'})`}
+                    стойност={общностнаОценка}
+                    цвят="amber"
+                  />
+                )}
                 {игра.ourRating && игра.ourRating > 0 && (
-                  <RatingBar заглавие="Наш рейтинг" стойност={игра.ourRating} цвят="amber" />
+                  <RatingBar заглавие="Редакционен рейтинг" стойност={игра.ourRating} цвят="amber" />
                 )}
               </div>
 
@@ -587,6 +604,11 @@ export default async function GamePage({
       {/* ── Общностна статистика ── */}
       <Suspense fallback={null}>
         <CommunityStats gameId={игра.id} />
+      </Suspense>
+
+      {/* ── Ревюта от общността ── */}
+      <Suspense fallback={null}>
+        <ReviewSection gameId={игра.id} />
       </Suspense>
 
       {/* ── Коментари ── */}

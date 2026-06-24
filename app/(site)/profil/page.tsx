@@ -5,6 +5,8 @@ import Image               from 'next/image'
 import { auth }            from '@/auth'
 import { prisma }          from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Моят профил',
 }
@@ -13,12 +15,13 @@ export const metadata: Metadata = {
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>
 
-type Таб = 'колекция' | 'искам' | 'играл' | 'активност'
+type Таб = 'колекция' | 'искам' | 'играл' | 'ревюта' | 'активност'
 
 const ТАБОВЕ: { id: Таб; label: string; status?: string }[] = [
   { id: 'колекция',  label: '🎲 Колекция',          status: 'OWNS' },
   { id: 'искам',     label: '🎯 Искам да играя',     status: 'WISHLIST' },
   { id: 'играл',     label: '🕹️ Играл съм',          status: 'PLAYED' },
+  { id: 'ревюта',    label: '✍️ Ревюта' },
   { id: 'активност', label: '📊 Активност' },
 ]
 
@@ -58,8 +61,17 @@ export default async function ПрофилСтраница({ searchParams }: { s
       })
     : []
 
+  // Ревюта на потребителя
+  const моитеРевюта = активен === 'ревюта'
+    ? await prisma.review.findMany({
+        where:   { userId: потребител.id, isPublished: true },
+        include: { game: { select: { slug: true, titleBg: true, titleEn: true, thumbnailUrl: true } } },
+        orderBy: { createdAt: 'desc' },
+      })
+    : []
+
   // Активност — последни добавени
-  const последниДобавени = !таб.status
+  const последниДобавени = активен === 'активност'
     ? await prisma.userCollection.findMany({
         where:   { userId: потребител.id },
         include: { game: { select: { slug: true, titleBg: true, titleEn: true, thumbnailUrl: true } } },
@@ -172,6 +184,8 @@ export default async function ПрофилСтраница({ searchParams }: { s
       {/* Съдържание на таба */}
       {таб.id === 'активност' ? (
         <АктивностТаб последни={последниДобавени} />
+      ) : таб.id === 'ревюта' ? (
+        <РевютаТаб ревюта={моитеРевюта} />
       ) : игри.length === 0 ? (
         <ПразноСъстояние таб={таб.id} />
       ) : (
@@ -282,11 +296,58 @@ function АктивностТаб({ последни }: { последни: { ga
   )
 }
 
+function РевютаТаб({ ревюта }: {
+  ревюта: { id: string; title: string; content: string; rating: number; createdAt: Date; game: { slug: string; titleBg: string; titleEn: string | null; thumbnailUrl: string | null } }[]
+}) {
+  if (ревюта.length === 0) {
+    return (
+      <div className="py-16 text-center">
+        <p className="text-5xl mb-4">✍️</p>
+        <p className="text-gray-500 text-sm max-w-sm mx-auto">
+          Все още нямаш написани ревюта. Напиши първото си ревю от страницата на игра!
+        </p>
+      </div>
+    )
+  }
+  const ДАТА = new Intl.DateTimeFormat('bg-BG', { dateStyle: 'medium' })
+  return (
+    <div className="space-y-4">
+      {ревюта.map((р) => (
+        <Link
+          key={р.id}
+          href={`/igri/${р.game.slug}#reviews`}
+          className="flex gap-4 rounded-2xl border border-gray-200 bg-white p-4 hover:border-brand-300 transition-colors"
+        >
+          <div className="w-14 h-14 relative rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
+            {р.game.thumbnailUrl ? (
+              <Image src={р.game.thumbnailUrl} alt="" fill className="object-cover" sizes="56px" />
+            ) : (
+              <span className="absolute inset-0 flex items-center justify-center text-2xl">🎲</span>
+            )}
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <p className="text-xs text-gray-500 truncate">{р.game.titleBg || р.game.titleEn}</p>
+              <span className="text-sm font-bold text-brand-600 bg-brand-50 border border-brand-100 rounded-lg px-2 py-0.5 flex-shrink-0">
+                {р.rating}/10
+              </span>
+            </div>
+            <p className="text-sm font-semibold text-gray-900 mb-1">{р.title}</p>
+            <p className="text-xs text-gray-500 line-clamp-2">{р.content}</p>
+            <p className="text-xs text-gray-400 mt-1">{ДАТА.format(new Date(р.createdAt))}</p>
+          </div>
+        </Link>
+      ))}
+    </div>
+  )
+}
+
 function ПразноСъстояние({ таб }: { таб: Таб }) {
   const съобщения: Record<Таб, { текст: string; икона: string }> = {
     колекция:  { икона: '🎲', текст: 'Все още нямаш игри в колекцията. Импортирай от BGG или добави ръчно!' },
     искам:     { икона: '🎯', текст: 'Нямаш игри в списъка "Искам да играя". Добави такива от страниците на игрите!' },
     играл:     { икона: '🕹️', текст: 'Не сме записали игри, с които си играл. Синхронизирай от BGG!' },
+    ревюта:    { икона: '✍️', текст: 'Все още нямаш написани ревюта.' },
     активност: { икона: '📊', текст: 'Все още няма активност.' },
   }
   const { икона, текст } = съобщения[таб]

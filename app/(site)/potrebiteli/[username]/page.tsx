@@ -79,6 +79,17 @@ export default async function ПубличенПрофил({ params }: { params:
     prisma.userCollection.count({ where: { userId: потребител.id, status: 'WISHLIST' } }),
   ])
 
+  // Последни ревюта
+  const ревюта = await prisma.review.findMany({
+    where:   { userId: потребител.id, isPublished: true },
+    orderBy: { createdAt: 'desc' },
+    take:    5,
+    select: {
+      id: true, title: true, rating: true, createdAt: true,
+      game: { select: { slug: true, titleBg: true, titleEn: true } },
+    },
+  })
+
   // Последни теми в Общността
   const теми = await prisma.thread.findMany({
     where:   { authorId: потребител.id },
@@ -147,10 +158,10 @@ export default async function ПубличенПрофил({ params }: { params:
 
       {/* Статистики */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
-        <СтатКутия стойност={колекция.length} етикет="В колекцията"      икона="🎲" />
-        <СтатКутия стойност={бройPLAYED}      етикет="Играни игри"       икона="🕹️" />
-        <СтатКутия стойност={бройWISHLIST}    етикет="Искам да играя"    икона="🎯" />
-        <СтатКутия стойност={любимаКатегория ?? '—'} етикет="Любим жанр" икона="🏆" />
+        <СтатКутия стойност={колекция.length}         етикет="В колекцията"   икона="🎲" />
+        <СтатКутия стойност={бройPLAYED}              етикет="Играни игри"    икона="🕹️" />
+        <СтатКутия стойност={потребител._count.reviews} етикет="Ревюта"       икона="✍️" />
+        <СтатКутия стойност={любимаКатегория ?? '—'}  етикет="Любим жанр"    икона="🏆" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-[1fr_280px] gap-8">
@@ -215,6 +226,33 @@ export default async function ПубличенПрофил({ params }: { params:
 
         {/* Sidebar */}
         <aside className="space-y-6">
+
+          {/* Ревюта */}
+          {ревюта.length > 0 && (
+            <div>
+              <h2 className="text-base font-semibold text-gray-900 mb-3">✍️ Последни ревюта</h2>
+              <ul className="space-y-2">
+                {ревюта.map((р) => (
+                  <li key={р.id}>
+                    <Link
+                      href={`/igri/${р.game.slug}#reviews`}
+                      className="block rounded-xl border border-gray-200 p-3 hover:border-brand-300 transition-colors group"
+                    >
+                      <div className="flex items-center justify-between gap-2 mb-0.5">
+                        <p className="text-[11px] font-medium text-gray-400 truncate">
+                          {р.game.titleBg || р.game.titleEn}
+                        </p>
+                        <span className="text-xs font-bold text-brand-600 flex-shrink-0">{р.rating}/10</span>
+                      </div>
+                      <p className="text-sm font-medium text-gray-900 group-hover:text-brand-600 transition-colors line-clamp-1">
+                        {р.title}
+                      </p>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Теми в Общността */}
           <div>
