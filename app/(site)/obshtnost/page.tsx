@@ -1,13 +1,64 @@
-import Link           from 'next/link'
+import { Suspense }      from 'react'
+import Link              from 'next/link'
+import Image             from 'next/image'
 import type { Metadata } from 'next'
-import { prisma }     from '@/lib/prisma'
-import { КАТЕГОРИИ, DB_КЪМ_SLUG, относителноВреме } from '@/lib/obshtnost'
-import Image          from 'next/image'
+import { auth }          from '@/auth'
+import { prisma }        from '@/lib/prisma'
+import {
+  КАТЕГОРИИ,
+  относителноВреме,
+  type ThreadCategorySlug,
+} from '@/lib/obshtnost'
+import ThreadCard, { type ThreadCardData } from '@/components/obshtnost/ThreadCard'
+import Pagination        from '@/components/ui/Pagination'
 
 export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title:       'Общност | MeeplesBG',
   description: 'Форум на MeeplesBG — помощ при избор, правила, пазар и игрални срещи.',
+}
+
+type SearchParams = Promise<Record<string, string | undefined>>
+
+const НА_СТРАНИЦА = 20
+
+const ТАБОВЕ = [
+  { надпис: 'Всички',                       kat: '' },
+  { надпис: '🤔 Помощ при избор',            kat: 'izbor' },
+  { надпис: '🛒 Купувам / Продавам',         kat: 'pazar' },
+  { надпис: '🗓️ Игрални срещи',             kat: 'sreshti' },
+  { надпис: '📖 Правила и стратегии',        kat: 'pravila' },
+]
+
+function tabHref(kat: string, stranica = 1): string {
+  const p = new URLSearchParams()
+  if (kat) p.set('kat', kat)
+  if (stranica > 1) p.set('stranica', String(stranica))
+  const q = p.toString()
+  return q ? `/obshtnost?${q}` : '/obshtnost'
+}
+
+function TabBar({ activeKat }: { activeKat: string }) {
+  return (
+    <div className="flex flex-wrap gap-2 mb-8 border-b border-gray-200 pb-4">
+      {ТАБОВЕ.map((т) => {
+        const активен = т.kat === activeKat
+        return (
+          <Link
+            key={т.kat}
+            href={tabHref(т.kat)}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              активен
+                ? 'bg-brand-600 text-white shadow-sm'
+                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+            }`}
+          >
+            {т.надпис}
+          </Link>
+        )
+      })}
+    </div>
+  )
 }
 
 async function последниТеми(dbCat: string) {
@@ -25,7 +76,98 @@ async function последниТеми(dbCat: string) {
   })
 }
 
-export default async function ОбщностСтраница() {
+export default async function ОбщностСтраница({ searchParams }: { searchParams: SearchParams }) {
+  const sp       = await searchParams
+  const kat      = typeof sp.kat === 'string' ? sp.kat : ''
+  const страница = Math.max(1, parseInt(sp.stranica ?? '1') || 1)
+
+  const кат = kat ? (КАТЕГОРИИ[kat as ThreadCategorySlug] ?? null) : null
+
+  // ── Таб с конкретна категория ─────────────────────────────────
+  if (кат) {
+    const offset = (страница - 1) * НА_СТРАНИЦА
+
+    const [session, теми, общо] = await Promise.all([
+      auth(),
+      prisma.thread.findMany({
+        where:   { category: кат.db as 'IZBOR' | 'PRAVILA' | 'PAZAR' | 'SRESHTI' },
+        orderBy: [{ isPinned: 'desc' }, { updatedAt: 'desc' }],
+        skip:    offset,
+        take:    НА_СТРАНИЦА,
+        select: {
+          id: true, slug: true, title: true, category: true,
+          isSolved: true, isClosed: true, isPinned: true,
+          price: true, expiresAt: true,
+          eventDate: true, eventCity: true, eventClub: true,
+          createdAt: true, updatedAt: true,
+          author: { select: { name: true, image: true } },
+          _count: { select: { replies: true } },
+        },
+      }),
+      prisma.thread.count({
+        where: { category: кат.db as 'IZBOR' | 'PRAVILA' | 'PAZAR' | 'SRESHTI' },
+      }),
+    ])
+
+    const общоСтраници = Math.max(1, Math.ceil(общо / НА_СТРАНИЦА))
+
+    return (
+      <div className="container mx-auto px-4 py-10 max-w-4xl">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">🎲 Общност</h1>
+          <p className="text-gray-500 text-sm">Обсъждай, търси, продавай и играй с хора от цяла България.</p>
+        </div>
+
+        <TabBar activeKat={kat} />
+
+        {/* Хедър на категорията */}
+        <div className="flex items-center justify-between mb-6 gap-4">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900">{кат.icon} {кат.label}</h2>
+            <p className="text-sm text-gray-500 mt-0.5">{кат.desc}</p>
+          </div>
+          {session ? (
+            <Link
+              href={`/obshtnost/${кат.slug}?new=1`}
+              className="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
+            >
+              + Нова тема
+            </Link>
+          ) : (
+            <Link href="/login" className="shrink-0 text-sm text-brand-600 font-medium hover:underline">
+              Влез за да публикуваш
+            </Link>
+          )}
+        </div>
+
+        {/* Списък с теми */}
+        {теми.length === 0 ? (
+          <div className="py-16 text-center text-gray-400">
+            <div className="text-4xl mb-3">{кат.icon}</div>
+            <p className="text-gray-600 font-medium mb-1">Все още няма теми</p>
+            <p className="text-sm">Бъди първи — публикувай нова тема!</p>
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {теми.map((т) => (
+              <ThreadCard key={т.id} thread={т as ThreadCardData} categorySlug={кат.slug} />
+            ))}
+          </div>
+        )}
+
+        {/* Пагинация */}
+        {общоСтраници > 1 && (
+          <div className="mt-8">
+            <Suspense fallback={null}>
+              <Pagination текущаСтраница={страница} общоСтраници={общоСтраници} />
+            </Suspense>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // ── Таб "Всички" — дашборд ────────────────────────────────────
   const [izbor, pravila, pazar, sreshti] = await Promise.all([
     последниТеми('IZBOR'),
     последниТеми('PRAVILA'),
@@ -35,6 +177,9 @@ export default async function ОбщностСтраница() {
 
   const данни = { izbor, pravila, pazar, sreshti }
 
+  // Редът на категориите в дашборда е зададен от таба
+  const редКатегории: ThreadCategorySlug[] = ['izbor', 'pazar', 'sreshti', 'pravila']
+
   return (
     <div className="container mx-auto px-4 py-10 max-w-4xl">
       <div className="mb-8">
@@ -42,9 +187,12 @@ export default async function ОбщностСтраница() {
         <p className="text-gray-500 text-sm">Обсъждай, търси, продавай и играй с хора от цяла България.</p>
       </div>
 
+      <TabBar activeKat="" />
+
       <div className="space-y-8">
-        {(Object.values(КАТЕГОРИИ)).map((кат) => {
-          const теми = данни[кат.slug as keyof typeof данни]
+        {редКатегории.map((slug) => {
+          const кат  = КАТЕГОРИИ[slug]
+          const теми = данни[slug]
           return (
             <section key={кат.slug} className={`rounded-2xl border p-6 ${кат.color}`}>
               <div className="flex items-center justify-between mb-4">
@@ -53,7 +201,7 @@ export default async function ОбщностСтраница() {
                   <p className="text-sm opacity-75 mt-0.5">{кат.desc}</p>
                 </div>
                 <Link
-                  href={`/obshtnost/${кат.slug}`}
+                  href={tabHref(кат.slug)}
                   className="text-sm font-semibold hover:underline shrink-0"
                 >
                   Всички →

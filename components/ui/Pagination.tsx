@@ -1,7 +1,7 @@
 'use client'
 
 import { useTransition } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter, useSearchParams, usePathname } from 'next/navigation'
 
 interface Props {
   текущаСтраница: number
@@ -28,6 +28,7 @@ function страниции(текуща: number, общо: number): (number | '
 export default function Pagination({ текущаСтраница, общоСтраници }: Props) {
   const searchParams = useSearchParams()
   const router       = useRouter()
+  const pathname     = usePathname()
   const [, startTransition] = useTransition()
 
   if (общоСтраници <= 1) return null
@@ -40,7 +41,7 @@ export default function Pagination({ текущаСтраница, общоСт�
       next.set('stranica', String(страница))
     }
     startTransition(() => {
-      router.push(`/igri?${next.toString()}`, { scroll: true })
+      router.push(`${pathname}?${next.toString()}`, { scroll: true })
     })
   }
 
