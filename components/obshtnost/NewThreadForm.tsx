@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { type ThreadCategorySlug, КАТЕГОРИИ } from '@/lib/obshtnost'
+import DateTimePicker from '@/components/ui/DateTimePicker'
 
 interface Props {
   categorySlug: ThreadCategorySlug
@@ -84,11 +85,7 @@ export default function NewThreadForm({ categorySlug, onCancel }: Props) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Дата на срещата</label>
-            <input
-              type="datetime-local"
-              name="eventDate"
-              className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
-            />
+            <DateTimePicker name="eventDate" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Град</label>
