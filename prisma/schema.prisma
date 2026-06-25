@@ -310,6 +310,7 @@ model Thread {
   // Купувам/Продавам/Разменям
   price      String?
   expiresAt  DateTime?
+  images     String[]  @default([])
 
   // Календар на събития
   eventType    EventType?

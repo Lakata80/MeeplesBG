@@ -17,6 +17,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { title, content, categorySlug, price, eventType, eventDate, eventEndDate, eventCity, eventSpots, eventClub } = body as Record<string, string>
+  const images = Array.isArray(body.images) ? (body.images as string[]).slice(0, 3) : []
 
   if (!title?.trim() || title.trim().length < 5) {
     return Response.json({ грешка: 'Заглавието трябва да е поне 5 символа.' }, { status: 400 })
@@ -78,6 +79,7 @@ export async function POST(request: NextRequest) {
         category:     кат.db as 'IZBOR' | 'PRAVILA' | 'PAZAR' | 'SRESHTI',
         authorId:     session.user.id,
         price:        кат.db === 'PAZAR' && price ? price.trim() : undefined,
+        images:       кат.db === 'PAZAR' ? images : [],
         expiresAt,
         eventType:    parsedEventType,
         eventDate:    parsedEventDate,

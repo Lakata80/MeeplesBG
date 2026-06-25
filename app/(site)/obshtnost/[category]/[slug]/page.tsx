@@ -98,6 +98,11 @@ export default async function ТемаСтраница({ params }: { params: Par
         )}
       </div>
 
+      {/* Галерия (само PAZAR) */}
+      {кат.db === 'PAZAR' && thread.images.length > 0 && (
+        <ImageGallery images={thread.images} />
+      )}
+
       {/* Оригинална тема */}
       <PostBody
         author={thread.author}
@@ -176,6 +181,30 @@ function PostBody({
       <div className="text-sm text-gray-800 leading-relaxed whitespace-pre-wrap">{body}</div>
 
       {extra && <div className="mt-4 flex gap-2">{extra}</div>}
+    </div>
+  )
+}
+
+function ImageGallery({ images }: { images: string[] }) {
+  return (
+    <div className={`mb-6 grid gap-2 ${images.length === 1 ? 'grid-cols-1' : 'grid-cols-2 sm:grid-cols-3'}`}>
+      {images.map((url, idx) => (
+        <a
+          key={url}
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`relative block overflow-hidden rounded-xl bg-gray-100 border border-gray-200 hover:opacity-90 transition-opacity ${images.length === 1 ? 'h-72' : 'h-40'}`}
+        >
+          <Image
+            src={url}
+            alt={`Снимка ${idx + 1}`}
+            fill
+            className="object-cover"
+            sizes={images.length === 1 ? '(max-width: 768px) 100vw, 672px' : '(max-width: 640px) 50vw, 224px'}
+          />
+        </a>
+      ))}
     </div>
   )
 }
