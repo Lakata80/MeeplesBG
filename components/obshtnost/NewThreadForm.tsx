@@ -73,7 +73,7 @@ export default function NewThreadForm({ categorySlug, onCancel }: Props) {
             name="price"
             maxLength={100}
             className="w-full px-3 py-2 border border-gray-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
-            placeholder="напр. 45 лв., Разменям, Подарявам..."
+            placeholder="напр. 45 €, Разменям, Подарявам..."
           />
           <p className="text-xs text-gray-400 mt-1">Обявата изтича автоматично след 60 дни.</p>
         </div>

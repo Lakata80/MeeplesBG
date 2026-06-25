@@ -62,7 +62,7 @@ export default async function ТемаСтраница({ params }: { params: Par
       {/* Модерация */}
       {isAdmin && (
         <div className="mb-4">
-          <ModerateButtons threadId={thread.id} isPinned={thread.isPinned} isClosed={thread.isClosed} />
+          <ModerateButtons threadId={thread.id} isPinned={thread.isPinned} isClosed={thread.isClosed} category={category} />
         </div>
       )}
 

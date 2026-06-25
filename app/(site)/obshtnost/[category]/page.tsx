@@ -41,6 +41,7 @@ export default async function КатегорияСтраница({
   const страница = Math.max(1, parseInt(sp.stranica ?? '1') || 1)
   const offset   = (страница - 1) * НА_СТРАНИЦА
   const showNew  = sp.new === '1'
+  const deleted  = sp.deleted === '1'
 
   const session = await auth()
 
@@ -69,6 +70,13 @@ export default async function КатегорияСтраница({
 
   return (
     <div className="container mx-auto px-4 py-10 max-w-3xl">
+      {/* Съобщение след изтриване */}
+      {deleted && (
+        <div className="mb-6 px-4 py-3 bg-green-50 border border-green-200 text-green-800 text-sm rounded-xl">
+          Темата беше изтрита успешно.
+        </div>
+      )}
+
       {/* Хлебни трохи */}
       <nav className="text-sm text-gray-400 mb-6 flex items-center gap-1.5">
         <Link href="/obshtnost" className="hover:text-brand-600">Общност</Link>

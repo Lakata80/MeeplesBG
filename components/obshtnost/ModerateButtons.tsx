@@ -7,9 +7,10 @@ interface Props {
   threadId: string
   isPinned: boolean
   isClosed: boolean
+  category: string
 }
 
-export default function ModerateButtons({ threadId, isPinned, isClosed }: Props) {
+export default function ModerateButtons({ threadId, isPinned, isClosed, category }: Props) {
   const router  = useRouter()
   const [loading, setLoading] = useState(false)
 
@@ -21,7 +22,7 @@ export default function ModerateButtons({ threadId, isPinned, isClosed }: Props)
       body:    JSON.stringify({ action: act }),
     })
     if (act === 'delete') {
-      router.back()
+      router.push(`/obshtnost/${category}?deleted=1`)
     } else {
       router.refresh()
     }
