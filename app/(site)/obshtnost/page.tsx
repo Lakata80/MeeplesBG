@@ -120,6 +120,22 @@ export default async function ОбщностСтраница({ searchParams }: {
 
         <TabBar activeKat={kat} />
 
+        {/* Банер за квиз — само в "Помощ при избор" */}
+        {кат.db === 'IZBOR' && (
+          <div className="mb-6 flex items-center justify-between gap-4 bg-blue-50 border border-blue-200 rounded-2xl px-5 py-4">
+            <div>
+              <p className="text-sm font-semibold text-blue-800">🎲 Не знаеш коя игра да купиш?</p>
+              <p className="text-xs text-blue-600 mt-0.5">Отговори на 5 въпроса и ние ще ти препоръчаме игри.</p>
+            </div>
+            <Link
+              href="/igri/kviz"
+              className="shrink-0 px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-xl hover:bg-blue-700 transition-colors"
+            >
+              Намери игра →
+            </Link>
+          </div>
+        )}
+
         {/* Хедър на категорията */}
         <div className="flex items-center justify-between mb-6 gap-4">
           <div>
@@ -195,6 +211,18 @@ export default async function ОбщностСтраница({ searchParams }: {
           const теми = данни[slug]
           return (
             <section key={кат.slug} className={`rounded-2xl border p-6 ${кат.color}`}>
+              {/* Банер за квиз в секция "Помощ при избор" */}
+              {кат.db === 'IZBOR' && (
+                <div className="mb-4 flex items-center justify-between gap-3 bg-white/60 border border-blue-200 rounded-xl px-4 py-3">
+                  <p className="text-xs font-medium text-blue-800">🎲 Не знаеш коя игра да купиш? Отговори на 5 въпроса.</p>
+                  <Link
+                    href="/igri/kviz"
+                    className="shrink-0 px-3 py-1.5 bg-blue-600 text-white text-xs font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+                  >
+                    Намери игра →
+                  </Link>
+                </div>
+              )}
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h2 className="text-lg font-bold">{кат.icon} {кат.label}</h2>
