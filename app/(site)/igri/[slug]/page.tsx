@@ -17,8 +17,9 @@ import GallerySection        from '@/components/game/GallerySection'
 import YouTubeSection        from '@/components/game/YouTubeSection'
 import CommentsSection       from '@/components/game/CommentsSection'
 import ReviewSection         from '@/components/game/ReviewSection'
-import GameGrid              from '@/components/games/GameGrid'
-import type { GameCardProps } from '@/components/games/GameCard'
+import GameGrid                    from '@/components/games/GameGrid'
+import type { GameCardProps }       from '@/components/games/GameCard'
+import SimilarGamesRefreshButton   from '@/components/game/SimilarGamesRefreshButton'
 
 // ── Кеширана функция — предотвратява двойно зареждане ───
 const getGame = cache(async (slug: string) => {
@@ -221,20 +222,26 @@ async function CommunityStats({ gameId }: { gameId: string }) {
 
 // Подобни игри
 async function SimilarGamesSection({ игра }: {
-  игра: { id: string; types: string[]; categories: string[] }
+  игра: {
+    id:         string
+    types:      string[]
+    categories: string[]
+    mechanics:  string[]
+  }
 }) {
-  const подобни = await prisma.game.findMany({
+  // Вземаме до 50 кандидата по типове или механики
+  const кандидати = await prisma.game.findMany({
     where: {
       id:       { not: игра.id },
       isActive: true,
       OR: [
-        { types:      { hasSome: игра.types } },
-        { categories: { hasSome: игра.categories } },
+        { types:     { hasSome: игра.types.length     > 0 ? игра.types     : ['__none__'] } },
+        { mechanics: { hasSome: игра.mechanics.length > 0 ? игра.mechanics : ['__none__'] } },
       ],
     },
-    orderBy: [{ bggRating: { sort: 'desc', nulls: 'last' } }],
-    take:    4,
-    select:  {
+    orderBy: { bggRating: { sort: 'desc', nulls: 'last' } },
+    take:    50,
+    select: {
       slug: true, titleBg: true, titleEn: true,
       thumbnailUrl: true, imageUrl: true,
       yearPublished: true, bggRating: true,
@@ -244,7 +251,15 @@ async function SimilarGamesSection({ игра }: {
     },
   })
 
-  if (подобни.length === 0) return null
+  if (кандидати.length === 0) return null
+
+  // Fisher-Yates shuffle на всичките 50, показваме първите 4
+  for (let i = кандидати.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[кандидати[i], кандидати[j]] = [кандидати[j], кандидати[i]]
+  }
+
+  const подобни = кандидати.slice(0, 4)
 
   const карти: GameCardProps[] = подобни.map((п) => ({
     slug: п.slug, titleBg: п.titleBg, titleEn: п.titleEn,
@@ -258,7 +273,12 @@ async function SimilarGamesSection({ игра }: {
   return (
     <section className="py-8 border-t border-gray-100 bg-gray-50/50">
       <div className="container mx-auto px-4 max-w-4xl">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">🎯 Подобни игри</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-900">🎯 Подобни игри</h2>
+          <Suspense fallback={null}>
+            <SimilarGamesRefreshButton />
+          </Suspense>
+        </div>
         <GameGrid игри={карти} колони={4} />
       </div>
     </section>
@@ -635,7 +655,12 @@ export default async function GamePage({
 
       {/* ── Подобни игри ── */}
       <Suspense fallback={null}>
-        <SimilarGamesSection игра={{ id: игра.id, types: игра.types, categories: игра.categories }} />
+        <SimilarGamesSection игра={{
+          id:         игра.id,
+          types:      игра.types,
+          categories: игра.categories,
+          mechanics:  игра.mechanics,
+        }} />
       </Suspense>
     </>
   )

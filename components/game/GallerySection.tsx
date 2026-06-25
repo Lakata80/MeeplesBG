@@ -32,10 +32,6 @@ export default function GallerySection({ imageUrl, thumbnailUrl, заглави�
   // Скрий секцията ако няма нито една реална снимка
   if (снимки.length === 0) return null
 
-  // Попълни до 4 слота (останалите са placeholder-и)
-  const СЛОТОВЕ = 4
-  const плейсхолдъри = СЛОТОВЕ - снимки.length
-
   return (
     <section className="py-8 border-t border-gray-100">
       <div className="container mx-auto px-4 max-w-4xl">
@@ -60,15 +56,6 @@ export default function GallerySection({ imageUrl, thumbnailUrl, заглави�
                 <ZoomIcon className="text-white opacity-0 group-hover:opacity-100 transition-opacity w-6 h-6" />
               </div>
             </button>
-          ))}
-
-          {Array.from({ length: плейсхолдъри }).map((_, i) => (
-            <div
-              key={`placeholder-${i}`}
-              className="aspect-square bg-gray-50 border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center text-gray-300"
-            >
-              <span className="text-2xl">🖼️</span>
-            </div>
           ))}
         </div>
       </div>
