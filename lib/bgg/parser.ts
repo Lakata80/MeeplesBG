@@ -127,10 +127,12 @@ export function parseHotness(xml: string): BggHotnessItem[] {
 
   return items.map((item: unknown) => {
     const it = item as Record<string, unknown>
+    const nameEl = it['name']
+    const nameObj = Array.isArray(nameEl) ? nameEl[0] : nameEl
     return {
       id: parseInt(String(it['@_id'])),
       rank: parseInt(String(it['@_rank'])),
-      name: String((it['name'] as Record<string, unknown>)?.['@_value'] ?? ''),
+      name: String((nameObj as Record<string, unknown>)?.['@_value'] ?? ''),
       thumbnailUrl: String((it['thumbnail'] as Record<string, unknown>)?.['@_value'] ?? '') || undefined,
       yearPublished: intVal((it['yearpublished'] as Record<string, unknown>)?.['@_value']),
     }
