@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "meeplesbg",
   "version": "0.1.0",
   "private": true,
@@ -14,8 +14,7 @@
     "import:reindex": "npx tsx --env-file=.env --env-file=.env.local scripts/reindex.ts",
     "translate": "npx tsx --env-file=.env scripts/translate-descriptions.ts",
     "upload:images": "npx tsx --env-file=.env scripts/upload-images.ts",
-    "import:mechanics": "npx tsx --env-file=.env scripts/import-mechanics.ts",
-    "refresh:types": "npx tsx --env-file=.env --env-file=.env.local scripts/refresh-types.ts"
+    "import:mechanics": "npx tsx --env-file=.env --env-file=.env.local scripts/refresh-types.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
