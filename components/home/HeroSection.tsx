@@ -13,41 +13,36 @@ export default function HeroSection() {
       </div>
 
       <div className="relative container mx-auto px-4 py-20 md:py-28 text-center">
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 tracking-tight">
-          Всичко за настолни игри
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-10 tracking-tight">
+          Намери следващата си
           <br />
-          <span className="text-brand-200">в България</span>
+          <span className="text-brand-200">любима настолна игра</span>
         </h1>
 
-        <p className="text-xl md:text-2xl text-brand-100 mb-10 font-light">
-          Открий, играй, сподели
-        </p>
+        {/* Квиз CTA */}
+        <Link
+          href="/igri/kviz"
+          className="inline-flex items-center gap-3 px-8 py-4 bg-white text-brand-700 font-bold text-lg rounded-2xl hover:bg-brand-50 transition-colors shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform transition-all"
+        >
+          🎲 Направи квиза
+          <span className="text-brand-400">→</span>
+        </Link>
 
-        {/* Голяма търсачка */}
-        <SearchBar
-          className="max-w-2xl mx-auto mb-8"
-          размер="голям"
-          placeholder="Търси игра по заглавие..."
-          autoFocus
-        />
-
-        {/* CTA бутони */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            href="/igri"
-            className="w-full sm:w-auto px-8 py-3.5 bg-white text-brand-700 font-semibold rounded-xl hover:bg-brand-50 transition-colors shadow-md text-sm"
-          >
-            Разгледай игрите
-          </Link>
-          <Link
-            href="/novini"
-            className="w-full sm:w-auto px-8 py-3.5 border-2 border-white/70 text-white font-semibold rounded-xl hover:bg-white/10 transition-colors text-sm"
-          >
-            Новини и статии
-          </Link>
+        {/* Разделител */}
+        <div className="flex items-center gap-4 my-6 max-w-sm mx-auto">
+          <div className="flex-1 h-px bg-white/20" />
+          <span className="text-brand-200 text-sm font-medium">или</span>
+          <div className="flex-1 h-px bg-white/20" />
         </div>
 
-        {/* Бързи статистики */}
+        {/* Търсачка */}
+        <SearchBar
+          className="max-w-xl mx-auto"
+          размер="голям"
+          placeholder="Търси игра по заглавие..."
+        />
+
+        {/* Статистики */}
         <div className="flex flex-wrap justify-center gap-8 mt-14 text-brand-100">
           <Стат число="2 000+" текст="игри в базата" />
           <Стат число="100%" текст="на български" />

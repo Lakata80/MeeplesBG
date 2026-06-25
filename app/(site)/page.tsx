@@ -1,12 +1,11 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 
-import HeroSection from '@/components/home/HeroSection'
-import HotnessSection from '@/components/home/HotnessSection'
+import HeroSection      from '@/components/home/HeroSection'
+import HotnessSection   from '@/components/home/HotnessSection'
+import OccasionSection  from '@/components/home/OccasionSection'
 import BestsellersSection from '@/components/home/BestsellersSection'
-import NewReleasesSection from '@/components/home/NewReleasesSection'
-import NewsSection from '@/components/home/NewsSection'
-import NewsletterSection from '@/components/home/NewsletterSection'
+import NewsSection      from '@/components/home/NewsSection'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,12 +21,8 @@ export const metadata: Metadata = {
   },
 }
 
-// ── Skeleton компоненти ─────────────────────────
-
 function СекцияСкелет({ височина = 'h-64' }: { височина?: string }) {
-  return (
-    <div className={`${височина} bg-gray-100 animate-pulse rounded-none`} />
-  )
+  return <div className={`${височина} bg-gray-100 animate-pulse`} />
 }
 
 function КартаРедСкелет() {
@@ -88,36 +83,29 @@ function НовиниСкелет() {
   )
 }
 
-// ── Главна страница ─────────────────────────────
-
 export default function НачалнаСтраница() {
   return (
     <>
-      {/* Hero — статичен, без Suspense */}
+      {/* 1. Hero с квиз CTA */}
       <HeroSection />
 
-      {/* Горещо от BGG */}
+      {/* 2. Популярни игри (BGG Hotness) */}
       <Suspense fallback={<СекцияСкелет височина="h-52" />}>
         <HotnessSection />
       </Suspense>
 
-      {/* Бестселъри */}
+      {/* 3. Намери игра според случая */}
+      <OccasionSection />
+
+      {/* 4. Топ класации */}
       <Suspense fallback={<КартиМрежаСкелет />}>
         <BestsellersSection />
       </Suspense>
 
-      {/* Нови издания */}
-      <Suspense fallback={<КартаРедСкелет />}>
-        <NewReleasesSection />
-      </Suspense>
-
-      {/* Новини */}
+      {/* 5. Статии */}
       <Suspense fallback={<НовиниСкелет />}>
         <NewsSection />
       </Suspense>
-
-      {/* Абонамент — клиентски, без Suspense */}
-      <NewsletterSection />
     </>
   )
 }
