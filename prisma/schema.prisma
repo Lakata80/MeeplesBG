@@ -280,7 +280,14 @@ enum ThreadCategory {
   IZBOR    // Помощ при избор
   PRAVILA  // Правила и стратегии
   PAZAR    // Купувам / Продавам / Разменям
-  SRESHTI  // Игрални срещи
+  SRESHTI  // Календар на събития
+}
+
+enum EventType {
+  TOURNAMENT  // Турнир
+  MEETUP      // Среща
+  FESTIVAL    // Фестивал / Конференция
+  SHOP_EVENT  // Събитие в магазин
 }
 
 model Thread {
@@ -304,11 +311,13 @@ model Thread {
   price      String?
   expiresAt  DateTime?
 
-  // Игрални срещи
-  eventDate  DateTime?
-  eventCity  String?
-  eventSpots Int?
-  eventClub  String?
+  // Календар на събития
+  eventType    EventType?
+  eventDate    DateTime?
+  eventEndDate DateTime?
+  eventCity    String?
+  eventSpots   Int?
+  eventClub    String?
 
   notifications Notification[]
 

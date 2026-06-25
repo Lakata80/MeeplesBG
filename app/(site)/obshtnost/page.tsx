@@ -26,7 +26,7 @@ const ТАБОВЕ = [
   { надпис: 'Всички',                       kat: '' },
   { надпис: '🤔 Помощ при избор',            kat: 'izbor' },
   { надпис: '🛒 Купувам / Продавам',         kat: 'pazar' },
-  { надпис: '🗓️ Игрални срещи',             kat: 'sreshti' },
+  { надпис: '📅 Календар на събития',         kat: 'sreshti' },
   { надпис: '📖 Правила и стратегии',        kat: 'pravila' },
 ]
 
@@ -147,7 +147,7 @@ export default async function ОбщностСтраница({ searchParams }: {
               href={`/obshtnost/${кат.slug}?new=1`}
               className="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
             >
-              + Нова тема
+              + {кат.db === 'PAZAR' ? 'Нова обява' : 'Нова тема'}
             </Link>
           ) : (
             <Link href="/login" className="shrink-0 text-sm text-brand-600 font-medium hover:underline">
@@ -160,8 +160,8 @@ export default async function ОбщностСтраница({ searchParams }: {
         {теми.length === 0 ? (
           <div className="py-16 text-center text-gray-400">
             <div className="text-4xl mb-3">{кат.icon}</div>
-            <p className="text-gray-600 font-medium mb-1">Все още няма теми</p>
-            <p className="text-sm">Бъди първи — публикувай нова тема!</p>
+            <p className="text-gray-600 font-medium mb-1">{кат.db === 'PAZAR' ? 'Няма нови обяви' : 'Все още няма теми'}</p>
+            <p className="text-sm">{кат.db === 'PAZAR' ? 'Бъди първи — публикувай нова обява!' : 'Бъди първи — публикувай нова тема!'}</p>
           </div>
         ) : (
           <div className="space-y-3">

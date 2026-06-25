@@ -31,9 +31,9 @@ export const КАТЕГОРИИ = {
   sreshti: {
     slug:  'sreshti',
     db:    'SRESHTI',
-    label: 'Игрални срещи',
-    desc:  'Организирай или се присъедини към игрална среща.',
-    icon:  '🗓️',
+    label: 'Календар на събития',
+    desc:  'Турнири, срещи, фестивали и магазини с настолни игри.',
+    icon:  '📅',
     color: 'bg-orange-50 border-orange-200 text-orange-700',
     badge: 'bg-orange-100 text-orange-700',
   },
@@ -49,6 +49,39 @@ export const DB_КЪМ_SLUG: Record<string, ThreadCategorySlug> = {
 export function getКатегория(slug: string) {
   return КАТЕГОРИИ[slug as ThreadCategorySlug] ?? null
 }
+
+// ── Типове събития ────────────────────────────────────────────
+
+export const EVENT_TYPES = {
+  TOURNAMENT: {
+    label: 'Турнир',
+    icon:  '🏆',
+    color: 'bg-orange-100 text-orange-700',
+    dot:   'bg-orange-500',
+  },
+  MEETUP: {
+    label: 'Среща',
+    icon:  '🤝',
+    color: 'bg-blue-100 text-blue-700',
+    dot:   'bg-blue-500',
+  },
+  FESTIVAL: {
+    label: 'Фестивал',
+    icon:  '🎪',
+    color: 'bg-purple-100 text-purple-700',
+    dot:   'bg-purple-500',
+  },
+  SHOP_EVENT: {
+    label: 'Магазин',
+    icon:  '🏪',
+    color: 'bg-green-100 text-green-700',
+    dot:   'bg-green-500',
+  },
+} as const
+
+export type EventTypeName = keyof typeof EVENT_TYPES
+
+// ── Относително Време ─────────────────────────────────────────
 
 export const ОТНОСИТЕЛНО_ВРЕМЕ = new Intl.RelativeTimeFormat('bg', { numeric: 'auto' })
 

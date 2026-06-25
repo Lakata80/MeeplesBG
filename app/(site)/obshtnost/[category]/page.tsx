@@ -6,6 +6,7 @@ import { auth }          from '@/auth'
 import { prisma }        from '@/lib/prisma'
 import { getКатегория, type ThreadCategorySlug } from '@/lib/obshtnost'
 import ThreadCard, { type ThreadCardData } from '@/components/obshtnost/ThreadCard'
+import EventTimeline, { type CalendarEvent } from '@/components/obshtnost/EventTimeline'
 import NewThreadFormWrapper from './NewThreadFormWrapper'
 import Pagination        from '@/components/ui/Pagination'
 
@@ -26,6 +27,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 
 const НА_СТРАНИЦА = 20
 
+const EVENT_SELECT = {
+  id: true, slug: true, title: true,
+  eventType: true, eventDate: true, eventEndDate: true,
+  eventCity: true, eventClub: true,
+  _count: { select: { replies: true } },
+} as const
+
 export default async function КатегорияСтраница({
   params,
   searchParams,
@@ -38,12 +46,91 @@ export default async function КатегорияСтраница({
   const кат          = getКатегория(category)
   if (!кат) notFound()
 
-  const страница = Math.max(1, parseInt(sp.stranica ?? '1') || 1)
-  const offset   = (страница - 1) * НА_СТРАНИЦА
-  const showNew  = sp.new === '1'
-  const deleted  = sp.deleted === '1'
+  const showNew = sp.new === '1'
+  const deleted = sp.deleted === '1'
 
   const session = await auth()
+
+  // ── Календар на събития (SRESHTI) ────────────────────────────
+  if (кат.db === 'SRESHTI') {
+    const now = new Date()
+
+    const [upcoming, past] = await Promise.all([
+      prisma.thread.findMany({
+        where: {
+          category: 'SRESHTI',
+          OR: [{ eventDate: { gte: now } }, { eventDate: null }],
+        },
+        orderBy: { eventDate: 'asc' },
+        take:    200,
+        select:  EVENT_SELECT,
+      }),
+      prisma.thread.findMany({
+        where:   { category: 'SRESHTI', eventDate: { lt: now } },
+        orderBy: { eventDate: 'desc' },
+        take:    30,
+        select:  EVENT_SELECT,
+      }),
+    ])
+
+    return (
+      <div className="container mx-auto px-4 py-10 max-w-3xl">
+        {/* Изтрито */}
+        {deleted && (
+          <div className="mb-6 px-4 py-3 bg-green-50 border border-green-200 text-green-800 text-sm rounded-xl">
+            Събитието беше изтрито успешно.
+          </div>
+        )}
+
+        {/* Хлебни трохи */}
+        <nav className="text-sm text-gray-400 mb-6 flex items-center gap-1.5">
+          <Link href="/obshtnost" className="hover:text-brand-600">Общност</Link>
+          <span>›</span>
+          <span className="text-gray-700">{кат.icon} {кат.label}</span>
+        </nav>
+
+        {/* Заглавие */}
+        <div className="flex items-start justify-between mb-8 gap-4">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">{кат.icon} {кат.label}</h1>
+            <p className="text-sm text-gray-500 mt-1">{кат.desc}</p>
+          </div>
+          {session && !showNew && (
+            <Link
+              href={`/obshtnost/${category}?new=1`}
+              className="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
+            >
+              + Ново събитие
+            </Link>
+          )}
+          {!session && (
+            <Link href="/login" className="shrink-0 text-sm text-brand-600 font-medium hover:underline">
+              Влез за да публикуваш
+            </Link>
+          )}
+        </div>
+
+        {/* Форма */}
+        {session && showNew && (
+          <div className="mb-10">
+            <Suspense fallback={null}>
+              <NewThreadFormWrapper categorySlug={category as ThreadCategorySlug} />
+            </Suspense>
+          </div>
+        )}
+
+        {/* Таймлайн */}
+        <EventTimeline
+          upcoming={upcoming as unknown as CalendarEvent[]}
+          past={past as unknown as CalendarEvent[]}
+        />
+      </div>
+    )
+  }
+
+  // ── Стандартен изглед (IZBOR, PRAVILA, PAZAR) ────────────────
+  const страница = Math.max(1, parseInt(sp.stranica ?? '1') || 1)
+  const offset   = (страница - 1) * НА_СТРАНИЦА
 
   const [теми, общо] = await Promise.all([
     prisma.thread.findMany({
@@ -95,7 +182,7 @@ export default async function КатегорияСтраница({
             href={`/obshtnost/${category}?new=1`}
             className="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
           >
-            + Нова тема
+            + {кат.db === 'PAZAR' ? 'Нова обява' : 'Нова тема'}
           </Link>
         )}
         {!session && (
@@ -121,8 +208,8 @@ export default async function КатегорияСтраница({
       {теми.length === 0 ? (
         <div className="py-16 text-center text-gray-400">
           <div className="text-4xl mb-3">{кат.icon}</div>
-          <p className="text-gray-600 font-medium mb-1">Все още няма теми</p>
-          <p className="text-sm">Бъди първи — публикувай нова тема!</p>
+          <p className="text-gray-600 font-medium mb-1">{кат.db === 'PAZAR' ? 'Няма нови обяви' : 'Все още няма теми'}</p>
+          <p className="text-sm">{кат.db === 'PAZAR' ? 'Бъди първи — публикувай нова обява!' : 'Бъди първи — публикувай нова тема!'}</p>
         </div>
       ) : (
         <div className="space-y-3">
