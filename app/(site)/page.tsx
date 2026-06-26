@@ -6,6 +6,7 @@ import HotnessSection   from '@/components/home/HotnessSection'
 import OccasionSection  from '@/components/home/OccasionSection'
 import BestsellersSection from '@/components/home/BestsellersSection'
 import NewsSection      from '@/components/home/NewsSection'
+import MehanikiTeaser  from '@/components/home/MehanikiTeaser'
 
 export const dynamic = 'force-dynamic'
 
@@ -102,7 +103,10 @@ export default function НачалнаСтраница() {
         <BestsellersSection />
       </Suspense>
 
-      {/* 5. Статии */}
+      {/* 5. Механики тийзър */}
+      <MehanikiTeaser />
+
+      {/* 6. Статии */}
       <Suspense fallback={<НовиниСкелет />}>
         <NewsSection />
       </Suspense>

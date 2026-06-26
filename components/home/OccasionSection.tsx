@@ -36,6 +36,20 @@ const СЛУЧАИ = [
     href:  '/igri?tip=Strategy',
     color: 'hover:border-purple-300 hover:bg-purple-50',
   },
+  {
+    emoji: '🤝',
+    label: 'Кооперативни',
+    desc:  'Победете играта заедно',
+    href:  '/igri?tip=Cooperative',
+    color: 'hover:border-green-300 hover:bg-green-50',
+  },
+  {
+    emoji: '⚔️',
+    label: 'Военни',
+    desc:  'За тактици',
+    href:  '/igri?tip=Wargame',
+    color: 'hover:border-red-300 hover:bg-red-50',
+  },
 ]
 
 export default function OccasionSection() {
