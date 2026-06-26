@@ -81,6 +81,7 @@ model User {
   threads        Thread[]        @relation("ThreadAuthor")
   threadReplies  ThreadReply[]   @relation("ThreadReplyAuthor")
   notifications  Notification[]
+  monthlyTop9    MonthlyTop9[]
 }
 
 // =====================
@@ -119,6 +120,7 @@ model Game {
   reviews         Review[]
   comments        Comment[]
   pendingImages   PendingImage[]
+  top9Entries     MonthlyTop9Entry[]
 }
 
 // =====================
@@ -371,4 +373,42 @@ model NewsletterSubscriber {
   isActive         Boolean  @default(true)
   unsubscribeToken String   @unique @default(uuid())
   createdAt        DateTime @default(now())
+}
+
+// =====================
+// TOP 9 GAMES OF THE MONTH
+// =====================
+
+model MonthlyTop9 {
+  id                String           @id @default(cuid())
+  userId            String
+  month             Int              // 1–12
+  year              Int
+  isPublic          Boolean          @default(true)
+  shareToken        String           @unique @default(cuid())
+  generatedImageUrl String?          @db.Text
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+
+  user    User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entries MonthlyTop9Entry[]
+
+  @@unique([userId, month, year])
+  @@index([userId])
+  @@index([shareToken])
+}
+
+model MonthlyTop9Entry {
+  id         String  @id @default(cuid())
+  top9Id     String
+  gameId     String
+  position   Int     // 1–9
+  playsCount Int?
+
+  top9 MonthlyTop9 @relation(fields: [top9Id], references: [id], onDelete: Cascade)
+  game Game        @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([top9Id, position])
+  @@unique([top9Id, gameId])
+  @@index([top9Id])
 }

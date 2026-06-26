@@ -4,6 +4,7 @@ import Link                from 'next/link'
 import Image               from 'next/image'
 import { auth }            from '@/auth'
 import { prisma }          from '@/lib/prisma'
+import Top9Client          from '@/components/top9/Top9Client'
 
 export const dynamic = 'force-dynamic'
 
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>
 
-type Таб = 'колекция' | 'искам' | 'играл' | 'ревюта' | 'активност'
+type Таб = 'колекция' | 'искам' | 'играл' | 'ревюта' | 'активност' | 'top9'
 
 const ТАБОВЕ: { id: Таб; label: string; status?: string }[] = [
   { id: 'колекция',  label: '🎲 Колекция',          status: 'OWNS' },
@@ -23,6 +24,7 @@ const ТАБОВЕ: { id: Таб; label: string; status?: string }[] = [
   { id: 'играл',     label: '🕹️ Играл съм',          status: 'PLAYED' },
   { id: 'ревюта',    label: '✍️ Ревюта' },
   { id: 'активност', label: '📊 Активност' },
+  { id: 'top9',      label: '🏆 Top 9' },
 ]
 
 // ── Страница ──────────────────────────────────────────────────
@@ -81,7 +83,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
     : []
 
   function tabUrl(id: Таб) {
-    return id === 'колекция' ? '/profil' : `/profil?tab=${id}`
+    return id === 'колекция' ? '/profil' : `/profil?tab=${encodeURIComponent(id)}`
   }
 
   return (
@@ -182,7 +184,9 @@ export default async function ПрофилСтраница({ searchParams }: { s
       </div>
 
       {/* Съдържание на таба */}
-      {таб.id === 'активност' ? (
+      {таб.id === 'top9' ? (
+        <Top9Client />
+      ) : таб.id === 'активност' ? (
         <АктивностТаб последни={последниДобавени} />
       ) : таб.id === 'ревюта' ? (
         <РевютаТаб ревюта={моитеРевюта} />
@@ -349,6 +353,7 @@ function ПразноСъстояние({ таб }: { таб: Таб }) {
     играл:     { икона: '🕹️', текст: 'Не сме записали игри, с които си играл. Синхронизирай от BGG!' },
     ревюта:    { икона: '✍️', текст: 'Все още нямаш написани ревюта.' },
     активност: { икона: '📊', текст: 'Все още няма активност.' },
+    top9:      { икона: '🏆', текст: 'Все още нямаш Top 9.' },
   }
   const { икона, текст } = съобщения[таб]
   return (
