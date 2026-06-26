@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   if (!механика) return { title: 'Механика не е намерена | MeeplesBG' }
   return {
     title: `${механика.name} | Механики | MeeplesBG`,
-    description: механика.descriptionBg ?? механика.descriptionEn ?? undefined,
+    description: `Игри с механиката ${механика.name} в MeeplesBG`,
   }
 }
 
@@ -74,26 +74,18 @@ export default async function МеханикаСтраница({ params }: { par
         <span className="text-xs text-gray-400 font-mono">механика</span>
       </div>
 
-      {/* Описания */}
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 mb-10 space-y-4">
-        {механика.descriptionBg && (
+      {/* Описание */}
+      {механика.descriptionBg && (
+        <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 mb-10">
           <p className="text-gray-700 leading-relaxed">{механика.descriptionBg}</p>
-        )}
-        {механика.descriptionEn && (
-          <details className="text-sm text-gray-400 cursor-pointer">
-            <summary className="hover:text-gray-600 transition-colors select-none">
-              Оригинал на английски
-            </summary>
-            <p className="mt-2 leading-relaxed">{механика.descriptionEn}</p>
-          </details>
-        )}
-      </div>
+        </div>
+      )}
 
       {/* Игри с тази механика */}
       {карти.length > 0 && (
         <section>
           <h2 className="text-xl font-bold text-brand-800 mb-4">
-            Игри с тази механика
+            Топ игри с тази механика
             <span className="ml-2 text-sm font-normal text-gray-400">({игри.length})</span>
           </h2>
           <GameGrid игри={карти} колони={4} />

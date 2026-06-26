@@ -14,6 +14,7 @@ import ShareButton           from '@/components/game/ShareButton'
 import ImageUploadButton     from '@/components/game/ImageUploadButton'
 import DescriptionSection    from '@/components/game/DescriptionSection'
 import GallerySection        from '@/components/game/GallerySection'
+import GameImageWithLightbox from '@/components/game/GameImageWithLightbox'
 import YouTubeSection        from '@/components/game/YouTubeSection'
 import CommentsSection       from '@/components/game/CommentsSection'
 import ReviewSection         from '@/components/game/ReviewSection'
@@ -428,22 +429,15 @@ export default async function GamePage({
           <div className="flex flex-col md:flex-row gap-8">
             {/* Снимка */}
             <div className="flex-shrink-0 flex flex-col items-center gap-3">
-              <div className="relative w-48 h-48 bg-[var(--background)] rounded-2xl overflow-hidden shadow-md border border-[var(--border)]">
-                {игра.imageUrl ? (
-                  <Image
-                    src={игра.imageUrl}
-                    alt={заглавие}
-                    fill
-                    className="object-contain p-2"
-                    priority
-                    sizes="192px"
-                  />
-                ) : (
+              {игра.imageUrl ? (
+                <GameImageWithLightbox imageUrl={игра.imageUrl} заглавие={заглавие} />
+              ) : (
+                <div className="relative w-48 h-48 bg-[var(--background)] rounded-2xl overflow-hidden shadow-md border border-[var(--border)]">
                   <div className="absolute inset-0 flex items-center justify-center text-5xl text-gray-200">
                     🎲
                   </div>
-                )}
-              </div>
+                </div>
+              )}
               {игра.bggId && (
                 <a
                   href={`https://boardgamegeek.com/boardgame/${игра.bggId}`}
