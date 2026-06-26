@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 const ЛИНКОВЕ = [
   { href: '/igri',      label: 'Игри',     dropdown: true },
   { href: '/top',       label: 'Топ 100' },
+  { href: '/top9',      label: '🏆 Top 9' },
   { href: '/novini',    label: 'Новини' },
   { href: '/obshtnost', label: 'Общност' },
 ]

@@ -36,10 +36,13 @@ export default function Top9Client() {
   const [top9, setTop9]           = useState<Top9 | null | undefined>(undefined) // undefined = loading
   const [saving, setSaving]       = useState(false)
   const [error, setError]         = useState<string | null>(null)
-  const [showSearch, setShowSearch]     = useState(false)
-  const [copied, setCopied]             = useState(false)
-  const [generating, setGenerating]     = useState(false)
+  const [showSearch, setShowSearch]       = useState(false)
+  const [copied, setCopied]               = useState(false)
+  const [generating, setGenerating]       = useState(false)
   const [generateError, setGenerateError] = useState<string | null>(null)
+  const [showHistory, setShowHistory]     = useState(false)
+  const [history, setHistory]             = useState<Top9[] | null>(null)
+  const [historyLoading, setHistoryLoading] = useState(false)
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } })
@@ -237,6 +240,21 @@ export default function Top9Client() {
       setGenerateError(e instanceof Error ? e.message : 'Грешка при генериране')
     } finally {
       setGenerating(false)
+    }
+  }
+
+  async function handleShowHistory() {
+    if (history !== null) { setShowHistory((v) => !v); return }
+    setShowHistory(true)
+    setHistoryLoading(true)
+    try {
+      const res  = await fetch('/api/top9')
+      const data = await res.json()
+      setHistory(Array.isArray(data) ? data : [])
+    } catch {
+      setHistory([])
+    } finally {
+      setHistoryLoading(false)
     }
   }
 
@@ -471,6 +489,80 @@ export default function Top9Client() {
           )}
         </div>
       )}
+
+      {/* ── История ───────────────────────────────────────── */}
+      <div className="border-t border-gray-100 pt-4">
+        <button
+          onClick={handleShowHistory}
+          className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors w-full"
+        >
+          <span className="text-base">{showHistory ? '▾' : '▸'}</span>
+          <span>Предишни месеци</span>
+          {history !== null && history.length > 0 && (
+            <span className="ml-auto text-xs bg-gray-100 text-gray-500 rounded-full px-2 py-0.5">
+              {history.length}
+            </span>
+          )}
+        </button>
+
+        {showHistory && (
+          <div className="mt-4">
+            {historyLoading ? (
+              <div className="py-6 text-center">
+                <div className="inline-block w-4 h-4 border-2 border-brand-400 border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : !history || history.length === 0 ? (
+              <p className="text-sm text-gray-400 text-center py-4">
+                Все още нямаш запазени месеци.
+              </p>
+            ) : (
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {history
+                  .filter((h) => !(h.month === month && h.year === year))
+                  .map((h) => (
+                    <button
+                      key={h.id}
+                      onClick={() => { setMonth(h.month); setYear(h.year); setShowHistory(false) }}
+                      className="group rounded-2xl border border-gray-200 bg-white p-3 text-left hover:border-brand-400 transition-all"
+                    >
+                      <p className="text-xs font-semibold text-gray-700 mb-2">
+                        {МЕСЕЦИ[h.month - 1]} {h.year}
+                        <span className="ml-1.5 text-[10px] text-gray-400 font-normal">
+                          {h.entries.length}/9
+                        </span>
+                      </p>
+                      {/* 3 mini thumbnails */}
+                      <div className="flex gap-1">
+                        {h.entries.slice(0, 3).map((e) => (
+                          <div
+                            key={e.id}
+                            className="flex-1 aspect-square rounded-lg bg-gray-100 relative overflow-hidden"
+                          >
+                            {e.game.thumbnailUrl ? (
+                              <img
+                                src={e.game.thumbnailUrl}
+                                alt=""
+                                className="absolute inset-0 w-full h-full object-cover"
+                              />
+                            ) : (
+                              <span className="absolute inset-0 flex items-center justify-center text-sm">🎲</span>
+                            )}
+                          </div>
+                        ))}
+                        {Array.from({ length: Math.max(0, 3 - h.entries.length) }).map((_, i) => (
+                          <div key={i} className="flex-1 aspect-square rounded-lg border border-dashed border-gray-200 bg-gray-50" />
+                        ))}
+                      </div>
+                      {h.generatedImageUrl && (
+                        <p className="text-[10px] text-brand-600 mt-1.5">🖼️ Картинката е готова</p>
+                      )}
+                    </button>
+                  ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

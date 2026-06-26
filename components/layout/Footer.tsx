@@ -16,6 +16,7 @@ const КОЛОНИ = [
   {
     заглавие: 'Общност',
     линкове: [
+      { href: '/top9',             label: '🏆 Top 9 на общността' },
       { href: '/novini',           label: 'Новини' },
       { href: '/obshtnost',        label: 'Общност' },
       { href: '/obshtnost/pazar',  label: 'Купувам / Продавам' },
