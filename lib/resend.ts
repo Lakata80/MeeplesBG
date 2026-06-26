@@ -4,5 +4,6 @@ import { Resend } from 'resend'
 // RESEND_API_KEY трябва да е зададен в .env.local за реални изпращания.
 export const resend = new Resend(process.env.RESEND_API_KEY || 're_placeholder_build')
 
-export const ИЗПРАЩАЧ = process.env.RESEND_FROM ?? 'MeeplesBG <newsletter@meeplesbg.com>'
-export const САЙТ_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://meeplesbg.com'
+export const ИЗПРАЩАЧ          = process.env.RESEND_FROM          ?? 'MeeplesBG <newsletter@meeplesbg.com>'
+export const ПАРТНЬОРСКИ_ИЗПРАЩАЧ = process.env.RESEND_PARTNERS_FROM ?? 'MeeplesBG Партньорства <partners@meeplesbg.com>'
+export const САЙТ_URL          = process.env.NEXT_PUBLIC_SITE_URL  ?? 'https://meeplesbg.com'
