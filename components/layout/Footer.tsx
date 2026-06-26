@@ -6,6 +6,7 @@ const КОЛОНИ = [
     заглавие: 'Игри',
     линкове: [
       { href: '/igri',                 label: 'Всички игри' },
+      { href: '/mehaniki',             label: 'Механики' },
       { href: '/top/top-100',          label: 'Топ 100' },
       { href: '/igri?types=Strategy',  label: 'Стратегически' },
       { href: '/igri?types=Family',    label: 'Семейни' },
