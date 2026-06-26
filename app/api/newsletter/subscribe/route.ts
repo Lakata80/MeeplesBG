@@ -1,4 +1,5 @@
 import type { NextRequest } from 'next/server'
+import { render }          from '@react-email/components'
 import { prisma }          from '@/lib/prisma'
 import { resend, ИЗПРАЩАЧ, САЙТ_URL } from '@/lib/resend'
 import WelcomeEmail        from '@/emails/WelcomeEmail'
@@ -76,12 +77,13 @@ export async function POST(req: NextRequest) {
 
   // Изпрати welcome имейл (грешка тук не блокира успешния отговор)
   const unsubscribeUrl = `${САЙТ_URL}/api/newsletter/unsubscribe?token=${абонат.unsubscribeToken}`
+  const html = await render(WelcomeEmail({ email: абонат.email, unsubscribeUrl, siteUrl: САЙТ_URL }))
 
   await resend.emails.send({
     from:    ИЗПРАЩАЧ,
     to:      абонат.email,
     subject: 'Добре дошъл в MeeplesBG бюлетина! 🎲',
-    react:   WelcomeEmail({ email: абонат.email, unsubscribeUrl, siteUrl: САЙТ_URL }),
+    html,
   }).catch((err: unknown) => {
     console.error('Грешка при изпращане на welcome имейл:', err)
   })
