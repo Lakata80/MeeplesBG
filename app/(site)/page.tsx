@@ -104,7 +104,9 @@ export default function НачалнаСтраница() {
       </Suspense>
 
       {/* 5. Механики тийзър */}
-      <MehanikiTeaser />
+      <Suspense fallback={<КартиМрежаСкелет />}>
+        <MehanikiTeaser />
+      </Suspense>
 
       {/* 6. Статии */}
       <Suspense fallback={<НовиниСкелет />}>
