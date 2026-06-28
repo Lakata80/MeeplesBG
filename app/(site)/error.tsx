@@ -2,46 +2,79 @@
 
 import { useEffect } from 'react'
 import Link from 'next/link'
+import * as Sentry from '@sentry/nextjs'
 
-interface Props {
+export default function Error({
+  error,
+  reset,
+}: {
   error: Error & { digest?: string }
   reset: () => void
-}
-
-export default function Грешка({ error, reset }: Props) {
+}) {
   useEffect(() => {
-    console.error('Грешка на началната страница:', error)
+    Sentry.captureException(error)
   }, [error])
 
   return (
-    <div className="min-h-[50vh] flex items-center justify-center px-4">
-      <div className="text-center max-w-md">
-        <div className="text-6xl mb-4">😕</div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          Нещо се обърка
-        </h2>
-        <p className="text-gray-500 mb-6 text-sm leading-relaxed">
-          Страницата не може да се зареди в момента. Моля, опитай отново.
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+      <div className="max-w-lg w-full text-center py-20">
+
+        <p className="text-9xl font-black text-brand-600 leading-none select-none mb-2">500</p>
+        <h1 className="text-2xl font-bold text-gray-900 mb-3">Нещо се обърка</h1>
+        <p className="text-gray-500 text-sm leading-relaxed mb-8">
+          Възникна неочаквана грешка. Проблемът е регистриран автоматично
+          и ще го отстраним възможно най-скоро.
         </p>
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
+
+        <div className="flex flex-wrap gap-3 justify-center mb-10">
           <button
             onClick={reset}
-            className="px-6 py-2.5 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 transition-colors"
           >
             Опитай отново
           </button>
           <Link
             href="/"
-            className="px-6 py-2.5 border border-gray-300 text-gray-700 text-sm font-medium rounded-xl hover:border-gray-400 transition-colors"
+            className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
           >
-            Начална страница
+            ← Начало
+          </Link>
+          <Link
+            href="/igri"
+            className="inline-flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-5 py-2.5 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            🎲 Всички игри
           </Link>
         </div>
+
+        <div className="rounded-2xl bg-white border border-gray-200 p-6">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-4">
+            Популярни раздели
+          </p>
+          <div className="grid grid-cols-2 gap-2 text-sm">
+            {([
+              { href: '/novini',    label: '📰 Новини' },
+              { href: '/top',       label: '📊 Класации' },
+              { href: '/obshtnost', label: '💬 Общност' },
+              { href: '/kontakti',  label: '✉️ Контакти' },
+            ] as const).map(({ href, label }) => (
+              <Link
+                key={href}
+                href={href}
+                className="flex items-center gap-2 rounded-xl px-3 py-2.5 text-gray-600 hover:bg-gray-50 hover:text-brand-600 transition-colors"
+              >
+                {label}
+              </Link>
+            ))}
+          </div>
+        </div>
+
         {error.digest && (
-          <p className="mt-4 text-xs text-gray-400 font-mono">
+          <p className="mt-6 text-xs text-gray-400 font-mono">
             Код: {error.digest}
           </p>
         )}
+
       </div>
     </div>
   )
