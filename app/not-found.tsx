@@ -45,10 +45,10 @@ export default function NotFound() {
           </p>
           <div className="grid grid-cols-2 gap-2 text-sm">
             {([
-              { href: '/novini',   label: '📰 Новини' },
-              { href: '/top',      label: '📊 Класации' },
-              { href: '/forum',    label: '💬 Форум' },
-              { href: '/kontakti', label: '✉️ Контакти' },
+              { href: '/novini',    label: '📰 Новини' },
+              { href: '/top',       label: '📊 Класации' },
+              { href: '/obshtnost', label: '💬 Общност' },
+              { href: '/kontakti',  label: '✉️ Контакти' },
             ] as const).map(({ href, label }) => (
               <Link
                 key={href}

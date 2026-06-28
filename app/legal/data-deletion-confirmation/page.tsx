@@ -7,7 +7,7 @@ export default function DataDeletionConfirmation({ searchParams }: { searchParam
       <h1>Потвърждение за заявка за изтриване на данни</h1>
       <p>Код на потвърждение: <strong>{code}</strong></p>
       <p>
-        Заявката ви е получена и ще бъде обработена. Ако имате въпроси, пишете на <a href="mailto:privacy@meeples.bg">privacy@meeples.bg</a>.
+        Заявката ви е получена и ще бъде обработена. Ако имате въпроси, пишете на <a href="mailto:privacy@meeplesbg.com">privacy@meeplesbg.com</a>.
       </p>
       <p style={{fontSize:12,color:'#666'}}>Това е автоматична страница, използвана за потвърждение пред Facebook при обработка на заявки за изтриване.</p>
     </div>

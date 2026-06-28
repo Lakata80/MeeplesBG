@@ -13,7 +13,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${САЙТ}/igri`,        changeFrequency: 'daily',   priority: 0.9 },
     { url: `${САЙТ}/novini`,      changeFrequency: 'daily',   priority: 0.8 },
     { url: `${САЙТ}/top`,         changeFrequency: 'weekly',  priority: 0.8 },
-    { url: `${САЙТ}/forum`,       changeFrequency: 'daily',   priority: 0.7 },
+    { url: `${САЙТ}/obshtnost`,   changeFrequency: 'daily',   priority: 0.7 },
     { url: `${САЙТ}/kontakti`,    changeFrequency: 'monthly', priority: 0.4 },
     { url: `${САЙТ}/gdpr`,        changeFrequency: 'yearly',  priority: 0.2 },
     { url: `${САЙТ}/biskvitki`,   changeFrequency: 'yearly',  priority: 0.2 },
