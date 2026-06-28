@@ -56,7 +56,7 @@ export default function Header() {
           </form>
 
           {/* Дясна страна */}
-          <div className="flex items-center gap-3 ml-auto md:ml-0">
+          <div className="flex items-center gap-3 ml-auto">
             <NotificationBell />
             <UserMenu />
 

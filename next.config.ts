@@ -12,6 +12,7 @@ function localNetworkIPs(): string[] {
 }
 
 const nextConfig: NextConfig = {
+  serverExternalPackages: ['sharp'],
   allowedDevOrigins: localNetworkIPs(),
   images: {
     remotePatterns: [

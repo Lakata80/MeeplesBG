@@ -43,14 +43,14 @@ function tabHref(kat: string, stranica = 1): string {
 
 function TabBar({ activeKat }: { activeKat: string }) {
   return (
-    <div className="flex flex-wrap gap-2 mb-8 border-b border-gray-200 pb-4">
+    <div className="flex gap-2 mb-8 border-b border-gray-200 pb-4 overflow-x-auto overflow-y-hidden">
       {ТАБОВЕ.map((т) => {
         const активен = т.kat === activeKat
         return (
           <Link
             key={т.kat}
             href={т.href}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+            className={`shrink-0 whitespace-nowrap px-4 py-2 rounded-full text-sm font-medium transition-colors ${
               активен
                 ? 'bg-brand-600 text-white shadow-sm'
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'

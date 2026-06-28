@@ -101,8 +101,8 @@ export default function SortableSlot({
       </button>
 
       {/* Bottom info bar */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/80 to-transparent px-2 pt-5 pb-2 pointer-events-none">
-        <p className="text-white text-[10px] font-medium line-clamp-1 leading-tight">
+      <div className="absolute bottom-0 left-0 right-0 z-10 bg-gradient-to-t from-black/80 to-transparent px-2 pt-6 pb-2 pointer-events-none">
+        <p className="text-white text-xs font-semibold line-clamp-2 leading-tight">
           {entry.game.titleBg}
         </p>
 
@@ -116,14 +116,14 @@ export default function SortableSlot({
             onBlur={commitPlays}
             onKeyDown={(e) => { if (e.key === 'Enter') commitPlays() }}
             onClick={(e) => e.stopPropagation()}
-            className="pointer-events-auto mt-0.5 w-full text-[10px] bg-black/40 text-white border border-white/30 rounded px-1 py-0.5 focus:outline-none"
+            className="pointer-events-auto mt-1 w-full text-[10px] bg-black/40 text-white border border-white/30 rounded px-1 py-0.5 focus:outline-none"
           />
         ) : (
           <button
             onClick={(e) => { e.stopPropagation(); setPlaysValue(entry.playsCount?.toString() ?? ''); setEditingPlays(true) }}
-            className="pointer-events-auto text-[10px] text-white/70 hover:text-white mt-0.5 cursor-pointer"
+            className="pointer-events-auto text-[10px] text-white/70 hover:text-white mt-1 cursor-pointer leading-tight"
           >
-            {entry.playsCount ? `${entry.playsCount}× партии` : '+ добави партии'}
+            {entry.playsCount ? `${entry.playsCount} изиграни игри` : '+ Добави брой изиграни игри'}
           </button>
         )}
       </div>

@@ -195,7 +195,7 @@ export async function generateTop9Image(data: Top9ImageData): Promise<Buffer> {
       `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${HEADER_H}">
         <text x="${W / 2}" y="52" text-anchor="middle"
           font-family="DejaVu Sans,Arial,sans-serif" font-size="30"
-          font-weight="bold" fill="white" letter-spacing="4">МОЯ TOP 9</text>
+          font-weight="bold" fill="white" letter-spacing="4">МОЯТ ТОП 9</text>
         <text x="${W / 2}" y="82" text-anchor="middle"
           font-family="DejaVu Sans,Arial,sans-serif" font-size="18"
           fill="#F5D07A" letter-spacing="3">${escXml(monthName)} ${data.year}</text>

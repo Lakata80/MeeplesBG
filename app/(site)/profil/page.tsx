@@ -16,15 +16,15 @@ export const metadata: Metadata = {
 
 type SearchParams = Promise<Record<string, string | string[] | undefined>>
 
-type Таб = 'колекция' | 'искам' | 'играл' | 'ревюта' | 'активност' | 'top9'
+type Таб = 'collection' | 'wishlist' | 'played' | 'reviews' | 'activity' | 'top9'
 
 const ТАБОВЕ: { id: Таб; label: string; status?: string }[] = [
-  { id: 'колекция',  label: '🎲 Колекция',          status: 'OWNS' },
-  { id: 'искам',     label: '🎯 Искам да играя',     status: 'WISHLIST' },
-  { id: 'играл',     label: '🕹️ Играл съм',          status: 'PLAYED' },
-  { id: 'ревюта',    label: '✍️ Ревюта' },
-  { id: 'активност', label: '📊 Активност' },
-  { id: 'top9',      label: '🏆 Top 9' },
+  { id: 'collection', label: '🎲 Колекция',          status: 'OWNS' },
+  { id: 'wishlist',   label: '🎯 Искам да играя',     status: 'WISHLIST' },
+  { id: 'played',     label: '🕹️ Играл съм',          status: 'PLAYED' },
+  { id: 'reviews',    label: '✍️ Ревюта' },
+  { id: 'activity',   label: '📊 Активност' },
+  { id: 'top9',       label: '🏆 Top 9' },
 ]
 
 // ── Страница ──────────────────────────────────────────────────
@@ -34,7 +34,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
   if (!session?.user?.id) redirect('/login')
 
   const парам    = await searchParams
-  const активен  = (typeof парам.tab === 'string' ? парам.tab : 'колекция') as Таб
+  const активен  = (typeof парам.tab === 'string' ? парам.tab : 'collection') as Таб
   const таб      = ТАБОВЕ.find((t) => t.id === активен) ?? ТАБОВЕ[0]
 
   const потребител = await prisma.user.findUnique({
@@ -64,7 +64,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
     : []
 
   // Ревюта на потребителя
-  const моитеРевюта = активен === 'ревюта'
+  const моитеРевюта = активен === 'reviews'
     ? await prisma.review.findMany({
         where:   { userId: потребител.id, isPublished: true },
         include: { game: { select: { slug: true, titleBg: true, titleEn: true, thumbnailUrl: true } } },
@@ -73,7 +73,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
     : []
 
   // Активност — последни добавени
-  const последниДобавени = активен === 'активност'
+  const последниДобавени = активен === 'activity'
     ? await prisma.userCollection.findMany({
         where:   { userId: потребител.id },
         include: { game: { select: { slug: true, titleBg: true, titleEn: true, thumbnailUrl: true } } },
@@ -83,7 +83,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
     : []
 
   function tabUrl(id: Таб) {
-    return id === 'колекция' ? '/profil' : `/profil?tab=${encodeURIComponent(id)}`
+    return id === 'collection' ? '/profil' : `/profil?tab=${id}`
   }
 
   return (
@@ -167,7 +167,7 @@ export default async function ПрофилСтраница({ searchParams }: { s
       })()}
 
       {/* Табове */}
-      <div className="flex gap-1 border-b border-gray-200 mb-6 overflow-x-auto">
+      <div className="flex gap-1 border-b border-gray-200 mb-6 overflow-x-auto overflow-y-hidden">
         {ТАБОВЕ.map((t) => (
           <Link
             key={t.id}
@@ -186,9 +186,9 @@ export default async function ПрофилСтраница({ searchParams }: { s
       {/* Съдържание на таба */}
       {таб.id === 'top9' ? (
         <Top9Client />
-      ) : таб.id === 'активност' ? (
+      ) : таб.id === 'activity' ? (
         <АктивностТаб последни={последниДобавени} />
-      ) : таб.id === 'ревюта' ? (
+      ) : таб.id === 'reviews' ? (
         <РевютаТаб ревюта={моитеРевюта} />
       ) : игри.length === 0 ? (
         <ПразноСъстояние таб={таб.id} />
@@ -348,12 +348,12 @@ function РевютаТаб({ ревюта }: {
 
 function ПразноСъстояние({ таб }: { таб: Таб }) {
   const съобщения: Record<Таб, { текст: string; икона: string }> = {
-    колекция:  { икона: '🎲', текст: 'Все още нямаш игри в колекцията. Импортирай от BGG или добави ръчно!' },
-    искам:     { икона: '🎯', текст: 'Нямаш игри в списъка "Искам да играя". Добави такива от страниците на игрите!' },
-    играл:     { икона: '🕹️', текст: 'Не сме записали игри, с които си играл. Синхронизирай от BGG!' },
-    ревюта:    { икона: '✍️', текст: 'Все още нямаш написани ревюта.' },
-    активност: { икона: '📊', текст: 'Все още няма активност.' },
-    top9:      { икона: '🏆', текст: 'Все още нямаш Top 9.' },
+    collection: { икона: '🎲', текст: 'Все още нямаш игри в колекцията. Импортирай от BGG или добави ръчно!' },
+    wishlist:   { икона: '🎯', текст: 'Нямаш игри в списъка "Искам да играя". Добави такива от страниците на игрите!' },
+    played:     { икона: '🕹️', текст: 'Не сме записали игри, с които си играл. Синхронизирай от BGG!' },
+    reviews:    { икона: '✍️', текст: 'Все още нямаш написани ревюта.' },
+    activity:   { икона: '📊', текст: 'Все още няма активност.' },
+    top9:       { икона: '🏆', текст: 'Все още нямаш Top 9.' },
   }
   const { икона, текст } = съобщения[таб]
   return (

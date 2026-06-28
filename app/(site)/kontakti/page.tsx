@@ -57,19 +57,6 @@ export default function КонтактиСтраница() {
             </ul>
           </div>
 
-          <div className="rounded-2xl border border-brand-100 bg-brand-50 p-6">
-            <h2 className="text-sm font-semibold text-brand-900 mb-3">🎲 Форум на общността</h2>
-            <p className="text-sm text-brand-700 mb-3">
-              За бързи въпроси относно настолни игри форумът е най-доброто място.
-            </p>
-            <Link
-              href="/forum"
-              className="inline-block text-sm font-medium text-brand-600 hover:underline"
-            >
-              Към форума →
-            </Link>
-          </div>
-
           <div className="rounded-2xl border border-gray-200 bg-white p-6">
             <h2 className="text-sm font-semibold text-gray-900 mb-3">📋 Правна информация</h2>
             <ul className="space-y-2 text-sm">
