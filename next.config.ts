@@ -1,5 +1,6 @@
-import type { NextConfig } from "next";
-import os from "os";
+import type { NextConfig } from 'next'
+import os from 'os'
+import { withSentryConfig } from '@sentry/nextjs'
 
 function localNetworkIPs(): string[] {
   const ips: string[] = []
@@ -30,6 +31,11 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-};
+}
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  silent: true,
+  disableLogger: true,
+  hideSourceMaps: true,
+  automaticVercelMonitors: false,
+})
