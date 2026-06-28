@@ -1,8 +1,9 @@
 import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
-import SessionProvider from '@/components/ui/SessionProvider'
-import CookieBanner    from '@/components/cookies/CookieBanner'
+import SessionProvider  from '@/components/ui/SessionProvider'
+import CookieBanner     from '@/components/cookies/CookieBanner'
+import GoogleAnalytics  from '@/components/analytics/GoogleAnalytics'
 
 const inter = Inter({
   subsets: ['latin', 'cyrillic'],
@@ -72,6 +73,7 @@ export default function RootLayout({
         />
         <SessionProvider>{children}</SessionProvider>
         <CookieBanner />
+        <GoogleAnalytics />
       </body>
     </html>
   )
