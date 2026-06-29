@@ -26,3 +26,10 @@ export const playsLimiter = new Ratelimit({
   prefix:    'rl:plays',
   analytics: false,
 })
+
+export const loginLimiter = new Ratelimit({
+  redis,
+  limiter:   Ratelimit.slidingWindow(10, '15 m'),
+  prefix:    'rl:login',
+  analytics: false,
+})

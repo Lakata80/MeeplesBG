@@ -1,7 +1,7 @@
 import { auth } from '@/auth'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { contactLimiter, newsletterLimiter, playsLimiter } from '@/lib/ratelimit'
+import { contactLimiter, newsletterLimiter, playsLimiter, loginLimiter } from '@/lib/ratelimit'
 
 function getIP(req: NextRequest): string {
   return (
@@ -19,6 +19,7 @@ async function applyRateLimit(req: NextRequest): Promise<NextResponse | null> {
   if (pathname === '/api/contact' && method === 'POST') limiter = contactLimiter
   else if (pathname === '/api/newsletter/subscribe' && method === 'POST') limiter = newsletterLimiter
   else if (pathname === '/api/plays' && method === 'POST') limiter = playsLimiter
+  else if (pathname === '/api/auth/callback/credentials' && method === 'POST') limiter = loginLimiter
 
   if (!limiter) return null
 
@@ -44,9 +45,13 @@ async function applyRateLimit(req: NextRequest): Promise<NextResponse | null> {
 }
 
 export default auth(async (req) => {
-  // Rate limiting
-  const rateLimitResponse = await applyRateLimit(req)
-  if (rateLimitResponse) return rateLimitResponse
+  // Rate limiting (fail-open: ако Redis е недостъпен, пропускаме лимита)
+  try {
+    const rateLimitResponse = await applyRateLimit(req)
+    if (rateLimitResponse) return rateLimitResponse
+  } catch {
+    // Redis грешка — разрешаваме заявката, за да не спираме сайта
+  }
 
   const rawPath = req.nextUrl.pathname
   let decodedPath = rawPath
