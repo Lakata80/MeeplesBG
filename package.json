@@ -10,6 +10,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
+    "import:games": "npx tsx --env-file=.env --env-file=.env.local scripts/import-games.ts",
     "import:bgg": "npx tsx --env-file=.env scripts/import-bgg.ts",
     "import:reindex": "npx tsx --env-file=.env --env-file=.env.local scripts/reindex.ts",
     "translate": "npx tsx --env-file=.env scripts/translate-descriptions.ts",

@@ -8,7 +8,7 @@ import type { BggHotnessItem } from '@/lib/bgg/types'
 const getHotness = unstable_cache(
   () => fetchBGGHotness(),
   ['bgg-hotness'],
-  { revalidate: 21600 }
+  { revalidate: false }
 )
 
 export default async function HotnessSection() {
