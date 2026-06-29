@@ -145,3 +145,11 @@ export async function getAllWeeklyGameSlugs(): Promise<string[]> {
   )
   return res.map((w) => w.slug.current)
 }
+
+export async function getAllWeeklyGames(): Promise<WeeklyGame[]> {
+  return sanityClient.fetch<WeeklyGame[]>(
+    `*[_type == "weeklyGame"] | order(_createdAt desc) {
+      _id, slug, gameSlug, gameName, weekLabel, headlineBg, teaserBg, bannerImage, isActive
+    }`,
+  )
+}

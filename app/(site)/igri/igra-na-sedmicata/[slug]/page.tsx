@@ -258,12 +258,18 @@ export default async function ИгратаНаСедмицатаСтраница
           </div>
 
           {/* ── Навигация обратно ─────────────────────── */}
-          <div className="mt-12 pt-8 border-t border-gray-200">
+          <div className="mt-12 pt-8 border-t border-gray-200 flex items-center justify-between flex-wrap gap-4">
             <Link
               href="/igri/populiarni"
               className="text-sm text-brand-600 hover:text-brand-700 transition-colors"
             >
               ← Обратно към Популярни игри
+            </Link>
+            <Link
+              href="/igri/igra-na-sedmicata"
+              className="text-sm text-gray-500 hover:text-brand-600 transition-colors"
+            >
+              🏆 Виж всички минали избори →
             </Link>
           </div>
         </div>

@@ -262,10 +262,29 @@ export default async function PopuliarniPage() {
                   Виж играта →
                 </Link>
               </div>
+
+              <Link
+                href="/igri/igra-na-sedmicata"
+                className="inline-block mt-4 text-xs text-white/40 hover:text-white/70 transition-colors"
+              >
+                Виж всички минали избори →
+              </Link>
             </div>
           </div>
         </section>
       )}
+
+      {/* Линк към архива — винаги видим */}
+      <div className="border-b border-[var(--border)] bg-white">
+        <div className="container mx-auto px-4 max-w-6xl py-2 flex justify-end">
+          <Link
+            href="/igri/igra-na-sedmicata"
+            className="text-xs text-gray-400 hover:text-brand-600 transition-colors"
+          >
+            🏆 Архив: Игра на седмицата →
+          </Link>
+        </div>
+      </div>
 
       <div className="container mx-auto px-4 py-10 max-w-6xl space-y-12">
 
@@ -278,60 +297,57 @@ export default async function PopuliarniPage() {
               title="🔥 Популярни тази седмица"
               subtitle={`Топ ${горещи.length} игри според BGG Hotness`}
             />
-            <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-              {горещи.map((игра, idx) => {
-                const db  = dbMap.get(игра.id)
-                const href = db?.slug
-                  ? `/igri/${db.slug}`
-                  : `/igri?q=${encodeURIComponent(игра.name)}`
+            <div className="overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div className="flex gap-3 pb-3">
+                {горещи.map((игра, idx) => {
+                  const db  = dbMap.get(игра.id)
+                  const href = db?.slug
+                    ? `/igri/${db.slug}`
+                    : `/igri?q=${encodeURIComponent(игра.name)}`
+                  const hasHighRes = !!db?.imageUrl
+                  const imgSrc  = db?.imageUrl ?? db?.thumbnailUrl ?? игра.thumbnailUrl
+                  const badgeColor =
+                    idx === 0 ? 'bg-amber-500' :
+                    idx === 1 ? 'bg-gray-400'  :
+                    idx === 2 ? 'bg-amber-700' :
+                                'bg-orange-500'
 
-                // Предпочитаме imageUrl от БД (висока резолюция)
-                const hasHighRes = !!db?.imageUrl
-                const imgSrc  = db?.imageUrl ?? db?.thumbnailUrl ?? игра.thumbnailUrl
-
-                const badgeColor =
-                  idx === 0 ? 'bg-amber-500' :
-                  idx === 1 ? 'bg-gray-400'  :
-                  idx === 2 ? 'bg-amber-700' :
-                              'bg-orange-500'
-
-                return (
-                  <Link key={игра.id} href={href} className="group shrink-0 w-36 md:w-40">
-                    <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100 ring-1 ring-gray-200 group-hover:ring-brand-300 group-hover:shadow-md transition-all mb-2">
-                      {imgSrc ? (
-                        <Image
-                          src={imgSrc}
-                          alt={игра.name}
-                          fill
-                          unoptimized={!hasHighRes}
-                          className={`transition-transform duration-300 group-hover:scale-105 ${hasHighRes ? 'object-cover' : 'object-contain p-1'}`}
-                          sizes="(max-width: 768px) 144px, 160px"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center text-3xl text-gray-200">🎲</div>
-                      )}
-
-                      {/* Ранк бадж */}
-                      <div className={`absolute top-2 left-2 min-w-[26px] h-[26px] px-1.5 flex items-center justify-center rounded-full text-white text-xs font-bold shadow-md ${badgeColor}`}>
-                        {idx + 1}
-                      </div>
-
-                      {/* Overlay за игри без страница */}
-                      {!db?.slug && (
-                        <div className="absolute bottom-0 inset-x-0 bg-black/50 text-white text-[10px] text-center py-1 backdrop-blur-sm">
-                          Скоро в MeeplesBG
+                  return (
+                    <Link key={игра.id} href={href} className="group shrink-0 w-36 md:w-40">
+                      <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100 ring-1 ring-gray-200 group-hover:ring-brand-300 group-hover:shadow-md transition-all mb-2">
+                        {imgSrc ? (
+                          <Image
+                            src={imgSrc}
+                            alt={игра.name}
+                            fill
+                            unoptimized={!hasHighRes}
+                            className={`transition-transform duration-300 group-hover:scale-105 ${hasHighRes ? 'object-cover' : 'object-contain p-1'}`}
+                            sizes="(max-width: 768px) 144px, 160px"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center text-3xl text-gray-200">🎲</div>
+                        )}
+                        <div className={`absolute top-2 left-2 min-w-[26px] h-[26px] px-1.5 flex items-center justify-center rounded-full text-white text-xs font-bold shadow-md ${badgeColor}`}>
+                          {idx + 1}
                         </div>
+                        {!db?.slug && (
+                          <div className="absolute bottom-0 inset-x-0 bg-black/50 text-white text-[10px] text-center py-1 backdrop-blur-sm">
+                            Скоро в MeeplesBG
+                          </div>
+                        )}
+                      </div>
+                      <p className="text-xs font-semibold text-gray-800 line-clamp-2 group-hover:text-brand-600 transition-colors leading-snug">
+                        {игра.name}
+                      </p>
+                      {игра.yearPublished && (
+                        <p className="text-[11px] text-gray-400 mt-0.5">{игра.yearPublished}</p>
                       )}
-                    </div>
-                    <p className="text-xs font-semibold text-gray-800 line-clamp-2 group-hover:text-brand-600 transition-colors leading-snug">
-                      {игра.name}
-                    </p>
-                    {игра.yearPublished && (
-                      <p className="text-[11px] text-gray-400 mt-0.5">{игра.yearPublished}</p>
-                    )}
-                  </Link>
-                )
-              })}
+                    </Link>
+                  )
+                })}
+                {/* Trailing spacer — единственото надеждно решение за right padding при overflow */}
+                <div className="shrink-0 w-4" aria-hidden="true" />
+              </div>
             </div>
           </section>
         )}
@@ -347,33 +363,36 @@ export default async function PopuliarniPage() {
               href="/igri"
               hrefLabel="Всички игри →"
             />
-            <div className="flex gap-3 overflow-x-auto pb-3 scrollbar-hide -mx-4 px-4 md:mx-0 md:px-0">
-              {newestGames.map((игра) => (
-                <Link key={игра.id} href={`/igri/${игра.slug}`} className="group shrink-0 w-36 md:w-40">
-                  <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100 ring-1 ring-gray-200 group-hover:ring-brand-300 group-hover:shadow-md transition-all mb-2">
-                    {(игра.imageUrl || игра.thumbnailUrl) ? (
-                      <Image
-                        src={игра.imageUrl ?? игра.thumbnailUrl!}
-                        alt={игра.titleBg}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        sizes="(max-width: 768px) 144px, 160px"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center text-3xl text-gray-200">🎲</div>
-                    )}
-                    <div className="absolute top-2 right-2 bg-brand-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide shadow">
-                      NEW
+            <div className="overflow-x-auto" style={{ WebkitOverflowScrolling: 'touch' }}>
+              <div className="flex gap-3 pb-3">
+                {newestGames.map((игра) => (
+                  <Link key={игра.id} href={`/igri/${игра.slug}`} className="group shrink-0 w-36 md:w-40">
+                    <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100 ring-1 ring-gray-200 group-hover:ring-brand-300 group-hover:shadow-md transition-all mb-2">
+                      {(игра.imageUrl || игра.thumbnailUrl) ? (
+                        <Image
+                          src={игра.imageUrl ?? игра.thumbnailUrl!}
+                          alt={игра.titleBg}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-300"
+                          sizes="(max-width: 768px) 144px, 160px"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center text-3xl text-gray-200">🎲</div>
+                      )}
+                      <div className="absolute top-2 right-2 bg-brand-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide shadow">
+                        NEW
+                      </div>
                     </div>
-                  </div>
-                  <p className="text-xs font-semibold text-gray-800 line-clamp-2 group-hover:text-brand-600 transition-colors leading-snug">
-                    {игра.titleBg}
-                  </p>
-                  {игра.yearPublished && (
-                    <p className="text-[11px] text-gray-400 mt-0.5">{игра.yearPublished}</p>
-                  )}
-                </Link>
-              ))}
+                    <p className="text-xs font-semibold text-gray-800 line-clamp-2 group-hover:text-brand-600 transition-colors leading-snug">
+                      {игра.titleBg}
+                    </p>
+                    {игра.yearPublished && (
+                      <p className="text-[11px] text-gray-400 mt-0.5">{игра.yearPublished}</p>
+                    )}
+                  </Link>
+                ))}
+                <div className="shrink-0 w-4" aria-hidden="true" />
+              </div>
             </div>
           </section>
         )}
