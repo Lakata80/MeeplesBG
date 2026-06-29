@@ -12,7 +12,8 @@
       "PowerShell(cd C:\\\\MeeplesBG\\\\meeplesbg; npx tsc --noEmit --skipLibCheck 2>&1 | Where-Object { $_ -match \"bgg|import-bgg|scripts\" })",
       "Skill(run)",
       "Bash(curl *)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(npx prisma *)"
     ]
   }
 }

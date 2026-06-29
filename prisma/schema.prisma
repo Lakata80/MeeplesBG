@@ -82,6 +82,8 @@ model User {
   threadReplies  ThreadReply[]   @relation("ThreadReplyAuthor")
   notifications  Notification[]
   monthlyTop9    MonthlyTop9[]
+  gamePlays      GamePlay[]
+  gamePlayPlayers GamePlayPlayer[]
 }
 
 // =====================
@@ -113,6 +115,7 @@ model Game {
   isActive        Boolean          @default(true)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
+  gamePlays       GamePlay[]
   expansions      Game[]           @relation("BaseExpansion")
   baseGame        Game?            @relation("BaseExpansion", fields: [baseGameId], references: [id])
   baseGameId      String?
@@ -396,6 +399,45 @@ model MonthlyTop9 {
   @@unique([userId, month, year])
   @@index([userId])
   @@index([shareToken])
+}
+
+// =====================
+// ДНЕВНИК НА ИГРАНИЯТА
+// =====================
+
+enum PlayVisibility {
+  PRIVATE
+  PUBLIC
+}
+
+model GamePlay {
+  id              String         @id @default(cuid())
+  gameId          String
+  userId          String
+  playedAt        DateTime       @default(now())
+  durationMinutes Int?
+  notes           String?        @db.Text
+  visibility      PlayVisibility @default(PRIVATE)
+  createdAt       DateTime       @default(now())
+  game            Game           @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  players         GamePlayPlayer[]
+
+  @@index([gameId])
+  @@index([userId])
+}
+
+model GamePlayPlayer {
+  id       String    @id @default(cuid())
+  playId   String
+  name     String
+  userId   String?
+  score    Int?
+  isWinner Boolean   @default(false)
+  play     GamePlay  @relation(fields: [playId], references: [id], onDelete: Cascade)
+  user     User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([playId])
 }
 
 model MonthlyTop9Entry {

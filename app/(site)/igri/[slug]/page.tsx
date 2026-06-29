@@ -17,6 +17,7 @@ import GallerySection        from '@/components/game/GallerySection'
 import GameImageWithLightbox from '@/components/game/GameImageWithLightbox'
 import YouTubeSection        from '@/components/game/YouTubeSection'
 import CommentsSection       from '@/components/game/CommentsSection'
+import PlaysSection          from '@/components/game/PlaysSection'
 import ReviewSection         from '@/components/game/ReviewSection'
 import GameGrid                    from '@/components/games/GameGrid'
 import type { GameCardProps }       from '@/components/games/GameCard'
@@ -359,6 +360,15 @@ export default async function GamePage({
     колекцияСтатус = запис?.status ?? null
   }
 
+  // Играния на логнатия потребител
+  const играния = сесия?.user?.id
+    ? await prisma.gamePlay.findMany({
+        where:   { gameId: игра.id, userId: сесия.user.id },
+        include: { players: { orderBy: { score: 'desc' } } },
+        orderBy: { playedAt: 'desc' },
+      })
+    : []
+
   // Средна оценка от ревюта
   const ревютаАгрегация = await prisma.review.aggregate({
     where:   { gameId: игра.id, isPublished: true },
@@ -624,6 +634,24 @@ export default async function GamePage({
       <Suspense fallback={null}>
         <ReviewSection gameId={игра.id} />
       </Suspense>
+
+      {/* ── Дневник на игранията ── */}
+      <PlaysSection
+        gameId={игра.id}
+        slug={игра.slug}
+        влязъл={!!сесия?.user}
+        initialPlays={играния.map((п) => ({
+          ...п,
+          playedAt:   п.playedAt.toISOString(),
+          visibility: п.visibility as 'PRIVATE' | 'PUBLIC',
+          players:    п.players.map((pl) => ({
+            id:       pl.id,
+            name:     pl.name,
+            score:    pl.score,
+            isWinner: pl.isWinner,
+          })),
+        }))}
+      />
 
       {/* ── Коментари ── */}
       <Suspense fallback={
