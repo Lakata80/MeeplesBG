@@ -4,6 +4,8 @@ import type { Metadata } from 'next'
 import { getHotness } from '@/lib/bgg/hotness'
 import { prisma }     from '@/lib/prisma'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title:       'Популярни игри тази седмица | MeeplesBG',
   description: 'Топ 50 най-горещи настолни игри според BGG Hotness. Вижте кои игри са в тренд тази седмица.',
