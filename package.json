@@ -10,6 +10,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
+    "hotness:sync": "npx tsx --env-file=.env --env-file=.env.local scripts/hotness-sync.ts",
     "import:games": "npx tsx --env-file=.env --env-file=.env.local scripts/import-games.ts",
     "import:bgg": "npx tsx --env-file=.env scripts/import-bgg.ts",
     "import:reindex": "npx tsx --env-file=.env --env-file=.env.local scripts/reindex.ts",

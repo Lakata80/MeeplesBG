@@ -4,5 +4,5 @@ import { fetchBGGHotness } from './client'
 export const getHotness = unstable_cache(
   () => fetchBGGHotness(),
   ['bgg-hotness'],
-  { revalidate: false }
+  { revalidate: 604800 }
 )
