@@ -131,13 +131,13 @@ export default function PlaysSection({ gameId, влязъл, slug, initialPlays 
 
         {/* Заглавие */}
         <div className="flex items-center justify-between mb-5">
-          <h2 className="text-xl font-bold text-gray-900">🎮 Дневник на игранията</h2>
+          <h2 className="text-xl font-bold text-gray-900">🎮 Дневник на играта</h2>
           {влязъл ? (
             <button
               onClick={openModal}
               className="flex items-center gap-1.5 px-4 py-2 bg-brand-600 text-white rounded-xl text-sm font-medium hover:bg-brand-700 transition-colors"
             >
-              <span>+</span> Записах игра
+              <span>+</span> Запиши игра
             </button>
           ) : (
             <a
