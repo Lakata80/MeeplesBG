@@ -22,6 +22,7 @@ export type ФормаСтатус = {
 // Вход с имейл + парола
 // ──────────────────────────────────────────────
 export async function влизане(
+  callbackUrl: string,
   _предишноСъстояние: ФормаСтатус,
   formData: FormData
 ): Promise<ФормаСтатус> {
@@ -35,7 +36,7 @@ export async function влизане(
     await signIn('credentials', {
       email,
       password: парола,
-      redirectTo: '/',
+      redirectTo: callbackUrl || '/',
     })
   } catch (грешка) {
     if (грешка instanceof AuthError) {
@@ -50,21 +51,22 @@ export async function влизане(
 // ──────────────────────────────────────────────
 // Вход с Google
 // ──────────────────────────────────────────────
-export async function влизанеСGoogle() {
-  await signIn('google', { redirectTo: '/' })
+export async function влизанеСGoogle(callbackUrl?: string) {
+  await signIn('google', { redirectTo: callbackUrl || '/' })
 }
 
 // ──────────────────────────────────────────────
 // Вход с Facebook
 // ──────────────────────────────────────────────
-export async function влизанеСFacebook() {
-  await signIn('facebook', { redirectTo: '/' })
+export async function влизанеСFacebook(callbackUrl?: string) {
+  await signIn('facebook', { redirectTo: callbackUrl || '/' })
 }
 
 // ──────────────────────────────────────────────
 // Регистрация с имейл + парола
 // ──────────────────────────────────────────────
 export async function регистрация(
+  callbackUrl: string,
   _предишноСъстояние: ФормаСтатус,
   formData: FormData
 ): Promise<ФормаСтатус> {
@@ -112,6 +114,6 @@ export async function регистрация(
   await signIn('credentials', {
     email,
     password: парола,
-    redirectTo: '/',
+    redirectTo: callbackUrl || '/',
   })
 }
