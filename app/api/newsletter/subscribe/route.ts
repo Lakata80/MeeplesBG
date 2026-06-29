@@ -4,35 +4,11 @@ import { prisma }          from '@/lib/prisma'
 import { resend, ИЗПРАЩАЧ, САЙТ_URL } from '@/lib/resend'
 import WelcomeEmail        from '@/emails/WelcomeEmail'
 
-// Rate limiting: max 3 абонамента / час на IP
-// В serverless стейтът е per-instance; ъпгрейдни до Redis за production.
-const ipCache  = new Map<string, { count: number; resetAt: number }>()
-const ЛИМИТ    = 3
-const ПРОЗОРЕЦ = 60 * 60_000
-
-function проверкаЛимит(ip: string): boolean {
-  const сега  = Date.now()
-  const запис = ipCache.get(ip)
-  if (!запис || сега > запис.resetAt) {
-    ipCache.set(ip, { count: 1, resetAt: сега + ПРОЗОРЕЦ })
-    return true
-  }
-  if (запис.count >= ЛИМИТ) return false
-  запис.count++
-  return true
-}
+// Rate limiting се обработва от middleware.ts чрез Upstash Redis (newsletterLimiter)
 
 // POST /api/newsletter/subscribe
 // Body: { email: string }
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
-  if (!проверкаЛимит(ip)) {
-    return Response.json(
-      { грешка: 'Твърде много заявки. Опитай след час.' },
-      { status: 429 },
-    )
-  }
-
   let email: string | undefined
 
   try {

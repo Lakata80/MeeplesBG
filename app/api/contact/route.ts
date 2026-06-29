@@ -12,32 +12,9 @@ const ТЕМИ: Record<string, string> = {
   друго:         'Друго',
 }
 
-// Rate limiting: max 5 съобщения / час на IP
-const ipCache = new Map<string, { count: number; resetAt: number }>()
-const ЛИМИТ   = 5
-const ПРОЗОРЕЦ = 60 * 60_000
-
-function проверкаЛимит(ip: string): boolean {
-  const сега  = Date.now()
-  const запис = ipCache.get(ip)
-  if (!запис || сега > запис.resetAt) {
-    ipCache.set(ip, { count: 1, resetAt: сега + ПРОЗОРЕЦ })
-    return true
-  }
-  if (запис.count >= ЛИМИТ) return false
-  запис.count++
-  return true
-}
+// Rate limiting се обработва от middleware.ts чрез Upstash Redis (contactLimiter)
 
 export async function POST(req: NextRequest) {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
-  if (!проверкаЛимит(ip)) {
-    return Response.json(
-      { грешка: 'Твърде много заявки. Опитайте след час.' },
-      { status: 429 },
-    )
-  }
-
   let тяло: { тема?: string; съобщение?: string; email?: string }
 
   try {
