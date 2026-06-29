@@ -6,7 +6,7 @@ import { getWeeklyGameBySlug, getAllWeeklyGameSlugs } from '@/lib/sanity/queries
 import { urlFor }                 from '@/lib/sanity/image'
 import { prisma }                 from '@/lib/prisma'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 // ── Статично генериране ───────────────────────────────────
 
@@ -171,7 +171,7 @@ export default async function ИгратаНаСедмицатаСтраница
                 🏆 Игра на седмицата{игра.weekLabel ? ` · ${игра.weekLabel}` : ''}
               </div>
 
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">{игра.headlineBg}</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">{игра.gameName}</h2>
 
               {игра.teaserBg && (
                 <p className="text-gray-600 leading-relaxed text-lg mb-8">{игра.teaserBg}</p>

@@ -54,49 +54,6 @@ function SectionTitle({
   )
 }
 
-// ── Карта за хоризонтален ред ─────────────────────────────
-
-function ScrollCard({
-  href, imgSrc, title, sub, badge, badgeColor = 'bg-orange-500', unopt = false,
-}: {
-  href: string
-  imgSrc: string | null | undefined
-  title: string
-  sub?: string | null
-  badge?: string | number
-  badgeColor?: string
-  unopt?: boolean
-}) {
-  return (
-    <Link href={href} className="group shrink-0 w-36 md:w-40">
-      <div className="relative aspect-square rounded-xl overflow-hidden bg-gray-100 ring-1 ring-gray-200 group-hover:ring-brand-300 group-hover:shadow-md transition-all mb-2">
-        {imgSrc ? (
-          <Image
-            src={imgSrc}
-            alt={title}
-            fill
-            unoptimized={unopt}
-            className={`transition-transform duration-300 group-hover:scale-105 ${unopt ? 'object-contain p-1' : 'object-cover'}`}
-            sizes="(max-width: 768px) 144px, 160px"
-          />
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center text-3xl text-gray-200">🎲</div>
-        )}
-
-        {badge !== undefined && (
-          <div className={`absolute top-2 left-2 min-w-[26px] h-[26px] px-1.5 flex items-center justify-center rounded-full text-white text-xs font-bold shadow-md ${badgeColor}`}>
-            {badge}
-          </div>
-        )}
-      </div>
-      <p className="text-xs font-semibold text-gray-800 line-clamp-2 group-hover:text-brand-600 transition-colors leading-snug">
-        {title}
-      </p>
-      {sub && <p className="text-[11px] text-gray-400 mt-0.5">{sub}</p>}
-    </Link>
-  )
-}
-
 // ── Placeholder секция ────────────────────────────────────
 
 function ComingSoonSection({ title, subtitle, icon }: { title: string; subtitle: string; icon: string }) {
