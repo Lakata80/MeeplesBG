@@ -1,15 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import { unstable_cache } from 'next/cache'
-import { fetchBGGHotness } from '@/lib/bgg/client'
+import { getHotness } from '@/lib/bgg/hotness'
 import { prisma } from '@/lib/prisma'
 import type { BggHotnessItem } from '@/lib/bgg/types'
-
-const getHotness = unstable_cache(
-  () => fetchBGGHotness(),
-  ['bgg-hotness'],
-  { revalidate: false }
-)
 
 export default async function HotnessSection() {
   let горещи: BggHotnessItem[] = []
@@ -37,8 +30,8 @@ export default async function HotnessSection() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-brand-800">🔥 Популярни игри</h2>
-          <Link href="/igri" className="text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors">
-            Виж всички →
+          <Link href="/igri/populiarni" className="text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors">
+            Виж всички 50 →
           </Link>
         </div>
 
