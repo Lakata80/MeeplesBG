@@ -5,8 +5,10 @@ import Facebook from 'next-auth/providers/facebook'
 import Credentials from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import { prisma } from '@/lib/prisma'
+import { authConfig } from './auth.config'
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
+  ...authConfig,
   adapter: PrismaAdapter(prisma),
   providers: [
     Google({
@@ -48,36 +50,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         if (!паролаВалидна) return null
 
         return {
-          id: потребител.id,
-          email: потребител.email ?? undefined,
-          name: потребител.name ?? undefined,
-          image: потребител.image ?? undefined,
-          role: потребител.role as string,
+          id:          потребител.id,
+          email:       потребител.email ?? undefined,
+          name:        потребител.name ?? undefined,
+          image:       потребител.image ?? undefined,
+          role:        потребител.role as string,
           bggUsername: потребител.bggUsername ?? undefined,
         }
       },
     }),
   ],
-  session: { strategy: 'jwt' },
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = (user as { role?: string }).role ?? 'USER'
-        token.bggUsername = (user as { bggUsername?: string }).bggUsername
-      }
-      return token
-    },
-    async session({ session, token }) {
-      if (session.user) {
-        session.user.id = token.sub!
-        session.user.role = token.role as string
-        session.user.bggUsername = token.bggUsername as string | undefined
-      }
-      return session
-    },
-  },
-  pages: {
-    signIn: '/login',
-    error: '/login',
-  },
 })
