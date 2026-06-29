@@ -41,6 +41,13 @@ body {
   color: var(--foreground);
 }
 
+.scrollbar-hide {
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 h1, h2, h3 {
   font-family: var(--font-playfair), Georgia, serif;
 }

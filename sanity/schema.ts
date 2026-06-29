@@ -184,4 +184,86 @@ export const post = {
   },
 }
 
-export default [post, author]
+// ── Игра на седмицата ─────────────────────────────────────
+// Slug формат: {gameSlug}-{YYYY}-w{WW}  (напр. cascadia-2026-w27)
+
+export const weeklyGame = {
+  name:   'weeklyGame',
+  type:   'document',
+  title:  'Игра на седмицата',
+  fields: [
+    {
+      name:    'slug',
+      type:    'slug',
+      title:   'Slug (URL)',
+      description: 'Формат: cascadia-2026-w27',
+      options: { source: 'gameName', maxLength: 96 },
+      validation: (R: { required: () => unknown }) => R.required(),
+    },
+    {
+      name:       'gameSlug',
+      type:       'string',
+      title:      'Slug на играта в MeeplesBG',
+      description: 'Напр. cascadia — трябва да съвпада с /igri/[slug]',
+      validation: (R: { required: () => unknown }) => R.required(),
+    },
+    {
+      name:       'gameName',
+      type:       'string',
+      title:      'Заглавие на играта',
+      validation: (R: { required: () => unknown }) => R.required(),
+    },
+    {
+      name:  'weekLabel',
+      type:  'string',
+      title: 'Етикет на седмицата',
+      description: 'Напр. "Седмица 27, 2026"',
+    },
+    {
+      name:       'headlineBg',
+      type:       'string',
+      title:      'Редакционно заглавие (БГ)',
+      description: 'Показва се в банера — напр. "Идеална за двама"',
+      validation: (R: { required: () => unknown }) => R.required(),
+    },
+    {
+      name:  'teaserBg',
+      type:  'text',
+      title: 'Кратко описание (БГ)',
+      rows:  3,
+      description: 'Защо е избрана тази игра тази седмица',
+    },
+    {
+      name:    'bannerImage',
+      type:    'image',
+      title:   'Банер снимка (висока резолюция)',
+      options: { hotspot: true },
+      fields: [
+        {
+          name:  'alt',
+          type:  'string',
+          title: 'Алтернативен текст',
+        },
+      ],
+    },
+    {
+      name:         'isActive',
+      type:         'boolean',
+      title:        'Активна',
+      description:  'Само една трябва да е активна наведнъж',
+      initialValue: true,
+    },
+  ],
+  preview: {
+    select: {
+      title:    'gameName',
+      subtitle: 'weekLabel',
+      media:    'bannerImage',
+    },
+    prepare({ title, subtitle, media }: Record<string, string>) {
+      return { title, subtitle: subtitle ?? '', media }
+    },
+  },
+}
+
+export default [post, author, weeklyGame]

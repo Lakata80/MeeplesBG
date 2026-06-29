@@ -124,6 +124,7 @@ model Game {
   comments        Comment[]
   pendingImages   PendingImage[]
   top9Entries     MonthlyTop9Entry[]
+  featuredIn      FeaturedContent[]
 }
 
 // =====================
@@ -438,6 +439,26 @@ model GamePlayPlayer {
   user     User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
 
   @@index([playId])
+}
+
+// =====================
+// FEATURED CONTENT (Скрити находки и др.)
+// =====================
+
+enum FeaturedType {
+  HIDDEN_GEM
+}
+
+model FeaturedContent {
+  id        String       @id @default(cuid())
+  type      FeaturedType
+  gameId    String
+  game      Game         @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  position  Int          @default(0)
+  isActive  Boolean      @default(true)
+  createdAt DateTime     @default(now())
+
+  @@index([type, isActive, position])
 }
 
 model MonthlyTop9Entry {

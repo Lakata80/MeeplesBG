@@ -48,6 +48,13 @@ export default async function AdminPage() {
       badge:   null,
       icon:    '👤',
     },
+    {
+      href:    '/admin/featured',
+      label:   'Препоръчани секции',
+      desc:    'Игра на седмицата (Sanity) и Скрити находки (до 4 игри)',
+      badge:   null,
+      icon:    '🔍',
+    },
   ]
 
   return (

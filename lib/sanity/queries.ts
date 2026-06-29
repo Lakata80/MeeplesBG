@@ -107,3 +107,41 @@ export async function getAllPostSlugs(): Promise<string[]> {
   )
   return res.map((p) => p.slug.current)
 }
+
+// ── Игра на седмицата ─────────────────────────────────────
+
+export type WeeklyGame = {
+  _id:         string
+  slug:        { current: string }
+  gameSlug:    string
+  gameName:    string
+  weekLabel?:  string
+  headlineBg:  string
+  teaserBg?:   string
+  bannerImage?: SanityИзображение
+  isActive:    boolean
+}
+
+export async function getWeeklyGameBySlug(slug: string): Promise<WeeklyGame | null> {
+  return sanityClient.fetch<WeeklyGame | null>(
+    `*[_type == "weeklyGame" && slug.current == $slug][0] {
+      _id, slug, gameSlug, gameName, weekLabel, headlineBg, teaserBg, bannerImage, isActive
+    }`,
+    { slug },
+  )
+}
+
+export async function getActiveWeeklyGame(): Promise<WeeklyGame | null> {
+  return sanityClient.fetch<WeeklyGame | null>(
+    `*[_type == "weeklyGame" && isActive == true] | order(_createdAt desc)[0] {
+      _id, slug, gameSlug, gameName, weekLabel, headlineBg, teaserBg, bannerImage, isActive
+    }`,
+  )
+}
+
+export async function getAllWeeklyGameSlugs(): Promise<string[]> {
+  const res = await sanityClient.fetch<{ slug: { current: string } }[]>(
+    `*[_type == "weeklyGame" && defined(slug.current)]{ slug }`,
+  )
+  return res.map((w) => w.slug.current)
+}
