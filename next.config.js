@@ -12,6 +12,7 @@ function localNetworkIPs() {
 
 /** @type {import('next').NextConfig} */
 module.exports = {
+  serverExternalPackages: ['sharp'],
   allowedDevOrigins: localNetworkIPs(),
   images: {
     remotePatterns: [

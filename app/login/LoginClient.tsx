@@ -1,125 +1,272 @@
 'use client'
 
-import React from 'react'
-import { useActionState } from 'react'
+import { useActionState, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { влизане, влизанеСGoogle, влизанеСFacebook } from '@/app/actions/auth'
-import type { ФормаСтатус } from '@/app/actions/auth'
+import {
+  влизане,
+  регистрация,
+  влизанеСGoogle,
+  влизанеСFacebook,
+} from '@/app/actions/auth'
+
+const NEXTAUTH_ERRORS: Record<string, string> = {
+  OAuthAccountNotLinked: 'Имейлът вече е регистриран с друг метод за вход.',
+  OAuthSignin:           'Грешка при OAuth вход. Опитайте отново.',
+  OAuthCallback:         'Грешка при OAuth callback. Опитайте отново.',
+  CredentialsSignin:     'Невалиден имейл или парола.',
+  SessionRequired:       'Трябва да влезете, за да продължите.',
+  Default:               'Грешка при вход. Опитайте отново.',
+}
+
+type Таб = 'вход' | 'регистрация'
 
 export default function LoginClient() {
-  const [стат, действие, зареждане] = useActionState<ФормаСтатус, FormData>(
-    влизане,
-    undefined
-  )
   const searchParams = useSearchParams()
-  const грешкаUrl = searchParams?.get('error')
+  const callbackUrl  = searchParams.get('callbackUrl') ?? '/'
+  const errorKey     = searchParams.get('error') ?? ''
+  const urlError     = NEXTAUTH_ERRORS[errorKey] ?? (errorKey ? NEXTAUTH_ERRORS.Default : null)
+
+  const [активенТаб, setАктивенТаб] = useState<Таб>('вход')
+
+  const влизанеAction     = влизане.bind(null, callbackUrl)
+  const регистрацияAction = регистрация.bind(null, callbackUrl)
+
+  const [входСтатус, входAction, входPending] = useActionState(влизанеAction, undefined)
+  const [регСтатус,  регAction,  регPending]  = useActionState(регистрацияAction, undefined)
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
-      <div className="w-full max-w-md space-y-8">
-        {/* Заглавие */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900">Добре дошъл!</h1>
-          <p className="mt-2 text-gray-500">Влез в акаунта си в MeeplesBG</p>
+    <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 py-12">
+      <div className="w-full max-w-md">
+
+        {/* Лого */}
+        <div className="text-center mb-8">
+          <Link href="/" className="inline-flex items-center gap-2 text-2xl font-bold text-brand-600 hover:text-brand-700 transition-colors">
+            🎲 MeeplesBG
+          </Link>
+          <p className="text-sm text-gray-500 mt-1">Вашата общност за настолни игри</p>
         </div>
 
-        {/* Грешки от URL */}
-        {грешкаUrl && (
-          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-            Грешка при влизане. Опитай отново.
+        {/* Карта */}
+        <div className="bg-white rounded-2xl border border-[var(--border)] shadow-sm overflow-hidden">
+
+          {/* Tabs */}
+          <div className="flex border-b border-[var(--border)]">
+            {(['вход', 'регистрация'] as const).map((таб) => (
+              <button
+                key={таб}
+                type="button"
+                onClick={() => setАктивенТаб(таб)}
+                className={`flex-1 py-3.5 text-sm font-semibold transition-colors ${
+                  активенТаб === таб
+                    ? 'text-brand-700 border-b-2 border-brand-600 bg-white'
+                    : 'text-gray-500 hover:text-gray-700 bg-gray-50'
+                }`}
+              >
+                {таб === 'вход' ? 'Вход' : 'Регистрация'}
+              </button>
+            ))}
           </div>
-        )}
 
-        {/* Социален вход */}
-        <div className="space-y-3">
-          <form action={влизанеСGoogle}>
-            <button
-              type="submit"
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 font-medium hover:bg-gray-50 transition-colors"
-            >
-              <GoogleIcon />
-              Влез с Google
-            </button>
-          </form>
+          <div className="p-6">
 
-          <form action={влизанеСFacebook}>
-            <button
-              type="submit"
-              className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg bg-[#1877F2] text-white font-medium hover:bg-[#1565C0] transition-colors"
-            >
-              <FacebookIcon />
-              Влез с Facebook
-            </button>
-          </form>
-        </div>
+            {/* URL грешка от NextAuth */}
+            {urlError && (
+              <div className="mb-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                {urlError}
+              </div>
+            )}
 
-        {/* Разделител */}
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-200" />
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-4 bg-gray-50 text-gray-400">или</span>
-          </div>
-        </div>
-
-        {/* Форма имейл + парола */}
-        <form action={действие} className="space-y-4">
-          {стат?.съобщение && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm">
-              {стат.съобщение}
+            {/* Социален вход */}
+            <div className="space-y-2.5 mb-5">
+              <form action={() => влизанеСGoogle(callbackUrl)}>
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-3 py-2.5 px-4 rounded-xl border border-[var(--border)] bg-white hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors cursor-pointer"
+                >
+                  <GoogleIcon />
+                  Продължи с Google
+                </button>
+              </form>
+              <form action={() => влизанеСFacebook(callbackUrl)}>
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center gap-3 py-2.5 px-4 rounded-xl border border-[var(--border)] bg-white hover:bg-gray-50 text-sm font-medium text-gray-700 transition-colors cursor-pointer"
+                >
+                  <FacebookIcon />
+                  Продължи с Facebook
+                </button>
+              </form>
             </div>
-          )}
 
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-              Имейл адрес
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              placeholder="ime@primer.com"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
-            />
-            {стат?.грешки?.email && (
-              <p className="mt-1 text-xs text-red-600">{стат.грешки.email[0]}</p>
+            {/* Разделител */}
+            <div className="relative my-5">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-[var(--border)]" />
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-white px-3 text-xs text-gray-400">или с имейл</span>
+              </div>
+            </div>
+
+            {/* ── ФОРМА ВХОД ─────────────────────── */}
+            {активенТаб === 'вход' && (
+              <form action={входAction} className="space-y-4">
+                {входСтатус?.съобщение && (
+                  <div className="rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                    {входСтатус.съобщение}
+                  </div>
+                )}
+
+                <div>
+                  <label htmlFor="login-email" className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Имейл
+                  </label>
+                  <input
+                    id="login-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    placeholder="you@example.com"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                  />
+                  {входСтатус?.грешки?.email && (
+                    <p className="mt-1 text-xs text-red-600">{входСтатус.грешки.email[0]}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="login-парола" className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Парола
+                  </label>
+                  <input
+                    id="login-парола"
+                    name="парола"
+                    type="password"
+                    autoComplete="current-password"
+                    required
+                    placeholder="••••••••"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                  />
+                  {входСтатус?.грешки?.парола && (
+                    <p className="mt-1 text-xs text-red-600">{входСтатус.грешки.парола[0]}</p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={входPending}
+                  className="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white text-sm font-semibold transition-colors cursor-pointer"
+                >
+                  {входPending ? 'Влизане…' : 'Влез'}
+                </button>
+              </form>
+            )}
+
+            {/* ── ФОРМА РЕГИСТРАЦИЯ ───────────────── */}
+            {активенТаб === 'регистрация' && (
+              <form action={регAction} className="space-y-4">
+                {регСтатус?.съобщение && (
+                  <div className="rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm text-red-700">
+                    {регСтатус.съобщение}
+                  </div>
+                )}
+
+                <div>
+                  <label htmlFor="reg-ime" className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Вашето име
+                  </label>
+                  <input
+                    id="reg-ime"
+                    name="ime"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    placeholder="Иван Иванов"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                  />
+                  {регСтатус?.грешки?.ime && (
+                    <p className="mt-1 text-xs text-red-600">{регСтатус.грешки.ime[0]}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="reg-email" className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Имейл
+                  </label>
+                  <input
+                    id="reg-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                    placeholder="you@example.com"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                  />
+                  {регСтатус?.грешки?.email && (
+                    <p className="mt-1 text-xs text-red-600">{регСтатус.грешки.email[0]}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="reg-парола" className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Парола
+                  </label>
+                  <input
+                    id="reg-парола"
+                    name="парола"
+                    type="password"
+                    autoComplete="new-password"
+                    required
+                    placeholder="Минимум 8 символа"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                  />
+                  {регСтатус?.грешки?.парола && (
+                    <p className="mt-1 text-xs text-red-600">{регСтатус.грешки.парола[0]}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label htmlFor="reg-потвърди" className="block text-sm font-medium text-gray-700 mb-1.5">
+                    Потвърди паролата
+                  </label>
+                  <input
+                    id="reg-потвърди"
+                    name="потвърдиПарола"
+                    type="password"
+                    autoComplete="new-password"
+                    required
+                    placeholder="••••••••"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                  />
+                  {регСтатус?.грешки?.потвърдиПарола && (
+                    <p className="mt-1 text-xs text-red-600">{регСтатус.грешки.потвърдиПарола[0]}</p>
+                  )}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={регPending}
+                  className="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white text-sm font-semibold transition-colors cursor-pointer"
+                >
+                  {регPending ? 'Регистрация…' : 'Създай акаунт'}
+                </button>
+
+                <p className="text-xs text-gray-400 text-center leading-relaxed">
+                  Като се регистрираш, приемаш нашите{' '}
+                  <Link href="/pravila" className="underline hover:text-brand-600">Правила</Link>
+                  {' '}и{' '}
+                  <Link href="/gdpr" className="underline hover:text-brand-600">Политика за поверителност</Link>.
+                </p>
+              </form>
             )}
           </div>
+        </div>
 
-          <div>
-            <label htmlFor="парола" className="block text-sm font-medium text-gray-700 mb-1">
-              Парола
-            </label>
-            <input
-              id="парола"
-              name="парола"
-              type="password"
-              autoComplete="current-password"
-              placeholder="••••••••"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
-            />
-            {стат?.грешки?.парола && (
-              <p className="mt-1 text-xs text-red-600">{стат.грешки.парола[0]}</p>
-            )}
-          </div>
-
-          <button
-            type="submit"
-            disabled={зареждане}
-            className="w-full py-3 px-4 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {зареждане ? 'Влизане...' : 'Влез'}
-          </button>
-        </form>
-
-        {/* Линк регистрация */}
-        <p className="text-center text-sm text-gray-500">
-          Нямаш акаунт?{' '}
-          <Link href="/register" className="text-brand-600 font-medium hover:underline">
-            Регистрирай се
+        <p className="text-center mt-6 text-sm text-gray-400">
+          <Link href="/" className="hover:text-brand-600 transition-colors">
+            ← Обратно към началото
           </Link>
         </p>
       </div>
@@ -129,31 +276,19 @@ export default function LoginClient() {
 
 function GoogleIcon() {
   return (
-    <svg className="w-5 h-5" viewBox="0 0 24 24">
-      <path
-        fill="#4285F4"
-        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-      />
-      <path
-        fill="#34A853"
-        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-      />
-      <path
-        fill="#FBBC05"
-        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-      />
-      <path
-        fill="#EA4335"
-        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-      />
+    <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
     </svg>
   )
 }
 
 function FacebookIcon() {
   return (
-    <svg className="w-5 h-5" fill="white" viewBox="0 0 24 24">
-      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+    <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="#1877F2" aria-hidden="true">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
     </svg>
   )
 }

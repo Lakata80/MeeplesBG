@@ -2,15 +2,15 @@
 
 import React from 'react'
 import { useActionState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { регистрация, влизанеСGoogle, влизанеСFacebook } from '@/app/actions/auth'
-import type { ФормаСтатус } from '@/app/actions/auth'
 
 export default function RegisterClient() {
-  const [стат, действие, зареждане] = useActionState<ФормаСтатус, FormData>(
-    регистрация,
-    undefined
-  )
+  const searchParams     = useSearchParams()
+  const callbackUrl      = searchParams.get('callbackUrl') ?? '/'
+  const регистрацияAction = регистрация.bind(null, callbackUrl)
+  const [стат, действие, зареждане] = useActionState(регистрацияAction, undefined)
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
@@ -23,7 +23,7 @@ export default function RegisterClient() {
 
         {/* Социална регистрация */}
         <div className="space-y-3">
-          <form action={влизанеСGoogle}>
+          <form action={() => влизанеСGoogle(callbackUrl)}>
             <button
               type="submit"
               className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 font-medium hover:bg-gray-50 transition-colors"
@@ -33,7 +33,7 @@ export default function RegisterClient() {
             </button>
           </form>
 
-          <form action={влизанеСFacebook}>
+          <form action={() => влизанеСFacebook(callbackUrl)}>
             <button
               type="submit"
               className="w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg bg-[#1877F2] text-white font-medium hover:bg-[#1565C0] transition-colors"

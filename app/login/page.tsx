@@ -1,12 +1,21 @@
-import React, { Suspense } from 'react'
+import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import LoginClient from './LoginClient'
+
+export const metadata: Metadata = {
+  title: 'Вход | MeeplesBG',
+  description: 'Влез в MeeplesBG с Google, Facebook или имейл.',
+}
 
 export default function ВходСтраница() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen flex items-center justify-center">
-          Зареждане...
+        <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 py-12">
+          <div className="w-full max-w-md">
+            <div className="h-10 w-40 mx-auto bg-gray-200 rounded-lg animate-pulse mb-8" />
+            <div className="bg-white rounded-2xl border border-[var(--border)] h-96 animate-pulse" />
+          </div>
         </div>
       }
     >
