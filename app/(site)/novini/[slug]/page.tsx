@@ -15,7 +15,7 @@ import ShareButtons          from '@/components/blog/ShareButtons'
 import BlogCommentsSection   from '@/components/blog/BlogCommentsSection'
 import PostCard              from '@/components/blog/PostCard'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 // ── Статично генериране ───────────────────────────────────────
 

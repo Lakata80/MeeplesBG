@@ -11,7 +11,7 @@ export default function GlobalError({
   reset: () => void
 }) {
   useEffect(() => {
-    console.error(error)
+    // TODO: изпрати до error tracking услуга (напр. Sentry)
   }, [error])
 
   return (
