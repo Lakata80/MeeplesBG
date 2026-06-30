@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma'
 import GameGrid from '@/components/games/GameGrid'
 import type { GameCardProps } from '@/components/games/GameCard'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 type Params = Promise<{ slug: string }>
 
