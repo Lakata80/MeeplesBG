@@ -101,19 +101,29 @@ export async function регистрация(
     return { грешки: { email: ['Акаунтът вече съществува'] } }
   }
 
-  const хешПарола = await bcrypt.hash(парола, 12)
+  try {
+    const хешПарола = await bcrypt.hash(парола, 12)
+    await prisma.user.create({
+      data: {
+        name: ime,
+        email,
+        passwordHash: хешПарола,
+      },
+    })
+  } catch {
+    return { съобщение: 'Грешка при създаване на акаунт. Опитайте отново.' }
+  }
 
-  await prisma.user.create({
-    data: {
-      name: ime,
+  try {
+    await signIn('credentials', {
       email,
-      passwordHash: хешПарола,
-    },
-  })
-
-  await signIn('credentials', {
-    email,
-    password: парола,
-    redirectTo: callbackUrl || '/',
-  })
+      password: парола,
+      redirectTo: callbackUrl || '/',
+    })
+  } catch (грешка) {
+    if (грешка instanceof AuthError) {
+      redirect('/login?registered=1')
+    }
+    throw грешка
+  }
 }

@@ -21,12 +21,14 @@ const NEXTAUTH_ERRORS: Record<string, string> = {
 type Таб = 'вход' | 'регистрация'
 
 export default function LoginClient() {
-  const searchParams = useSearchParams()
-  const callbackUrl  = searchParams.get('callbackUrl') ?? '/'
-  const errorKey     = searchParams.get('error') ?? ''
-  const urlError     = NEXTAUTH_ERRORS[errorKey] ?? (errorKey ? NEXTAUTH_ERRORS.Default : null)
+  const searchParams   = useSearchParams()
+  const callbackUrl    = searchParams.get('callbackUrl') ?? '/'
+  const errorKey       = searchParams.get('error') ?? ''
+  const urlError       = NEXTAUTH_ERRORS[errorKey] ?? (errorKey ? NEXTAUTH_ERRORS.Default : null)
+  const registered     = searchParams.get('registered') === '1'
 
-  const [активенТаб, setАктивенТаб] = useState<Таб>('вход')
+  const defaultTab: Таб = searchParams.get('tab') === 'регистрация' ? 'регистрация' : 'вход'
+  const [активенТаб, setАктивенТаб] = useState<Таб>(defaultTab)
 
   const влизанеAction     = влизане.bind(null, callbackUrl)
   const регистрацияAction = регистрация.bind(null, callbackUrl)
@@ -68,6 +70,13 @@ export default function LoginClient() {
           </div>
 
           <div className="p-6">
+
+            {/* Успешна регистрация — auto-login не сработи */}
+            {registered && (
+              <div className="mb-4 rounded-xl bg-green-50 border border-green-200 px-4 py-3 text-sm text-green-700">
+                Акаунтът е създаден успешно! Влез с имейл и паролата си.
+              </div>
+            )}
 
             {/* URL грешка от NextAuth */}
             {urlError && (
