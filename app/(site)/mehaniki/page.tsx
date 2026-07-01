@@ -12,26 +12,30 @@ export const metadata: Metadata = {
 }
 
 export default async function МеханикиСтраница() {
-  const rows = await prisma.$queryRaw<
-    Array<{ slug: string; name: string; descriptionBg: string | null; gameCount: bigint }>
-  >`
-    SELECT
-      m.slug,
-      m.name,
-      m."descriptionBg",
-      COUNT(g.id) AS "gameCount"
-    FROM "Mechanic" m
-    LEFT JOIN "Game" g ON m.name = ANY(g.mechanics) AND g."isActive" = true
-    GROUP BY m.id, m.slug, m.name, m."descriptionBg"
-    ORDER BY "gameCount" DESC
-  `
-
-  const механики: MechanikData[] = rows.map((r) => ({
-    slug:          r.slug,
-    name:          r.name,
-    descriptionBg: r.descriptionBg,
-    gameCount:     Number(r.gameCount),
-  }))
+  let механики: MechanikData[] = []
+  try {
+    const rows = await prisma.$queryRaw<
+      Array<{ slug: string; name: string; descriptionBg: string | null; gameCount: bigint }>
+    >`
+      SELECT
+        m.slug,
+        m.name,
+        m."descriptionBg",
+        COUNT(g.id) AS "gameCount"
+      FROM "Mechanic" m
+      LEFT JOIN "Game" g ON m.name = ANY(g.mechanics) AND g."isActive" = true
+      GROUP BY m.id, m.slug, m.name, m."descriptionBg"
+      ORDER BY "gameCount" DESC
+    `
+    механики = rows.map((r) => ({
+      slug:          r.slug,
+      name:          r.name,
+      descriptionBg: r.descriptionBg,
+      gameCount:     Number(r.gameCount),
+    }))
+  } catch {
+    // DB не е достъпна при build time; ISR ще регенерира страницата при първото посещение
+  }
 
   return <MehanikiBrowser механики={механики} />
 }
