@@ -16,13 +16,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${САЙТ}/igri/populiarni`,        changeFrequency: 'daily',   priority: 0.8 },
     { url: `${САЙТ}/obshtnost`,              changeFrequency: 'daily',   priority: 0.7 },
     { url: `${САЙТ}/igri/igra-na-sedmicata`, changeFrequency: 'weekly',  priority: 0.7 },
+    { url: `${САЙТ}/mehaniki`,               changeFrequency: 'monthly', priority: 0.6 },
     { url: `${САЙТ}/kontakti`,               changeFrequency: 'monthly', priority: 0.4 },
     { url: `${САЙТ}/gdpr`,                   changeFrequency: 'yearly',  priority: 0.2 },
     { url: `${САЙТ}/biskvitki`,              changeFrequency: 'yearly',  priority: 0.2 },
     { url: `${САЙТ}/pravila`,                changeFrequency: 'yearly',  priority: 0.2 },
   ]
 
-  const [игриБД, slugове, weeklyslugове] = await Promise.all([
+  const [игриБД, slugове, weeklyslugове, механикиБД] = await Promise.all([
     prisma.game.findMany({
       where:   { isActive: true },
       orderBy: [{ bggRating: { sort: 'desc', nulls: 'last' } }],
@@ -31,6 +32,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }).catch(() => []),
     getAllPostSlugs().catch(() => []),
     getAllWeeklyGameSlugs().catch(() => []),
+    prisma.mechanic.findMany({
+      select: { slug: true },
+      orderBy: { name: 'asc' },
+    }).catch(() => []),
   ])
 
   const игриПътища: MetadataRoute.Sitemap = игриБД.map((и) => ({
@@ -58,5 +63,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority:        0.6,
   }))
 
-  return [...статични, ...игриПътища, ...статии, ...класации, ...weeklyИгри]
+  const механикиПътища: MetadataRoute.Sitemap = механикиБД.map((м) => ({
+    url:             `${САЙТ}/mehaniki/${м.slug}`,
+    changeFrequency: 'monthly' as const,
+    priority:        0.5,
+  }))
+
+  return [...статични, ...игриПътища, ...статии, ...класации, ...weeklyИгри, ...механикиПътища]
 }

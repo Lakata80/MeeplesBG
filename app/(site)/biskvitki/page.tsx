@@ -198,7 +198,7 @@ const БИСКВИТКИ = [
     срок:      '2 години',
   },
   {
-    name:      '_ga_XXXXXXXX',
+    name:      '_ga_FLFYHDQGNN',
     цел:       'Google Analytics — запазва статуса на сесията',
     категория: 'Аналитична',
     badge:     'bg-brand-100 text-brand-800',

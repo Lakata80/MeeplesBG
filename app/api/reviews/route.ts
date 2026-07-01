@@ -14,6 +14,18 @@ export async function POST(req: Request) {
   if (!gameId || !title?.trim() || !content?.trim() || !rating) {
     return NextResponse.json({ error: 'Липсват задължителни полета' }, { status: 400 })
   }
+  if (title.trim().length > 300) {
+    return NextResponse.json({ error: 'Заглавието не може да надвишава 300 символа' }, { status: 400 })
+  }
+  if (content.trim().length > 10_000) {
+    return NextResponse.json({ error: 'Текстът не може да надвишава 10 000 символа' }, { status: 400 })
+  }
+  if (audience && audience.trim().length > 200) {
+    return NextResponse.json({ error: 'Полето "Аудитория" не може да надвишава 200 символа' }, { status: 400 })
+  }
+  if (playedWith && playedWith.trim().length > 200) {
+    return NextResponse.json({ error: 'Полето "Изиграно с" не може да надвишава 200 символа' }, { status: 400 })
+  }
 
   const r = Number(rating)
   if (!Number.isInteger(r) || r < 1 || r > 10) {

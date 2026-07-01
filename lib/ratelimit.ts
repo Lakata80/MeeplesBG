@@ -33,3 +33,24 @@ export const loginLimiter = new Ratelimit({
   prefix:    'rl:login',
   analytics: false,
 })
+
+export const reviewsLimiter = new Ratelimit({
+  redis,
+  limiter:   Ratelimit.slidingWindow(10, '1 h'),
+  prefix:    'rl:reviews',
+  analytics: false,
+})
+
+export const threadsLimiter = new Ratelimit({
+  redis,
+  limiter:   Ratelimit.slidingWindow(5, '1 h'),
+  prefix:    'rl:threads',
+  analytics: false,
+})
+
+export const repliesLimiter = new Ratelimit({
+  redis,
+  limiter:   Ratelimit.slidingWindow(20, '1 h'),
+  prefix:    'rl:replies',
+  analytics: false,
+})

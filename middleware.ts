@@ -1,7 +1,7 @@
 import { auth } from '@/auth'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { contactLimiter, newsletterLimiter, playsLimiter, loginLimiter } from '@/lib/ratelimit'
+import { contactLimiter, newsletterLimiter, playsLimiter, loginLimiter, reviewsLimiter, threadsLimiter, repliesLimiter } from '@/lib/ratelimit'
 
 function getIP(req: NextRequest): string {
   return (
@@ -20,6 +20,9 @@ async function applyRateLimit(req: NextRequest): Promise<NextResponse | null> {
   else if (pathname === '/api/newsletter/subscribe' && method === 'POST') limiter = newsletterLimiter
   else if (pathname === '/api/plays' && method === 'POST') limiter = playsLimiter
   else if (pathname === '/api/auth/callback/credentials' && method === 'POST') limiter = loginLimiter
+  else if (pathname === '/api/reviews' && method === 'POST') limiter = reviewsLimiter
+  else if (pathname === '/api/obshtnost/threads' && method === 'POST') limiter = threadsLimiter
+  else if (pathname.startsWith('/api/obshtnost/threads/') && pathname.endsWith('/replies') && method === 'POST') limiter = repliesLimiter
 
   if (!limiter) return null
 

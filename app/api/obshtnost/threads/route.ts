@@ -22,8 +22,14 @@ export async function POST(request: NextRequest) {
   if (!title?.trim() || title.trim().length < 5) {
     return Response.json({ грешка: 'Заглавието трябва да е поне 5 символа.' }, { status: 400 })
   }
+  if (title.trim().length > 300) {
+    return Response.json({ грешка: 'Заглавието не може да надвишава 300 символа.' }, { status: 400 })
+  }
   if (!content?.trim() || content.trim().length < 10) {
     return Response.json({ грешка: 'Съдържанието трябва да е поне 10 символа.' }, { status: 400 })
+  }
+  if (content.trim().length > 10_000) {
+    return Response.json({ грешка: 'Съдържанието не може да надвишава 10 000 символа.' }, { status: 400 })
   }
 
   const кат = getКатегория(categorySlug)

@@ -23,6 +23,9 @@ export async function POST(
   if (!content?.trim() || content.trim().length < 2) {
     return Response.json({ грешка: 'Отговорът е твърде кратък.' }, { status: 400 })
   }
+  if (content.trim().length > 10_000) {
+    return Response.json({ грешка: 'Отговорът не може да надвишава 10 000 символа.' }, { status: 400 })
+  }
 
   const thread = await prisma.thread.findUnique({
     where:  { id },

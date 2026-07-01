@@ -46,6 +46,19 @@ export async function PATCH(req: Request, { params }: Params) {
   const body = await req.json()
   const { title, content, rating, audience, playedWith, realPlaytime } = body
 
+  if (title !== undefined && title.trim().length > 300) {
+    return NextResponse.json({ error: 'Заглавието не може да надвишава 300 символа' }, { status: 400 })
+  }
+  if (content !== undefined && content.trim().length > 10_000) {
+    return NextResponse.json({ error: 'Текстът не може да надвишава 10 000 символа' }, { status: 400 })
+  }
+  if (audience !== undefined && audience?.trim().length > 200) {
+    return NextResponse.json({ error: 'Полето "Аудитория" не може да надвишава 200 символа' }, { status: 400 })
+  }
+  if (playedWith !== undefined && playedWith?.trim().length > 200) {
+    return NextResponse.json({ error: 'Полето "Изиграно с" не може да надвишава 200 символа' }, { status: 400 })
+  }
+
   const r = rating !== undefined ? Number(rating) : undefined
   if (r !== undefined && (!Number.isInteger(r) || r < 1 || r > 10)) {
     return NextResponse.json({ error: 'Оценката трябва да е от 1 до 10' }, { status: 400 })
