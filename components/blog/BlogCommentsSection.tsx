@@ -7,27 +7,45 @@ interface Props {
   postSlug: string
 }
 
+type DbКоментар = {
+  id: string
+  content: string
+  createdAt: Date
+  user: { name: string | null; image: string | null }
+  replies: {
+    id: string
+    content: string
+    createdAt: Date
+    user: { name: string | null; image: string | null }
+  }[]
+}
+
 export default async function BlogCommentsSection({ postSlug }: Props) {
-  const dbКоментари = await prisma.blogComment.findMany({
-    where: {
-      postSlug,
-      isApproved: true,
-      parentId:   null,
-    },
-    orderBy: { createdAt: 'desc' },
-    select: {
-      id: true, content: true, createdAt: true,
-      user: { select: { name: true, image: true } },
-      replies: {
-        where:   { isApproved: true },
-        orderBy: { createdAt: 'asc' },
-        select: {
-          id: true, content: true, createdAt: true,
-          user: { select: { name: true, image: true } },
+  let dbКоментари: DbКоментар[] = []
+  try {
+    dbКоментари = await prisma.blogComment.findMany({
+      where: {
+        postSlug,
+        isApproved: true,
+        parentId:   null,
+      },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true, content: true, createdAt: true,
+        user: { select: { name: true, image: true } },
+        replies: {
+          where:   { isApproved: true },
+          orderBy: { createdAt: 'asc' },
+          select: {
+            id: true, content: true, createdAt: true,
+            user: { select: { name: true, image: true } },
+          },
         },
       },
-    },
-  })
+    })
+  } catch {
+    // DB не е достъпна при build time; ISR ще регенерира при първото посещение
+  }
 
   // Сериализиране на Date → ISO string преди подаване на Client Component
   const коментари: БлогКоментарData[] = dbКоментари.map((к) => ({
