@@ -9,7 +9,7 @@ export default function NewsletterSection() {
           Получавай седмичен дайджест с нови игри, отстъпки и събития
         </p>
 
-        <div className="max-w-md mx-auto [&_input]:text-gray-900 [&_input]:bg-white [&_input::placeholder]:text-gray-400">
+        <div className="max-w-md mx-auto text-gray-900">
           <NewsletterForm />
         </div>
 
