@@ -64,7 +64,7 @@ export default function NewsletterForm({ вариант = 'нормален' }: 
           placeholder="Твоят имейл"
           disabled={статус === 'зареждане'}
           className="
-            min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm
+            min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900
             placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-1
             focus:ring-brand-500 disabled:opacity-50
             dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500
