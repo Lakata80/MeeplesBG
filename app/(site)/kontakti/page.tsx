@@ -50,7 +50,7 @@ export default function КонтактиСтраница() {
               <li className="flex gap-3">
                 <span className="text-lg flex-shrink-0">⏱️</span>
                 <div>
-                  <p className="font-medium text-gray-900">Час на отговор</p>
+                  <p className="font-medium text-gray-900">Време за отговор</p>
                   <p>До 2 работни дни</p>
                 </div>
               </li>
