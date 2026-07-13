@@ -105,6 +105,7 @@ export async function searchGames(params: SearchParams): Promise<SearchResult> {
     filter,
     sort: [SORT_MAP[sort]],
     attributesToHighlight: ['titleBg', 'titleEn'],
+    matchingStrategy: query.trim() ? 'all' : 'last',
   })
 
   return {

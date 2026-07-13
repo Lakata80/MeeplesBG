@@ -60,6 +60,7 @@ export async function configureIndex(): Promise<void> {
       'yearPublished',
       'titleBg',
     ],
+    stopWords: ['a', 'an', 'the', 'of', 'in', 'at', 'to', 'and'],
     pagination: {
       maxTotalHits: 10000,
     },
