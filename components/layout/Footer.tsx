@@ -8,9 +8,9 @@ const КОЛОНИ = [
       { href: '/igri',                 label: 'Всички игри' },
       { href: '/mehaniki',             label: 'Механики' },
       { href: '/top/top-100',          label: 'Топ 100' },
-      { href: '/igri?types=Strategy',  label: 'Стратегически' },
-      { href: '/igri?types=Family',    label: 'Семейни' },
-      { href: '/igri?types=Party',     label: 'Парти игри' },
+      { href: '/igri?tip=Strategy',  label: 'Стратегически' },
+      { href: '/igri?tip=Family',    label: 'Семейни' },
+      { href: '/igri?tip=Party',     label: 'Парти игри' },
     ],
   },
   {
