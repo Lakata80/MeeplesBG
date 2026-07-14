@@ -45,6 +45,27 @@ const SECURITY_HEADERS = [
   { key: 'Content-Security-Policy',   value: CSP },
 ]
 
+// Sanity Studio изисква достъп до sanity.io API и WebSocket endpoints
+const STUDIO_CSP = [
+  "default-src 'self' https://*.sanity.io wss://*.sanity.io",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https://cdn.sanity.io https://lh3.googleusercontent.com https://avatars.githubusercontent.com",
+  "font-src 'self' data:",
+  "connect-src 'self' https://*.sanity.io wss://*.sanity.io",
+  "frame-src https://*.sanity.io",
+  "frame-ancestors 'none'",
+  "object-src 'none'",
+  "base-uri 'self'",
+].join('; ')
+
+const STUDIO_HEADERS = [
+  { key: 'X-Content-Type-Options',    value: 'nosniff' },
+  { key: 'Referrer-Policy',           value: 'strict-origin-when-cross-origin' },
+  { key: 'Strict-Transport-Security', value: 'max-age=31536000; includeSubDomains' },
+  { key: 'Content-Security-Policy',   value: STUDIO_CSP },
+]
+
 /** @type {import('next').NextConfig} */
 module.exports = {
   serverExternalPackages: ['sharp'],
@@ -64,8 +85,18 @@ module.exports = {
   },
   async headers() {
     return [
+      // Studio пътят получава по-разхлабен CSP за Sanity
       {
-        source: '/(.*)',
+        source: '/studio',
+        headers: STUDIO_HEADERS,
+      },
+      {
+        source: '/studio/(.*)',
+        headers: STUDIO_HEADERS,
+      },
+      // Всички останали пътища — стриктен CSP
+      {
+        source: '/((?!studio).*)',
         headers: SECURITY_HEADERS,
       },
     ]
