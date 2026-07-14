@@ -1,31 +1,17 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
+import { useState, Suspense } from 'react'
 import Link from 'next/link'
-import { useRouter, usePathname } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import UserMenu from '@/components/ui/UserMenu'
 import MainNav from './MainNav'
 import NotificationBell from '@/components/obshtnost/NotificationBell'
+import HeaderSearchInput from './HeaderSearchInput'
 
 export default function Header() {
   const [мобилноМеню, setМобилноМеню] = useState(false)
-  const [търсене, setТърсене] = useState('')
-  const router = useRouter()
   const pathname = usePathname()
-  const inputRef = useRef<HTMLInputElement>(null)
   const скриТърсене = pathname === '/'
-
-  const handleSearch = useCallback(
-    (е: React.FormEvent) => {
-      е.preventDefault()
-      const query = търсене.trim()
-      if (query) {
-        router.push(`/igri?q=${encodeURIComponent(query)}`)
-        setТърсене('')
-      }
-    },
-    [търсене, router]
-  )
 
   return (
     <header className="sticky top-0 z-50 bg-[var(--background)] border-b border-[var(--border)] shadow-sm">
@@ -40,20 +26,16 @@ export default function Header() {
             🎲 MeeplesBG
           </Link>
 
-          {/* Търсачка — десктоп (скрита на началната страница) */}
-          <form onSubmit={handleSearch} className={`hidden md:flex flex-1 max-w-xl mx-auto ${скриТърсене ? 'md:hidden' : ''}`}>
-            <div className="relative w-full">
-              <input
-                ref={inputRef}
-                type="search"
-                value={търсене}
-                onChange={(е) => setТърсене(е.target.value)}
-                placeholder="Търси игра..."
-                className="w-full pl-10 pr-4 py-2 rounded-lg border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
-              />
-              <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-            </div>
-          </form>
+            {/* Търсачка — десктоп */}
+          <Suspense fallback={
+            скриТърсене ? null : (
+              <div className="hidden md:flex flex-1 max-w-xl mx-auto">
+                <div className="w-full h-9 rounded-lg border border-[var(--border)] bg-white" />
+              </div>
+            )
+          }>
+            <HeaderSearchInput variant="desktop" />
+          </Suspense>
 
           {/* Дясна страна */}
           <div className="flex items-center gap-3 ml-auto">
@@ -72,19 +54,16 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Търсачка — мобилно (скрита на началната страница) */}
-        <form onSubmit={handleSearch} className={`md:hidden pb-3 ${скриТърсене ? 'hidden' : ''}`}>
-          <div className="relative">
-            <input
-              type="search"
-              value={търсене}
-              onChange={(е) => setТърсене(е.target.value)}
-              placeholder="Търси игра..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"
-            />
-            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-          </div>
-        </form>
+        {/* Търсачка — мобилно */}
+        <Suspense fallback={
+          скриТърсене ? null : (
+            <div className="md:hidden pb-3">
+              <div className="w-full h-9 rounded-lg border border-[var(--border)] bg-white" />
+            </div>
+          )
+        }>
+          <HeaderSearchInput variant="mobile" />
+        </Suspense>
       </div>
 
       {/* Навигация */}
@@ -92,14 +71,6 @@ export default function Header() {
         <MainNav onNavClick={() => setМобилноМеню(false)} />
       </div>
     </header>
-  )
-}
-
-function SearchIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-      <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-    </svg>
   )
 }
 

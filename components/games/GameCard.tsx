@@ -2,6 +2,17 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { formatPlaytime, formatPlayers, formatRating } from '@/lib/utils'
 
+const TYPE_BG: Record<string, string> = {
+  Strategy:    'Стратегическа',
+  Thematic:    'Тематична',
+  Family:      'Семейна',
+  Party:       'Парти',
+  Abstract:    'Абстрактна',
+  Cooperative: 'Кооперативна',
+  Children:    'Детска',
+  Wargame:     'Военна',
+}
+
 export interface GameCardProps {
   slug: string
   titleBg?: string | null
@@ -68,7 +79,7 @@ export default function GameCard({
         {types.length > 0 && (
           <div className="absolute bottom-2 left-2">
             <span className="bg-black/60 text-white text-xs px-2 py-0.5 rounded-full backdrop-blur-sm">
-              {types[0]}
+              {TYPE_BG[types[0]] ?? types[0]}
             </span>
           </div>
         )}
