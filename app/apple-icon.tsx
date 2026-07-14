@@ -1,0 +1,26 @@
+import { ImageResponse } from 'next/og'
+
+export const size = { width: 180, height: 180 }
+export const contentType = 'image/png'
+
+const MEEPLE_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <rect width="100" height="100" rx="20" fill="#1B4332"/>
+  <circle cx="50" cy="22" r="13" fill="#E4A835"/>
+  <path d="M38 35 C24 35 16 44 18 54 C20 62 28 64 36 60 L38 60 L38 78 L46 78 L46 64 L54 64 L54 78 L62 78 L62 60 L64 60 C72 64 80 62 82 54 C84 44 76 35 62 35 Z" fill="#E4A835"/>
+</svg>`
+
+const dataUrl = `data:image/svg+xml;base64,${Buffer.from(MEEPLE_SVG).toString('base64')}`
+
+export default function AppleIcon() {
+  return new ImageResponse(
+    (
+      <img
+        src={dataUrl}
+        width={180}
+        height={180}
+        style={{ borderRadius: 36 }}
+      />
+    ),
+    { ...size },
+  )
+}
