@@ -25,12 +25,6 @@ function getInt(val: string | string[] | undefined): number | undefined {
   return Number.isFinite(n) && n > 0 ? n : undefined
 }
 
-function getFloat(val: string | string[] | undefined): number | undefined {
-  const s = getString(val)
-  if (!s) return undefined
-  const n = parseFloat(s)
-  return Number.isFinite(n) && n > 0 ? n : undefined
-}
 
 function getSort(val: string | string[] | undefined): 'rating' | 'year' | 'name' {
   const s = getString(val)
@@ -74,8 +68,20 @@ export default async function ИгриСтраница({ searchParams }: { searc
   const вреМакс   = getInt(парам.vreme)
   const минВъзраст = getInt(парам.vozrast)
   const типове    = getString(парам.tip)?.split(',').filter(Boolean)
-  const maxWeight = getFloat(парам.slozhnost)
   const подредба  = getSort(парам.podredba)
+
+  // Сложност: 'lesni' | 'sredni' | 'trudni'
+  const сложност = getString(парам.slozhnost)
+  let minWeight: number | undefined
+  let maxWeight: number | undefined
+  if (сложност === 'lesni') {
+    maxWeight = 2.0
+  } else if (сложност === 'sredni') {
+    minWeight = 2.0
+    maxWeight = 3.5
+  } else if (сложност === 'trudni') {
+    minWeight = 3.5
+  }
   const страница  = Math.max(1, getInt(парам.stranica) ?? 1)
 
   // MeiliSearch заявка
@@ -86,6 +92,7 @@ export default async function ИгриСтраница({ searchParams }: { searc
     players:     играчи,
     maxPlaytime: вреМакс,
     minAge:      минВъзраст,
+    minWeight,
     maxWeight,
     types:       типове,
     sort:        подредба,

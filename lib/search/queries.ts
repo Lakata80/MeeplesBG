@@ -8,6 +8,7 @@ export interface SearchParams {
   players?:     number   // брой играчи — minPlayers <= players <= maxPlayers
   minAge?:      number   // max допустима минимална възраст на играта
   maxPlaytime?: number   // максимално времетраене (минути)
+  minWeight?:   number   // минимална сложност (weight > N)
   maxWeight?:   number   // максимална сложност (weight <= N)
   types?:       string[] // ['Strategy', 'Family', ...]
   categories?:  string[] // ['Fantasy', 'Adventure', ...]
@@ -40,6 +41,7 @@ export async function searchGames(params: SearchParams): Promise<SearchResult> {
     players,
     minAge,
     maxPlaytime,
+    minWeight,
     maxWeight,
     types,
     categories,
@@ -65,8 +67,11 @@ export async function searchGames(params: SearchParams): Promise<SearchResult> {
     части.push(`maxPlaytime <= ${maxPlaytime}`)
   }
 
-  if (maxWeight !== undefined) {
-    // Игри с ниска или средна сложност
+  if (minWeight !== undefined && maxWeight !== undefined) {
+    части.push(`weight > ${minWeight} AND weight <= ${maxWeight}`)
+  } else if (minWeight !== undefined) {
+    части.push(`weight > ${minWeight}`)
+  } else if (maxWeight !== undefined) {
     части.push(`weight <= ${maxWeight}`)
   }
 

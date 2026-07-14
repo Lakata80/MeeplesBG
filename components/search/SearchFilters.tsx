@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 // ── Константи ───────────────────────────────────
@@ -39,7 +39,11 @@ const ТИПОВЕ_ИГРИ = [
   { стойност: 'Wargame',     надпис: 'Военни' },
 ]
 
-const MAX_WEIGHT = 5
+const СЛОЖНОСТ = [
+  { стойност: 'lesni',  надпис: 'Лесни'  },
+  { стойност: 'sredni', надпис: 'Средни' },
+  { стойност: 'trudni', надпис: 'Трудни' },
+]
 
 // ── Главен компонент ────────────────────────────
 
@@ -50,16 +54,11 @@ export default function SearchFilters() {
   const [drawer, setDrawer] = useState(false)
 
   // Текущи стойности от URL
-  const cPlayers  = searchParams.get('igrali') ?? ''
-  const cVreme    = searchParams.get('vreme') ?? ''
-  const cVozrast  = searchParams.get('vozrast') ?? ''
-  const cTypes    = searchParams.get('tip')?.split(',').filter(Boolean) ?? []
-  const cWeightRaw = searchParams.get('slozhnost')
-  const cWeight   = cWeightRaw ? parseFloat(cWeightRaw) : MAX_WEIGHT
-
-  // Локална стойност на slider (за плавно показване при влачене)
-  const [sliderVal, setSliderVal] = useState(cWeight)
-  useEffect(() => { setSliderVal(cWeight) }, [cWeight])
+  const cPlayers   = searchParams.get('igrali') ?? ''
+  const cVreme     = searchParams.get('vreme') ?? ''
+  const cVozrast   = searchParams.get('vozrast') ?? ''
+  const cTypes     = searchParams.get('tip')?.split(',').filter(Boolean) ?? []
+  const cSlozhnost = searchParams.get('slozhnost') ?? ''
 
   // Брой активни филтри
   const активниБрой = [
@@ -67,7 +66,7 @@ export default function SearchFilters() {
     cVreme,
     cVozrast,
     cTypes.length > 0 ? 'types' : '',
-    cWeight < MAX_WEIGHT ? 'weight' : '',
+    cSlozhnost,
   ].filter(Boolean).length
 
   // ── URL обновяване ────────────────────────────
@@ -179,30 +178,20 @@ export default function SearchFilters() {
 
       {/* Сложност */}
       <FilterSection
-        заглавие={`Сложност: ${sliderVal < MAX_WEIGHT ? `до ${sliderVal.toFixed(1)}` : 'всяка'}`}
-        активен={cWeight < MAX_WEIGHT}
-        onИзчисти={() => { setSliderVal(MAX_WEIGHT); setParam('slozhnost', null) }}
+        заглавие="Сложност"
+        активен={!!cSlozhnost}
+        onИзчисти={() => setParam('slozhnost', null)}
       >
-        <div className="px-1">
-          <input
-            type="range"
-            min={1}
-            max={MAX_WEIGHT}
-            step={0.5}
-            value={sliderVal}
-            onChange={(е) => setSliderVal(parseFloat(е.target.value))}
-            onPointerUp={(е) => {
-              const v = parseFloat((е.target as HTMLInputElement).value)
-              setParam('slozhnost', v >= MAX_WEIGHT ? null : v.toString())
-            }}
-            className="w-full accent-brand-600 cursor-pointer"
+        {СЛОЖНОСТ.map(({ стойност, надпис }) => (
+          <RadioOption
+            key={стойност}
+            name="slozhnost"
+            стойност={стойност}
+            надпис={надпис}
+            checked={cSlozhnost === стойност}
+            onChange={() => setParam('slozhnost', cSlozhnost === стойност ? null : стойност)}
           />
-          <div className="flex justify-between text-xs text-gray-400 mt-1">
-            <span>Лесна</span>
-            <span>Средна</span>
-            <span>Трудна</span>
-          </div>
-        </div>
+        ))}
       </FilterSection>
 
       {/* Изчисти всички */}
