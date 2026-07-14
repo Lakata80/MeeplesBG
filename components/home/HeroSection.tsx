@@ -19,12 +19,12 @@ export default function HeroSection() {
           <span className="text-brand-200">любима настолна игра</span>
         </h1>
 
-        {/* Квиз CTA */}
+        {/* Куиз CTA */}
         <Link
           href="/igri/kviz"
           className="inline-flex items-center gap-3 px-8 py-4 bg-white text-brand-700 font-bold text-lg rounded-2xl hover:bg-brand-50 transition-colors shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform transition-all"
         >
-          🎲 Направи квиза
+          🎲 Направи куиза
           <span className="text-brand-400">→</span>
         </Link>
 

@@ -87,7 +87,7 @@ function НовиниСкелет() {
 export default function НачалнаСтраница() {
   return (
     <>
-      {/* 1. Hero с квиз CTA */}
+      {/* 1. Hero с куиз CTA */}
       <HeroSection />
 
       {/* 2. Популярни игри (BGG Hotness) */}

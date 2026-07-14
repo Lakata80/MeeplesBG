@@ -56,35 +56,39 @@ export default function NewsletterForm({ вариант = 'нормален' }: 
 
   if (вариант === 'компактен') {
     return (
-      <form onSubmit={onSubmit} className="flex gap-2">
-        <input
-          ref={входRef}
-          type="email"
-          required
-          placeholder="Твоят имейл"
-          disabled={статус === 'зареждане'}
-          className="
-            min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900
-            placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-1
-            focus:ring-brand-500 disabled:opacity-50
-            dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500
-          "
-        />
-        <button
-          type="submit"
-          disabled={статус === 'зареждане'}
-          className="
-            rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white
-            hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2
-            disabled:opacity-50 transition-colors
-          "
-        >
-          {статус === 'зареждане' ? '...' : 'Абонирай'}
-        </button>
+      <div>
+        <form onSubmit={onSubmit} className="flex gap-2">
+          <input
+            ref={входRef}
+            type="email"
+            required
+            placeholder="Твоят имейл"
+            disabled={статус === 'зареждане'}
+            className="
+              min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900
+              placeholder:text-gray-400 focus:border-brand-500 focus:outline-none focus:ring-1
+              focus:ring-brand-500 disabled:opacity-50
+              dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:placeholder:text-gray-500
+            "
+          />
+          <button
+            type="submit"
+            disabled={статус === 'зареждане'}
+            className="
+              rounded-lg bg-brand-600 px-4 py-2 text-sm font-semibold text-white
+              hover:bg-brand-700 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:ring-offset-2
+              disabled:opacity-50 transition-colors
+            "
+          >
+            {статус === 'зареждане' ? '...' : 'Абонирай'}
+          </button>
+        </form>
         {статус === 'грешка' && (
-          <p className="sr-only" role="alert">{съобщение}</p>
+          <p className="mt-1.5 text-sm text-red-600 dark:text-red-400" role="alert">
+            {съобщение}
+          </p>
         )}
-      </form>
+      </div>
     )
   }
 

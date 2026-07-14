@@ -76,7 +76,7 @@ const КАРТИ = [
     border:   'border-blue-100 hover:border-blue-300',
     icon:     'bg-blue-100',
     link:     'text-blue-700',
-    linkText: 'Стартирай квиза',
+    linkText: 'Стартирай куиза',
   },
   {
     href:     '/obshtnost/sreshti',
@@ -177,7 +177,7 @@ export default async function ОбщностСтраница({ searchParams }: {
 
         <TabBar activeKat={kat} />
 
-        {/* Банер за квиз — само в Помощ при избор */}
+        {/* Банер за куиз — само в Помощ при избор */}
         {кат.db === 'IZBOR' && (
           <div className="mb-6 flex items-center justify-between gap-4 bg-blue-50 border border-blue-200 rounded-2xl px-5 py-4">
             <div>

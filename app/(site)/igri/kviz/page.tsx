@@ -189,7 +189,7 @@ async function queryGames(p: KvizParams): Promise<GameRow[]> {
 
 // ── Страница ──────────────────────────────────────────────────
 
-export default async function КвизСтраница({ searchParams }: { searchParams: SearchParams }) {
+export default async function КуизСтраница({ searchParams }: { searchParams: SearchParams }) {
   const sp = await searchParams
 
   const playersRaw    = sp.players
