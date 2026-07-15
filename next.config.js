@@ -17,7 +17,7 @@ const CSP = [
   "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
   "style-src 'self' 'unsafe-inline'",
   // cf.geekdo-images.com се зарежда директно когато unoptimized=true за BGG thumbnails
-  "img-src 'self' data: blob: https://cf.geekdo-images.com",
+  "img-src 'self' data: blob: https://cf.geekdo-images.com https://images.meeplesbg.com https://cdn.sanity.io https://lh3.googleusercontent.com https://avatars.githubusercontent.com",
   // Шрифтовете са self-hosted от next/font/google (свалени при билд)
   "font-src 'self'",
   // Sentry минава през /monitoring tunnel → 'self'; GA изисква своите домейни
