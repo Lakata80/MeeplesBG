@@ -124,8 +124,6 @@ export default function PartnerInquiryEmail({
   shopUrl,
   siteUrl = 'https://meeplesbg.com',
 }: Props) {
-  const поздрав = contactName ? `Уважаеми ${contactName},` : `Уважаеми екип на ${shopName},`
-
   return (
     <Html lang="bg" dir="ltr">
       <Head />
@@ -142,7 +140,7 @@ export default function PartnerInquiryEmail({
 
           {/* Тяло */}
           <Section style={СТ.body2}>
-            <Heading style={СТ.greeting}>{поздрав}</Heading>
+            <Heading style={СТ.greeting}>Уважаеми екип на {shopName},</Heading>
 
             <Text style={СТ.text}>
               Казвам се Лазар Ендаров и съм основател на{' '}
@@ -152,27 +150,48 @@ export default function PartnerInquiryEmail({
               покупко-продажба и редакционно съдържание на български език.
             </Text>
 
+            <Text style={СТ.text}>
+              <strong>MeeplesBG няма собствен магазин и не продава настолни игри.</strong>{' '}
+              Нашата цел е да насочваме потребителите към българските търговци, а не да им конкурираме продажбите.
+            </Text>
+
             <Section style={СТ.highlightBox}>
               <Text style={СТ.highlightText}>
                 Обръщам се към Вас с предложение за техническо партньорство —
-                интеграция на Вашия продуктов каталог в MeeplesBG чрез API или
-                продуктов фийд, която да насочи заинтересовани играчи директно
-                към Вашия магазин.
+                интеграция на Вашия продуктов каталог в MeeplesBG, която да насочи
+                заинтересовани играчи директно към Вашия магазин.
               </Text>
             </Section>
 
             <Text style={{ ...СТ.text, fontWeight: '600', color: '#111827' }}>
-              Какво предлагаме на партньорите:
+              При всяка игра потребителите ще могат да виждат:
             </Text>
-            <Text style={СТ.bulletItem}>📦 Показване на наличност и цена в реално време до страницата на всяка игра</Text>
-            <Text style={СТ.bulletItem}>🔗 Директен линк към продукта в магазина при всяко търсене</Text>
-            <Text style={СТ.bulletItem}>📊 Видимост пред таргетирана аудитория от активни играчи</Text>
+            <Text style={СТ.bulletItem}>💰 Актуална цена от {shopName}</Text>
+            <Text style={СТ.bulletItem}>📦 Наличност в реално време</Text>
+            <Text style={СТ.bulletItem}>🔗 Бутон „Купи от {shopName}", който ги отвежда директно към продукта във Вашия магазин</Text>
+
+            <Text style={{ ...СТ.text, marginTop: '4px' }}>
+              По този начин заинтересованите потребители достигат до Вашия сайт именно когато търсят конкретна игра.
+            </Text>
+
+            <Text style={{ ...СТ.bulletItem, marginTop: '20px', color: '#111827', fontWeight: '600' }}>
+              📊 Видимост пред таргетирана аудитория от активни играчи
+            </Text>
             <Text style={СТ.bulletItem}>🆓 Безплатно за партньорите в началната фаза</Text>
 
-            <Text style={{ ...СТ.text, marginTop: '20px' }}>
-              За да стартираме интеграцията, имаме нужда от достъп до Вашия продуктов
-              API или XML/JSON фийд. Ако разполагате с документация или тестови
-              credentials, бихме се радвали да ги получим.
+            <Hr style={{ ...СТ.hr, margin: '24px 0' }} />
+
+            <Text style={{ ...СТ.text, fontWeight: '600', color: '#111827' }}>
+              За техническата интеграция бихме могли да използваме:
+            </Text>
+            <Text style={СТ.bulletItem}>⚙️ REST API</Text>
+            <Text style={СТ.bulletItem}>📄 XML или JSON продуктов фийд</Text>
+            <Text style={СТ.bulletItem}>📊 CSV експорт</Text>
+            <Text style={СТ.bulletItem}>🔄 или друг формат, който вече използвате</Text>
+
+            <Text style={{ ...СТ.text, marginTop: '12px' }}>
+              Ако разполагате с подобен интерфейс или бихте могли да предоставите
+              продуктов експорт, с удоволствие ще обсъдим най-подходящия вариант.
             </Text>
 
             <Section style={{ textAlign: 'center' as const, margin: '28px 0' }}>

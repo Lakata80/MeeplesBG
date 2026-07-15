@@ -13,7 +13,8 @@
       "Skill(run)",
       "Bash(curl *)",
       "Bash(npx tsc *)",
-      "Bash(npx prisma *)"
+      "Bash(npx prisma *)",
+      "WebSearch"
     ]
   }
 }
