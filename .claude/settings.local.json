@@ -14,7 +14,9 @@
       "Bash(curl *)",
       "Bash(npx tsc *)",
       "Bash(npx prisma *)",
-      "WebSearch"
+      "WebSearch",
+      "Bash(SANITY_API_TOKEN=skhJbSMG9aW6FEKHisRfsAg1x1TkUhRK68ty9HS5Bg1AB8ilZQz3z5PO2oimhOJsj2Tqa7D4kr6r1oYqe6xObRHPsLxe7zyE81XSygSljX1MvR0umXplejFo2QXR5YJgrcZbLuRoTETPqZnI5iOB9ykSxeDRO4JhJlFZhROBX2eVuXDW15yy node *)",
+      "Bash(npx tsx *)"
     ]
   }
 }
