@@ -475,3 +475,16 @@ model MonthlyTop9Entry {
   @@unique([top9Id, gameId])
   @@index([top9Id])
 }
+
+// =====================
+// BGG HOTNESS КЕШ (опреснява се ръчно с npm run hotness:sync)
+// =====================
+
+model HotnessItem {
+  rank          Int      @id  // позиция в класацията (1–50)
+  bggId         Int
+  name          String
+  yearPublished Int?
+  thumbnailUrl  String?
+  updatedAt     DateTime @updatedAt
+}

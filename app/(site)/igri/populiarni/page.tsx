@@ -148,7 +148,7 @@ export default async function PopuliarniPage() {
 
   // Tabs за компонента по брой играчи
   const playerTabs: PCTab[] = [
-    { id: 'solo',       emoji: '🧍',    label: 'Solo',      games: soloGames },
+    { id: 'solo',       emoji: '🧍',    label: 'Соло',      games: soloGames },
     { id: 'two',        emoji: '👫',    label: 'За двама',  games: twoGames },
     { id: 'three_four', emoji: '🎭',    label: '3–4 души',  games: threeToFourGames },
     { id: 'five_plus',  emoji: '🎉',    label: '5+ души',   games: fivePlusGames },
@@ -337,7 +337,7 @@ export default async function PopuliarniPage() {
                         <div className="absolute inset-0 flex items-center justify-center text-3xl text-gray-200">🎲</div>
                       )}
                       <div className="absolute top-2 right-2 bg-brand-500 text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide shadow">
-                        NEW
+                        НОВО
                       </div>
                     </div>
                     <p className="text-xs font-semibold text-gray-800 line-clamp-2 group-hover:text-brand-600 transition-colors leading-snug">

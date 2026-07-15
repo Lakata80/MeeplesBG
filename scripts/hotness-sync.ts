@@ -67,11 +67,37 @@ async function main() {
 
   try {
     // ── Стъпка 1: Вземи hotness списъка ──────────
-    console.log('\n📡 Стъпка 1/3: Извличане на BGG Hotness топ 50...')
+    console.log('\n📡 Стъпка 1/4: Извличане на BGG Hotness топ 50...')
     const горещи = await fetchBGGHotness()
     console.log(`   Получени ${горещи.length} игри\n`)
 
-    // ── Стъпка 2: Провери кои липсват ────────────
+    // ── Стъпка 2: Запиши hotness в базата ────────
+    console.log('💾 Стъпка 2/4: Запис на hotness класацията в базата...')
+    await prisma.$transaction(
+      горещи.map((г) =>
+        prisma.hotnessItem.upsert({
+          where:  { rank: г.rank },
+          create: {
+            rank:          г.rank,
+            bggId:         г.id,
+            name:          г.name,
+            yearPublished: г.yearPublished ?? null,
+            thumbnailUrl:  г.thumbnailUrl  ?? null,
+          },
+          update: {
+            bggId:         г.id,
+            name:          г.name,
+            yearPublished: г.yearPublished ?? null,
+            thumbnailUrl:  г.thumbnailUrl  ?? null,
+          },
+        })
+      )
+    )
+    // Изтрий евентуални остарели записи (ако списъкът е по-кратък)
+    await prisma.hotnessItem.deleteMany({ where: { rank: { gt: горещи.length } } })
+    console.log(`   ✅ ${горещи.length} записа обновени\n`)
+
+    // ── Стъпка 3: Провери кои липсват ────────────
     const bggIds  = горещи.map((г) => г.id)
     const вБазата = await prisma.game.findMany({
       where:  { bggId: { in: bggIds } },
@@ -80,7 +106,7 @@ async function main() {
     const намерени  = new Set(вБазата.map((г) => г.bggId))
     const липсващи = горещи.filter((г) => !намерени.has(г.id))
 
-    console.log(`   ✅ В базата: ${намерени.size} / ${горещи.length}`)
+    console.log(`   ✅ Игри в базата: ${намерени.size} / ${горещи.length}`)
 
     if (липсващи.length === 0) {
       console.log('   🎉 Всички игри от топ 50 са в базата — нищо за импортиране!')
@@ -94,7 +120,7 @@ async function main() {
     }
 
     // ── Стъпка 3: Импортирай липсващите ──────────
-    console.log(`\n📦 Стъпка 2/3: Импорт от BGG...`)
+    console.log(`\n📦 Стъпка 3/4: Импорт от BGG...`)
     const детайли = await fetchGamesByIds(липсващи.map((г) => г.id))
 
     const импортирани: BggGameDetails[] = []
@@ -145,8 +171,8 @@ async function main() {
       return
     }
 
-    // ── Стъпка 4: Превод ─────────────────────────
-    console.log(`\n🌐 Стъпка 3/3: Превод и индексиране...`)
+    // ── Стъпка 5: Превод ─────────────────────────
+    console.log(`\n🌐 Стъпка 4/4: Превод и индексиране...`)
 
     for (const игра of импортирани) {
       process.stdout.write(`   ⟳  "${игра.titleEn}"... `)
