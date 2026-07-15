@@ -20,7 +20,7 @@ const КОЛОНИ = [
       { href: '/novini',           label: 'Новини' },
       { href: '/obshtnost',        label: 'Общност' },
       { href: '/obshtnost/pazar',  label: 'Купувам / Продавам' },
-      { href: '/obshtnost/sreshti', label: 'Игрални срещи' },
+      { href: '/obshtnost/sreshti', label: 'Срещи за игра' },
       { href: '/login',            label: 'Вход / Регистрация' },
     ],
   },
