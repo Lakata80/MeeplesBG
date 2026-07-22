@@ -18,7 +18,63 @@ const NEXTAUTH_ERRORS: Record<string, string> = {
   Default:               'Грешка при вход. Опитайте отново.',
 }
 
+function валиденИмейл(стойност: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(стойност)
+}
+
 type Таб = 'вход' | 'регистрация'
+
+function EyeIcon({ open }: { open: boolean }) {
+  return open ? (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  ) : (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-7-10-7a18.45 18.45 0 0 1 5.06-5.94"/>
+      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 7 10 7a18.5 18.5 0 0 1-2.16 3.19"/>
+      <line x1="2" y1="2" x2="22" y2="22"/>
+    </svg>
+  )
+}
+
+function PasswordInput({
+  id,
+  name,
+  autoComplete,
+  placeholder,
+  className,
+}: {
+  id: string
+  name: string
+  autoComplete: string
+  placeholder: string
+  className: string
+}) {
+  const [показва, setПоказва] = useState(false)
+  return (
+    <div className="relative">
+      <input
+        id={id}
+        name={name}
+        type={показва ? 'text' : 'password'}
+        autoComplete={autoComplete}
+        required
+        placeholder={placeholder}
+        className={className + ' pr-10'}
+      />
+      <button
+        type="button"
+        onClick={() => setПоказва((п) => !п)}
+        className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 transition-colors"
+        aria-label={показва ? 'Скрий паролата' : 'Покажи паролата'}
+      >
+        <EyeIcon open={показва} />
+      </button>
+    </div>
+  )
+}
 
 export default function LoginClient() {
   const searchParams   = useSearchParams()
@@ -30,11 +86,23 @@ export default function LoginClient() {
   const defaultTab: Таб = searchParams.get('tab') === 'регистрация' ? 'регистрация' : 'вход'
   const [активенТаб, setАктивенТаб] = useState<Таб>(defaultTab)
 
+  const [имейлГрешкаВход, setИмейлГрешкаВход] = useState<string | null>(null)
+  const [имейлГрешкаРег,  setИмейлГрешкаРег]  = useState<string | null>(null)
+
   const влизанеAction     = влизане.bind(null, callbackUrl)
   const регистрацияAction = регистрация.bind(null, callbackUrl)
 
   const [входСтатус, входAction, входPending] = useActionState(влизанеAction, undefined)
   const [регСтатус,  регAction,  регPending]  = useActionState(регистрацияAction, undefined)
+
+  function проверкаИмейл(стойност: string, таб: 'вход' | 'регистрация') {
+    if (!стойност) return
+    const грешка = валиденИмейл(стойност) ? null : 'Въведете валиден имейл адрес.'
+    if (таб === 'вход') setИмейлГрешкаВход(грешка)
+    else setИмейлГрешкаРег(грешка)
+  }
+
+  const inputClass = 'w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white'
 
   return (
     <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center px-4 py-12">
@@ -128,10 +196,14 @@ export default function LoginClient() {
                     autoComplete="email"
                     required
                     placeholder="you@example.com"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                    onBlur={(e) => проверкаИмейл(e.target.value, 'вход')}
+                    onChange={() => имейлГрешкаВход && setИмейлГрешкаВход(null)}
+                    className={inputClass}
                   />
-                  {входСтатус?.грешки?.email && (
-                    <p className="mt-1 text-xs text-red-600">{входСтатус.грешки.email[0]}</p>
+                  {(имейлГрешкаВход ?? входСтатус?.грешки?.email?.[0]) && (
+                    <p className="mt-1 text-xs text-red-600">
+                      {имейлГрешкаВход ?? входСтатус!.грешки!.email![0]}
+                    </p>
                   )}
                 </div>
 
@@ -139,14 +211,12 @@ export default function LoginClient() {
                   <label htmlFor="login-парола" className="block text-sm font-medium text-gray-700 mb-1.5">
                     Парола
                   </label>
-                  <input
+                  <PasswordInput
                     id="login-парола"
                     name="парола"
-                    type="password"
                     autoComplete="current-password"
-                    required
                     placeholder="••••••••"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                    className={inputClass}
                   />
                   {входСтатус?.грешки?.парола && (
                     <p className="mt-1 text-xs text-red-600">{входСтатус.грешки.парола[0]}</p>
@@ -183,7 +253,7 @@ export default function LoginClient() {
                     autoComplete="name"
                     required
                     placeholder="Иван Иванов"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                    className={inputClass}
                   />
                   {регСтатус?.грешки?.ime && (
                     <p className="mt-1 text-xs text-red-600">{регСтатус.грешки.ime[0]}</p>
@@ -201,10 +271,14 @@ export default function LoginClient() {
                     autoComplete="email"
                     required
                     placeholder="you@example.com"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                    onBlur={(e) => проверкаИмейл(e.target.value, 'регистрация')}
+                    onChange={() => имейлГрешкаРег && setИмейлГрешкаРег(null)}
+                    className={inputClass}
                   />
-                  {регСтатус?.грешки?.email && (
-                    <p className="mt-1 text-xs text-red-600">{регСтатус.грешки.email[0]}</p>
+                  {(имейлГрешкаРег ?? регСтатус?.грешки?.email?.[0]) && (
+                    <p className="mt-1 text-xs text-red-600">
+                      {имейлГрешкаРег ?? регСтатус!.грешки!.email![0]}
+                    </p>
                   )}
                 </div>
 
@@ -212,14 +286,12 @@ export default function LoginClient() {
                   <label htmlFor="reg-парола" className="block text-sm font-medium text-gray-700 mb-1.5">
                     Парола
                   </label>
-                  <input
+                  <PasswordInput
                     id="reg-парола"
                     name="парола"
-                    type="password"
                     autoComplete="new-password"
-                    required
                     placeholder="Минимум 8 символа"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                    className={inputClass}
                   />
                   {регСтатус?.грешки?.парола && (
                     <p className="mt-1 text-xs text-red-600">{регСтатус.грешки.парола[0]}</p>
@@ -230,14 +302,12 @@ export default function LoginClient() {
                   <label htmlFor="reg-потвърди" className="block text-sm font-medium text-gray-700 mb-1.5">
                     Потвърди паролата
                   </label>
-                  <input
+                  <PasswordInput
                     id="reg-потвърди"
                     name="потвърдиПарола"
-                    type="password"
                     autoComplete="new-password"
-                    required
                     placeholder="••••••••"
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[var(--border)] text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 bg-white"
+                    className={inputClass}
                   />
                   {регСтатус?.грешки?.потвърдиПарола && (
                     <p className="mt-1 text-xs text-red-600">{регСтатус.грешки.потвърдиПарола[0]}</p>
@@ -283,4 +353,3 @@ function GoogleIcon() {
     </svg>
   )
 }
-

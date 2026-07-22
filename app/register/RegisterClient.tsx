@@ -1,16 +1,76 @@
 'use client'
 
-import React from 'react'
+import { useState } from 'react'
 import { useActionState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { регистрация, влизанеСGoogle } from '@/app/actions/auth'
 
+function валиденИмейл(стойност: string) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(стойност)
+}
+
+function EyeIcon({ open }: { open: boolean }) {
+  return open ? (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+      <circle cx="12" cy="12" r="3"/>
+    </svg>
+  ) : (
+    <svg xmlns="http://www.w3.org/2000/svg" className="w-4.5 h-4.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-10-7-10-7a18.45 18.45 0 0 1 5.06-5.94"/>
+      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 7 10 7a18.5 18.5 0 0 1-2.16 3.19"/>
+      <line x1="2" y1="2" x2="22" y2="22"/>
+    </svg>
+  )
+}
+
+function PasswordInput({
+  id,
+  name,
+  autoComplete,
+  placeholder,
+}: {
+  id: string
+  name: string
+  autoComplete: string
+  placeholder: string
+}) {
+  const [показва, setПоказва] = useState(false)
+  return (
+    <div className="relative">
+      <input
+        id={id}
+        name={name}
+        type={показва ? 'text' : 'password'}
+        autoComplete={autoComplete}
+        placeholder={placeholder}
+        className="w-full px-3 py-2.5 pr-10 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
+      />
+      <button
+        type="button"
+        onClick={() => setПоказва((п) => !п)}
+        className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 hover:text-gray-600 transition-colors"
+        aria-label={показва ? 'Скрий паролата' : 'Покажи паролата'}
+      >
+        <EyeIcon open={показва} />
+      </button>
+    </div>
+  )
+}
+
 export default function RegisterClient() {
-  const searchParams     = useSearchParams()
-  const callbackUrl      = searchParams.get('callbackUrl') ?? '/'
+  const searchParams      = useSearchParams()
+  const callbackUrl       = searchParams.get('callbackUrl') ?? '/'
   const регистрацияAction = регистрация.bind(null, callbackUrl)
   const [стат, действие, зареждане] = useActionState(регистрацияAction, undefined)
+
+  const [имейлГрешка, setИмейлГрешка] = useState<string | null>(null)
+
+  function проверкаИмейл(стойност: string) {
+    if (!стойност) return
+    setИмейлГрешка(валиденИмейл(стойност) ? null : 'Въведете валиден имейл адрес.')
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
@@ -32,7 +92,6 @@ export default function RegisterClient() {
               Регистрирай се с Google
             </button>
           </form>
-
         </div>
 
         {/* Разделител */}
@@ -80,10 +139,14 @@ export default function RegisterClient() {
               type="email"
               autoComplete="email"
               placeholder="ime@primer.com"
+              onBlur={(e) => проверкаИмейл(e.target.value)}
+              onChange={() => имейлГрешка && setИмейлГрешка(null)}
               className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
-            {стат?.грешки?.email && (
-              <p className="mt-1 text-xs text-red-600">{стат.грешки.email[0]}</p>
+            {(имейлГрешка ?? стат?.грешки?.email?.[0]) && (
+              <p className="mt-1 text-xs text-red-600">
+                {имейлГрешка ?? стат!.грешки!.email![0]}
+              </p>
             )}
           </div>
 
@@ -91,13 +154,11 @@ export default function RegisterClient() {
             <label htmlFor="парола" className="block text-sm font-medium text-gray-700 mb-1">
               Парола
             </label>
-            <input
+            <PasswordInput
               id="парола"
               name="парола"
-              type="password"
               autoComplete="new-password"
               placeholder="Поне 8 символа"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
             {стат?.грешки?.парола && (
               <p className="mt-1 text-xs text-red-600">{стат.грешки.парола[0]}</p>
@@ -105,19 +166,14 @@ export default function RegisterClient() {
           </div>
 
           <div>
-            <label
-              htmlFor="потвърдиПарола"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
+            <label htmlFor="потвърдиПарола" className="block text-sm font-medium text-gray-700 mb-1">
               Потвърди паролата
             </label>
-            <input
+            <PasswordInput
               id="потвърдиПарола"
               name="потвърдиПарола"
-              type="password"
               autoComplete="new-password"
               placeholder="••••••••"
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
             />
             {стат?.грешки?.потвърдиПарола && (
               <p className="mt-1 text-xs text-red-600">{стат.грешки.потвърдиПарола[0]}</p>
@@ -159,4 +215,3 @@ function GoogleIcon() {
     </svg>
   )
 }
-
