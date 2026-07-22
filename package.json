@@ -17,7 +17,8 @@
     "translate": "npx tsx --env-file=.env scripts/translate-descriptions.ts",
     "upload:images": "npx tsx --env-file=.env scripts/upload-images.ts",
     "import:mechanics": "npx tsx --env-file=.env --env-file=.env.local scripts/refresh-types.ts",
-    "partners:send": "npx tsx --env-file=.env.local scripts/send-partner-email.ts"
+    "partners:send": "npx tsx --env-file=.env.local scripts/send-partner-email.ts",
+    "write:article": "npx tsx --env-file=.env --env-file=.env.local scripts/write-article.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
