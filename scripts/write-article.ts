@@ -389,7 +389,7 @@ function printPreview(
       b.items.forEach(i => console.log(`  • ${i}`))
     else if (b.type === 'number')
       b.items.forEach((i, n) => console.log(`  ${n + 1}. ${i}`))
-    else console.log(`\n${b.text}`)
+    else if ('text' in b) console.log(`\n${b.text}`)
   }
   console.log('\n' + SEP)
 }
