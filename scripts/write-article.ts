@@ -506,7 +506,7 @@ async function main() {
 
   // 7. Create Sanity document
   const docId = isDraft ? `drafts.${crypto.randomUUID()}` : undefined
-  const doc: Record<string, unknown> = {
+  const doc: { _type: string } & Record<string, unknown> = {
     _type:       'post',
     ...(docId ? { _id: docId } : {}),
     title:       article.title,
