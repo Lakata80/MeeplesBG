@@ -101,8 +101,8 @@ function scoreGame(g: GameRow, p: KvizParams): number {
       if (g.minAge >= 14) score += 5
     } else {
       if (g.minAge <= p.age)          score += 10
-      else if (g.minAge <= p.age + 2) score += 4
-      else if (g.minAge > p.age + 4)  score -= 8
+      else if (g.minAge <= p.age + 1) score += 4   // 1 г. толеранс
+      else                            score -= 8   // 2+ г. над лимита → наказание
     }
   }
 
