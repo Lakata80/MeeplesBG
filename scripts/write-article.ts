@@ -315,7 +315,7 @@ const STYLE_MAP: Record<string, string> = {
 function toPortableText(blocks: SimpleBlock[]): unknown[] {
   const result: unknown[] = []
   for (const b of blocks) {
-    if (b.type === 'bullet' || b.type === 'number') {
+    if ('items' in b) {
       for (const item of b.items) {
         const { children, markDefs } = parseInline(item)
         result.push({
