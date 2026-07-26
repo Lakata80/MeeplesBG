@@ -71,6 +71,9 @@ module.exports = {
   serverExternalPackages: ['sharp'],
   allowedDevOrigins: localNetworkIPs(),
   images: {
+    // Снимките вече са WebP в Cloudflare R2 — Vercel оптимизацията не е нужна
+    // и надхвърля лимита на безплатния план (402 Payment Required)
+    unoptimized: true,
     remotePatterns: [
       // BGG изображения
       { protocol: 'https', hostname: 'cf.geekdo-images.com' },
