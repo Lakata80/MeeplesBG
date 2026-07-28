@@ -21,9 +21,7 @@ export default function HeaderSearchInput({ variant }: Props) {
   )
 
   useEffect(() => {
-    if (наИгри) {
-      setСтойност(searchParams.get('q') ?? '')
-    }
+    setСтойност(наИгри ? (searchParams.get('q') ?? '') : '')
   }, [наИгри, searchParams])
 
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
