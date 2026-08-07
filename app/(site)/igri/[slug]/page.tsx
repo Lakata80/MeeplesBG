@@ -39,6 +39,8 @@ const getGame = cache(async (slug: string) => {
       imageUrl: true, thumbnailUrl: true,
       categories: true, mechanics: true, types: true,
       isActive: true,
+      baseGameId: true,
+      baseGame: { select: { slug: true, titleBg: true, titleEn: true } },
       _count: { select: { comments: { where: { isApproved: true } } } },
     },
   })
@@ -409,6 +411,22 @@ export default async function GamePage({
       <BoardGameSchema игра={игра} заглавие={заглавие} />
 
       <Breadcrumb заглавие={заглавие} />
+
+      {/* ── Разширение на: родителска игра ── */}
+      {игра.baseGame && (
+        <div className="bg-brand-50 border-b border-brand-100 py-2.5">
+          <div className="container mx-auto px-4 max-w-5xl">
+            <Link
+              href={`/igri/${игра.baseGame.slug}`}
+              className="inline-flex items-center gap-1.5 text-sm text-brand-700 hover:text-brand-800 font-medium transition-colors"
+            >
+              <span className="text-brand-400">←</span>
+              Разширение на:{' '}
+              <span className="font-semibold">{игра.baseGame.titleBg || игра.baseGame.titleEn}</span>
+            </Link>
+          </div>
+        </div>
+      )}
 
       {/* ── Банер ── */}
       {банер && (

@@ -75,6 +75,14 @@ export function parseBGGGame(xml: string): BggGameDetails[] {
     const categories = byType('boardgamecategory')
     const mechanics  = byType('boardgamemechanic')
 
+    // Expansion линкове
+    const expansionBggIds = links
+      .filter((l) => l['@_type'] === 'boardgameexpansion' && !l['@_inbound'])
+      .map((l) => parseInt(String(l['@_id'])))
+    const expandsBggId = links
+      .filter((l) => l['@_type'] === 'boardgameexpansion' && l['@_inbound'] === 'true')
+      .map((l) => parseInt(String(l['@_id'])))[0] ?? null
+
     // Статистики
     const ratings = (it['statistics'] as Record<string, unknown>)?.['ratings'] as Record<string, unknown> | undefined
     const bggRating = num((ratings?.['average'] as Record<string, unknown>)?.['@_value'])
@@ -114,6 +122,8 @@ export function parseBGGGame(xml: string): BggGameDetails[] {
       mechanics,
       types: types.length > 0 ? types : [],
       isExpansion,
+      expansionBggIds,
+      expandsBggId,
     } satisfies BggGameDetails
   })
 }

@@ -25,6 +25,8 @@ export interface BggGameDetails {
   mechanics: string[]
   types: string[]
   isExpansion: boolean
+  expansionBggIds: number[]
+  expandsBggId: number | null
 }
 
 export interface BggCollectionItem {
