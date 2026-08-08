@@ -38,8 +38,11 @@ export default async function MehanikiTeaser() {
           select: { slug: true },
         }),
         prisma.game.findMany({
-          where:   { isActive: true, mechanics: { has: к.name } },
-          orderBy: [{ bggRating: { sort: 'desc', nulls: 'last' } }],
+          where:   { isActive: true, mechanics: { has: к.name }, baseGameId: null },
+          orderBy: [
+            { bggRank:   { sort: 'asc',  nulls: 'last' } },
+            { bggRating: { sort: 'desc', nulls: 'last' } },
+          ],
           take:    3,
           select:  { id: true, slug: true, titleBg: true, titleEn: true, thumbnailUrl: true, imageUrl: true },
         }),

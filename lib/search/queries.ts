@@ -50,7 +50,7 @@ export async function searchGames(params: SearchParams): Promise<SearchResult> {
   } = params
 
   // ── Изгради филтъра ──────────────────────────
-  const части: string[] = []
+  const части: string[] = ['isExpansion = false']
 
   if (players !== undefined) {
     // Игра поддържа точно players брой играчи

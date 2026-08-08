@@ -25,8 +25,11 @@ export default async function МеханикаСтраница({ params }: { par
   if (!механика) notFound()
 
   const игри = await prisma.game.findMany({
-    where:   { isActive: true, mechanics: { has: механика.name } },
-    orderBy: [{ bggRating: { sort: 'desc', nulls: 'last' } }],
+    where:   { isActive: true, mechanics: { has: механика.name }, baseGameId: null },
+    orderBy: [
+      { bggRank:   { sort: 'asc',  nulls: 'last' } },
+      { bggRating: { sort: 'desc', nulls: 'last' } },
+    ],
     take:    24,
     select: {
       slug: true, titleBg: true, titleEn: true,

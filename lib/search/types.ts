@@ -20,4 +20,5 @@ export interface GameDocument {
   categories:    string[]
   mechanics:     string[]
   types:         string[]
+  isExpansion:   boolean
 }
