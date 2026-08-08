@@ -71,6 +71,7 @@ export async function GET(
       minAge:        bggДанни.minAge,
       weight:        bggДанни.weight,
       bggRating:     bggДанни.bggRating,
+      bggRank:       bggДанни.bggRank,
       imageUrl:      bggДанни.imageUrl,
       thumbnailUrl:  bggДанни.thumbnailUrl,
       categories:    bggДанни.categories,

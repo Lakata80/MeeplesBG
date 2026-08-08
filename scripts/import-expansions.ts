@@ -17,6 +17,9 @@ import { indexGame }       from '../lib/search/indexing'
 const МОДЕЛ       = 'claude-haiku-4-5-20251001'
 const МАКС_ТОКЕНИ = 4096
 
+// Минимален BGG рейтинг за импорт (0 = всички)
+const MIN_RATING  = 6.5
+
 const SYSTEM_PROMPT = `Ти си професионален преводач и редактор на настолни игри (board games), специализиран в превод от английски на български.
 
 Твоята задача е да превеждаш описания, правила, инструкции и текстове за настолни игри от английски на български по начин, подходящ за публикуване.
@@ -160,6 +163,11 @@ async function main() {
         const baseGameId = всичкиExIds.get(игра.id)
         if (!baseGameId) continue
 
+        if (MIN_RATING > 0 && (игра.bggRating ?? 0) < MIN_RATING) {
+          console.log(`   ⏭  "${игра.titleEn}" — рейтинг ${игра.bggRating?.toFixed(1) ?? 'N/A'} < ${MIN_RATING}, пропуснато`)
+          continue
+        }
+
         const съществува = await prisma.game.findUnique({ where: { bggId: игра.id }, select: { id: true } })
         if (съществува) {
           await prisma.game.update({ where: { id: съществува.id }, data: { baseGameId } })
@@ -184,6 +192,7 @@ async function main() {
             minAge:        игра.minAge,
             weight:        игра.weight,
             bggRating:     игра.bggRating,
+            bggRank:       игра.bggRank,
             imageUrl:      игра.imageUrl,
             thumbnailUrl:  игра.thumbnailUrl,
             categories:    игра.categories,

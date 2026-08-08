@@ -19,7 +19,8 @@
     "import:mechanics": "npx tsx --env-file=.env --env-file=.env.local scripts/refresh-types.ts",
     "partners:send": "npx tsx --env-file=.env.local scripts/send-partner-email.ts",
     "write:article": "npx tsx --env-file=.env --env-file=.env.local scripts/write-article.ts",
-    "expansions:import": "npx tsx --env-file=.env --env-file=.env.local scripts/import-expansions.ts"
+    "expansions:import": "npx tsx --env-file=.env --env-file=.env.local scripts/import-expansions.ts",
+    "bgg:refresh-rank": "npx tsx --env-file=.env --env-file=.env.local scripts/refresh-bgg-rank.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

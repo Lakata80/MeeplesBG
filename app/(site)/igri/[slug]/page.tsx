@@ -63,7 +63,7 @@ export async function generateMetadata({
 
   return {
     title: `${заглавие} | MeeplesBG`,
-    description: описание || `${заглавие} — настолна игра. Виж ревюта, правила и цени в MeeplesBG.`,
+    description: описание || `${заглавие} — настолна игра. Виж ревюта, правила и мнения в MeeplesBG.`,
     openGraph: {
       title:  заглавие,
       description: описание,
@@ -630,8 +630,8 @@ export default async function GamePage({
         <ExpansionsSection gameId={игра.id} />
       </Suspense>
 
-      {/* ── Магазинни цени (placeholder) ── */}
-      <section className="py-8 border-t border-gray-100">
+      {/* ── Магазинни цени (скрито — активирай при нужда) ── */}
+      {/* <section className="py-8 border-t border-gray-100">
         <div className="container mx-auto px-4 max-w-4xl">
           <h2 className="text-xl font-bold text-gray-900 mb-3">🛒 Цени в магазини</h2>
           <div className="bg-brand-50 border border-brand-100 rounded-xl p-6 text-center text-sm text-brand-600">
@@ -641,7 +641,7 @@ export default async function GamePage({
             </p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* ── Общностна статистика ── */}
       <Suspense fallback={null}>

@@ -27,6 +27,7 @@ export function gameToDocument(игра: Game): GameDocument {
     categories:    игра.categories,
     mechanics:     игра.mechanics,
     types:         игра.types,
+    isExpansion:   игра.baseGameId !== null,
   }
 }
 
@@ -53,6 +54,7 @@ export async function configureIndex(): Promise<void> {
       'yearPublished',
       'bggRating',
       'ourRating',
+      'isExpansion',
     ],
     sortableAttributes: [
       'bggRating',

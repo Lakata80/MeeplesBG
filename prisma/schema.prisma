@@ -106,6 +106,7 @@ model Game {
   minAge          Int?
   weight          Float?
   bggRating       Float?
+  bggRank         Int?
   ourRating       Float?
   imageUrl        String?
   thumbnailUrl    String?
