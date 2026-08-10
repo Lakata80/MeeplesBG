@@ -105,9 +105,12 @@ model Game {
   maxPlaytime     Int?
   minAge          Int?
   weight          Float?
-  bggRating       Float?
-  bggRank         Int?
-  ourRating       Float?
+  bggRating        Float?
+  bggRank          Int?
+  bggWargamesRank  Int?
+  bggStrategyRank  Int?
+  bggFamilyRank    Int?
+  ourRating        Float?
   imageUrl        String?
   thumbnailUrl    String?
   categories      String[]

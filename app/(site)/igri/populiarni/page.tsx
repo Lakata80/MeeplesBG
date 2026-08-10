@@ -109,29 +109,29 @@ export default async function PopuliarniPage() {
       include: { game: { select: GAME_SELECT } },
     }).catch(() => []),
 
-    // По брой играчи
+    // По брой играчи — сортиране по BGG ранг, разширения без ранг са изключени
     prisma.game.findMany({
-      where:   { isActive: true, minPlayers: { lte: 1 }, maxPlayers: { gte: 1 }, bggRating: { not: null } },
+      where:   { isActive: true, minPlayers: { lte: 1 }, maxPlayers: { gte: 1 }, bggRating: { not: null }, bggRank: { not: null } },
       select:  GAME_SELECT,
-      orderBy: { bggRating: 'desc' },
+      orderBy: { bggRank: { sort: 'asc', nulls: 'last' } },
       take:    6,
     }),
     prisma.game.findMany({
-      where:   { isActive: true, minPlayers: { lte: 2 }, maxPlayers: { gte: 2 }, bggRating: { not: null } },
+      where:   { isActive: true, minPlayers: { lte: 2 }, maxPlayers: { gte: 2 }, bggRating: { not: null }, bggRank: { not: null } },
       select:  GAME_SELECT,
-      orderBy: { bggRating: 'desc' },
+      orderBy: { bggRank: { sort: 'asc', nulls: 'last' } },
       take:    6,
     }),
     prisma.game.findMany({
-      where:   { isActive: true, minPlayers: { lte: 3 }, maxPlayers: { gte: 4 }, bggRating: { not: null } },
+      where:   { isActive: true, minPlayers: { lte: 3 }, maxPlayers: { gte: 4 }, bggRating: { not: null }, bggRank: { not: null } },
       select:  GAME_SELECT,
-      orderBy: { bggRating: 'desc' },
+      orderBy: { bggRank: { sort: 'asc', nulls: 'last' } },
       take:    6,
     }),
     prisma.game.findMany({
-      where:   { isActive: true, maxPlayers: { gte: 5 }, bggRating: { not: null } },
+      where:   { isActive: true, maxPlayers: { gte: 5 }, bggRating: { not: null }, bggRank: { not: null } },
       select:  GAME_SELECT,
-      orderBy: { bggRating: 'desc' },
+      orderBy: { bggRank: { sort: 'asc', nulls: 'last' } },
       take:    6,
     }),
   ])
@@ -360,7 +360,7 @@ export default async function PopuliarniPage() {
         <section>
           <SectionTitle
             title="👥 Най-добри според брой играчи"
-            subtitle="Топ избори за всяка компания, наредени по BGG рейтинг"
+            subtitle="Топ избори за всяка компания, наредени по BGG ранг"
           />
           <PlayerCountTabs tabs={playerTabs} />
         </section>

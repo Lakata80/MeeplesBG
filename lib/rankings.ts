@@ -83,15 +83,25 @@ const ИЗБОР = {
   thumbnailUrl: true, imageUrl: true, types: true,
 } as const
 
-const ПОДРЕЖДАНЕ = [{ bggRating: { sort: 'desc' as const, nulls: 'last' as const } }]
+const ASC_NULLS_LAST = { sort: 'asc' as const, nulls: 'last' as const }
+
+const ПОДРЕЖДАНЕ: Record<string, Prisma.GameOrderByWithRelationInput[]> = {
+  'top-100':         [{ bggRank:         ASC_NULLS_LAST }],
+  'top-strategia':   [{ bggStrategyRank: ASC_NULLS_LAST }],
+  'top-voyna':       [{ bggWargamesRank: ASC_NULLS_LAST }],
+  'top-semeyni':     [{ bggFamilyRank:   ASC_NULLS_LAST }],
+  'top-kooperativni':[{ bggRank:         ASC_NULLS_LAST }],
+  'top-za-dvama':    [{ bggRank:         ASC_NULLS_LAST }],
+}
 
 async function заявка(
+  slug:  string,
   where: Prisma.GameWhereInput,
   limit: number,
 ): Promise<КласациоИгра[]> {
   return prisma.game.findMany({
     where,
-    orderBy: ПОДРЕЖДАНЕ,
+    orderBy: ПОДРЕЖДАНЕ[slug] ?? [{ bggRank: ASC_NULLS_LAST }],
     take:    limit,
     select:  ИЗБОР,
   }) as Promise<КласациоИгра[]>
@@ -107,13 +117,13 @@ export async function getRanking(
 
   switch (slug) {
     case 'top-100':
-      return заявка({ ...base }, limit)
+      return заявка(slug, { ...base }, limit)
 
     case 'top-strategia':
-      return заявка({ ...base, types: { has: 'Strategy' } }, limit)
+      return заявка(slug, { ...base, types: { has: 'Strategy' } }, limit)
 
     case 'top-voyna':
-      return заявка({
+      return заявка(slug, {
         ...base,
         OR: [
           { types: { has: 'Wargames' } },
@@ -122,16 +132,16 @@ export async function getRanking(
       }, limit)
 
     case 'top-semeyni':
-      return заявка({ ...base, types: { has: 'Family' } }, limit)
+      return заявка(slug, { ...base, types: { has: 'Family' } }, limit)
 
     case 'top-kooperativni':
-      return заявка({
+      return заявка(slug, {
         ...base,
         mechanics: { hasSome: ['Co-operative Play', 'Cooperative Game'] },
       }, limit)
 
     case 'top-za-dvama':
-      return заявка({
+      return заявка(slug, {
         ...base,
         minPlayers: { lte: 2 },
         maxPlayers: { gte: 2 },

@@ -19,6 +19,7 @@ export interface BggGameDetails {
   weight?: number
   bggRating?: number
   bggRank?: number
+  categoryRanks?: Record<string, number>
   imageUrl?: string
   thumbnailUrl?: string
   categories: string[]

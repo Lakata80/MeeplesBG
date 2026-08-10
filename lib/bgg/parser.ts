@@ -97,6 +97,15 @@ export function parseBGGGame(xml: string): BggGameDetails[] {
       ? intVal(bggRankRaw)
       : undefined
 
+    // Категорийни рангове (wargames, strategygames, familygames, …)
+    const categoryRanks: Record<string, number> = {}
+    for (const r of rankItems) {
+      if (r['@_type'] === 'family') {
+        const val = intVal(r['@_value'])
+        if (val) categoryRanks[String(r['@_name'])] = val
+      }
+    }
+
     // Типове от family ranks
     const types = rankItems
       .filter((r) => r['@_type'] === 'family' && r['@_value'] !== 'Not Ranked')
@@ -116,6 +125,7 @@ export function parseBGGGame(xml: string): BggGameDetails[] {
       weight,
       bggRating,
       bggRank,
+      categoryRanks,
       imageUrl,
       thumbnailUrl,
       categories,
