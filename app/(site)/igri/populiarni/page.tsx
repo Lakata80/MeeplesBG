@@ -94,9 +94,9 @@ export default async function PopuliarniPage() {
     getHotness().catch(() => []),
     getActiveWeeklyGame().catch(() => null),
 
-    // Нови игри
+    // Нови игри — само базови игри с BGG ранг (без промо карти, разширения, аксесоари)
     prisma.game.findMany({
-      where:   { isActive: true },
+      where:   { isActive: true, bggRank: { not: null } },
       select:  GAME_SELECT,
       orderBy: { createdAt: 'desc' },
       take:    10,

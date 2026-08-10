@@ -12,6 +12,7 @@ export interface SearchParams {
   maxWeight?:   number   // максимална сложност (weight <= N)
   types?:       string[] // ['Strategy', 'Family', ...]
   categories?:  string[] // ['Fantasy', 'Adventure', ...]
+  mechanics?:   string[] // ['Dice Rolling', 'Worker Placement', ...]
   sort?:        'rating' | 'year' | 'name'
   page?:        number
 }
@@ -45,6 +46,7 @@ export async function searchGames(params: SearchParams): Promise<SearchResult> {
     maxWeight,
     types,
     categories,
+    mechanics,
     sort        = 'rating',
     page        = 1,
   } = params
@@ -99,6 +101,11 @@ export async function searchGames(params: SearchParams): Promise<SearchResult> {
   if (categories && categories.length > 0) {
     const списък = categories.map((c) => `"${c}"`).join(', ')
     части.push(`categories IN [${списък}]`)
+  }
+
+  if (mechanics && mechanics.length > 0) {
+    const списък = mechanics.map((m) => `"${m}"`).join(', ')
+    части.push(`mechanics IN [${списък}]`)
   }
 
   const filter = части.length > 0 ? части.join(' AND ') : undefined

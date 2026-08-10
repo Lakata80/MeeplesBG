@@ -68,6 +68,7 @@ export default async function ИгриСтраница({ searchParams }: { searc
   const вреМакс   = getInt(парам.vreme)
   const минВъзраст = getInt(парам.vozrast)
   const типове    = getString(парам.tip)?.split(',').filter(Boolean)
+  const механики  = getString(парам.mehaniki)?.split(',').filter(Boolean)
   const подредба  = getSort(парам.podredba)
 
   // Сложност: 'lesni' | 'sredni' | 'trudni'
@@ -95,6 +96,7 @@ export default async function ИгриСтраница({ searchParams }: { searc
     minWeight,
     maxWeight,
     types:       типове,
+    mechanics:   механики,
     sort:        подредба,
     page:        страница,
   }).catch(() => EMPTY)
