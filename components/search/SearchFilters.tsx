@@ -45,6 +45,30 @@ const СЛОЖНОСТ = [
   { стойност: 'trudni', надпис: 'Трудни' },
 ]
 
+const МЕХАНИКИ = [
+  { стойност: 'Dice Rolling',                     надпис: 'Dice Rolling' },
+  { стойност: 'Variable Player Powers',            надпис: 'Variable Powers' },
+  { стойност: 'Hand Management',                   надпис: 'Hand Management' },
+  { стойност: 'Modular Board',                     надпис: 'Modular Board' },
+  { стойност: 'Open Drafting',                     надпис: 'Open Drafting' },
+  { стойност: 'Set Collection',                    надпис: 'Set Collection' },
+  { стойност: 'Tile Placement',                    надпис: 'Tile Placement' },
+  { стойност: 'Deck, Bag, and Pool Building',      надпис: 'Deck Building' },
+  { стойност: 'Area Majority / Influence',         надпис: 'Area Control' },
+  { стойност: 'Action Points',                     надпис: 'Action Points' },
+  { стойност: 'Worker Placement',                  надпис: 'Worker Placement' },
+  { стойност: 'Simultaneous Action Selection',     надпис: 'Simultaneous Action' },
+  { стойност: 'Network and Route Building',        надпис: 'Route Building' },
+  { стойност: 'Solo / Solitaire Game',             надпис: 'Solo' },
+  { стойност: 'Area Movement',                     надпис: 'Area Movement' },
+  { стойност: 'Scenario / Mission / Campaign Game',надпис: 'Campaign Game' },
+  { стойност: 'Push Your Luck',                    надпис: 'Push Your Luck' },
+  { стойност: 'Auction / Bidding',                 надпис: 'Auction / Bidding' },
+  { стойност: 'Take That',                         надпис: 'Take That' },
+  { стойност: 'Grid Movement',                     надпис: 'Grid Movement' },
+]
+const МЕХАНИКИ_ПОКАЖИ = 10
+
 // ── Главен компонент ────────────────────────────
 
 export default function SearchFilters() {
@@ -52,6 +76,7 @@ export default function SearchFilters() {
   const router        = useRouter()
   const [isPending, startTransition] = useTransition()
   const [drawer, setDrawer] = useState(false)
+  const [показвамВсичкиМеханики, setПоказвамВсичкиМеханики] = useState(false)
 
   // Текущи стойности от URL
   const cPlayers   = searchParams.get('igrali') ?? ''
@@ -59,6 +84,7 @@ export default function SearchFilters() {
   const cVozrast   = searchParams.get('vozrast') ?? ''
   const cTypes     = searchParams.get('tip')?.split(',').filter(Boolean) ?? []
   const cSlozhnost = searchParams.get('slozhnost') ?? ''
+  const cMehaniki  = searchParams.get('mehaniki')?.split(',').filter(Boolean) ?? []
 
   // Брой активни филтри
   const активниБрой = [
@@ -67,6 +93,7 @@ export default function SearchFilters() {
     cVozrast,
     cTypes.length > 0 ? 'types' : '',
     cSlozhnost,
+    cMehaniki.length > 0 ? 'mehaniki' : '',
   ].filter(Boolean).length
 
   // ── URL обновяване ────────────────────────────
@@ -85,6 +112,13 @@ export default function SearchFilters() {
     const idx = current.indexOf(тип)
     if (idx >= 0) current.splice(idx, 1); else current.push(тип)
     setParam('tip', current.length > 0 ? current.join(',') : null)
+  }
+
+  function toggleMechanic(м: string) {
+    const current = [...cMehaniki]
+    const idx = current.indexOf(м)
+    if (idx >= 0) current.splice(idx, 1); else current.push(м)
+    setParam('mehaniki', current.length > 0 ? current.join(',') : null)
   }
 
   function clearAll() {
@@ -174,6 +208,35 @@ export default function SearchFilters() {
             </span>
           </label>
         ))}
+      </FilterSection>
+
+      {/* Механики */}
+      <FilterSection
+        заглавие="Механики"
+        активен={cMehaniki.length > 0}
+        onИзчисти={() => setParam('mehaniki', null)}
+      >
+        {МЕХАНИКИ.slice(0, показвамВсичкиМеханики ? МЕХАНИКИ.length : МЕХАНИКИ_ПОКАЖИ).map(({ стойност, надпис }) => (
+          <label key={стойност} className="flex items-center gap-2.5 cursor-pointer group">
+            <input
+              type="checkbox"
+              checked={cMehaniki.includes(стойност)}
+              onChange={() => toggleMechanic(стойност)}
+              className="w-4 h-4 accent-brand-600 cursor-pointer"
+            />
+            <span className="text-sm text-gray-700 group-hover:text-brand-600 transition-colors">
+              {надпис}
+            </span>
+          </label>
+        ))}
+        <button
+          onClick={() => setПоказвамВсичкиМеханики(!показвамВсичкиМеханики)}
+          className="text-xs text-brand-600 hover:text-brand-700 transition-colors mt-1"
+        >
+          {показвамВсичкиМеханики
+            ? 'По-малко'
+            : `Покажи повече (${МЕХАНИКИ.length - МЕХАНИКИ_ПОКАЖИ})`}
+        </button>
       </FilterSection>
 
       {/* Сложност */}
