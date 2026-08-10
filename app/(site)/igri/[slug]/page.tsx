@@ -233,18 +233,19 @@ async function SimilarGamesSection({ игра }: {
     mechanics:  string[]
   }
 }) {
-  // Вземаме до 50 кандидата по типове или механики
+  // Вземаме до 16 кандидата по типове или механики, сортирани по BGG ранг
   const кандидати = await prisma.game.findMany({
     where: {
       id:       { not: игра.id },
       isActive: true,
+      bggRank:  { not: null },
       OR: [
         { types:     { hasSome: игра.types.length     > 0 ? игра.types     : ['__none__'] } },
         { mechanics: { hasSome: игра.mechanics.length > 0 ? игра.mechanics : ['__none__'] } },
       ],
     },
-    orderBy: { bggRating: { sort: 'desc', nulls: 'last' } },
-    take:    50,
+    orderBy: { bggRank: { sort: 'asc', nulls: 'last' } },
+    take:    16,
     select: {
       slug: true, titleBg: true, titleEn: true,
       thumbnailUrl: true, imageUrl: true,
