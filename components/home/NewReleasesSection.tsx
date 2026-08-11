@@ -5,8 +5,8 @@ import { formatPlayers, formatPlaytime } from '@/lib/utils'
 
 export default async function NewReleasesSection() {
   const игри = await prisma.game.findMany({
-    where: { isActive: true, yearPublished: { not: null } },
-    orderBy: { yearPublished: 'desc' },
+    where: { isActive: true, baseGameId: null },
+    orderBy: { createdAt: 'desc' },
     take: 10,
     select: {
       slug:          true,
@@ -29,12 +29,12 @@ export default async function NewReleasesSection() {
     <section className="py-12 bg-brand-50/40">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-brand-800">🚀 Нови издания</h2>
+          <h2 className="text-2xl font-bold text-brand-800">🆕 Нови в MeeplesBG</h2>
           <Link
-            href="/igri?sort=year"
+            href="/igri"
             className="text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors"
           >
-            Виж всички →
+            Всички игри →
           </Link>
         </div>
 

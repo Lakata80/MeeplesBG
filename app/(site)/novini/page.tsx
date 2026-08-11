@@ -42,7 +42,7 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
         description: `Разгледай всички статии в категория ${таб.надпис} на MeeplesBG.`,
       }
     : {
-        title:       'Новини и Статии | MeeplesBG',
+        title:       'Светът на настолните игри | MeeplesBG',
         description: 'Последни новини, ревюта и статии за настолни игри от MeeplesBG.',
       }
 }
@@ -84,7 +84,7 @@ export default async function НовиниСтраница({ searchParams }: { s
 
       {/* Заглавие */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">📰 Новини и Статии</h1>
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">🌍 Светът на настолните игри</h1>
         <p className="text-gray-500 text-sm">
           Последни ревюта, новини и наръчници за настолни игри.
         </p>
