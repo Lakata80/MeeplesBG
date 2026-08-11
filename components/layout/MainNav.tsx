@@ -19,6 +19,7 @@ const КАТЕГОРИИ = [
   { href: '/igri?tip=Party',       label: 'Парти' },
   { href: '/igri?tip=Abstract',    label: 'Абстрактни' },
   { href: '/igri?tip=Cooperative', label: 'Кооперативни' },
+  { href: '/igri/populiarni',      label: '🔥 Популярни игри' },
 ]
 
 interface Props {
