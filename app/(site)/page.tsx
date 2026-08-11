@@ -2,7 +2,9 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 
 import WeeklyGameHeroSection from '@/components/home/WeeklyGameHeroSection'
+import HotnessSection       from '@/components/home/HotnessSection'
 import NewReleasesSection   from '@/components/home/NewReleasesSection'
+import HiddenGemsTeaser     from '@/components/home/HiddenGemsTeaser'
 import NewsSection          from '@/components/home/NewsSection'
 import BestsellersSection   from '@/components/home/BestsellersSection'
 import DiscoverSection      from '@/components/home/DiscoverSection'
@@ -82,25 +84,35 @@ export default function НачалнаСтраница() {
         <WeeklyGameHeroSection />
       </Suspense>
 
-      {/* 2. Нови в MeeplesBG */}
+      {/* 2. Популярни тази седмица (BGG Hotness top 10) */}
+      <Suspense fallback={<КартаРедСкелет />}>
+        <HotnessSection />
+      </Suspense>
+
+      {/* 3. Нови игри в MeeplesBG */}
       <Suspense fallback={<КартаРедСкелет />}>
         <NewReleasesSection />
       </Suspense>
 
-      {/* 3. Светът на настолните игри */}
+      {/* 4. Скрити находки */}
+      <Suspense fallback={<КартиМрежаСкелет />}>
+        <HiddenGemsTeaser />
+      </Suspense>
+
+      {/* 5. Светът на настолните игри */}
       <Suspense fallback={<НовиниСкелет />}>
         <NewsSection />
       </Suspense>
 
-      {/* 4. Топ класации */}
+      {/* 6. Топ класации */}
       <Suspense fallback={<КартиМрежаСкелет />}>
         <BestsellersSection />
       </Suspense>
 
-      {/* 5. Открий игра */}
+      {/* 7. Открий игра */}
       <DiscoverSection />
 
-      {/* 6. Бюлетин */}
+      {/* 8. Бюлетин */}
       <NewsletterSection />
     </>
   )
