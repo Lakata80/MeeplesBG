@@ -10,7 +10,7 @@ import BestsellersSection   from '@/components/home/BestsellersSection'
 import DiscoverSection      from '@/components/home/DiscoverSection'
 import NewsletterSection    from '@/components/home/NewsletterSection'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300 // 5 минути кеш
 
 export const metadata: Metadata = {
   title: 'MeeplesBG — Настолни игри на български',
