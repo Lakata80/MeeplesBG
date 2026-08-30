@@ -83,6 +83,12 @@ export default async function WeeklyGameHeroSection() {
             >
               Страницата на играта
             </Link>
+            <Link
+              href="/igri/igra-na-sedmicata"
+              className="inline-flex items-center gap-2 px-5 py-3 bg-white/10 hover:bg-white/20 text-white/80 hover:text-white text-sm font-medium rounded-xl backdrop-blur-sm transition-colors border border-white/15"
+            >
+              Игри на седмицата →
+            </Link>
           </div>
 
           <SearchBar
