@@ -28,8 +28,8 @@ function getInt(val: string | string[] | undefined): number | undefined {
 
 function getSort(val: string | string[] | undefined): 'rating' | 'year' | 'name' {
   const s = getString(val)
-  if (s === 'year' || s === 'name') return s
-  return 'rating'
+  if (s === 'rating' || s === 'name') return s
+  return 'year'
 }
 
 // ── SEO метаданни ──────────────────────────────

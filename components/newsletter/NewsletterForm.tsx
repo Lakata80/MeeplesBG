@@ -100,7 +100,7 @@ export default function NewsletterForm({ вариант = 'нормален' }: 
           ref={входRef}
           type="email"
           required
-          placeholder="Въведи своя имейл адрес"
+          placeholder="Въведи своя имейл"
           disabled={статус === 'зареждане'}
           className="
             w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base text-gray-900
