@@ -14,11 +14,11 @@ export default function SortSelect() {
   const router       = useRouter()
   const [, startTransition] = useTransition()
 
-  const current = searchParams.get('podredba') ?? 'rating'
+  const current = searchParams.get('podredba') ?? 'year'
 
   function handleChange(е: React.ChangeEvent<HTMLSelectElement>) {
     const next = new URLSearchParams(searchParams.toString())
-    if (е.target.value === 'rating') {
+    if (е.target.value === 'year') {
       next.delete('podredba')
     } else {
       next.set('podredba', е.target.value)
