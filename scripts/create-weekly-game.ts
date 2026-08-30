@@ -22,10 +22,10 @@ import * as http       from 'http'
 const MODEL      = 'claude-sonnet-4-6'
 const MAX_TOKENS = 2048
 
-const GAME_SLUG  = 'lost-ruins-of-arnak'
-const GAME_NAME  = 'Lost Ruins of Arnak'
-const WEEK_LABEL = 'Седмица 34, 2026'
-const DOC_SLUG   = 'lost-ruins-of-arnak-2026-w34'
+const GAME_SLUG  = 'endeavor-deep-sea'
+const GAME_NAME  = 'Endeavor: Deep Sea'
+const WEEK_LABEL = 'Седмица 35, 2026'
+const DOC_SLUG   = 'endeavor-deep-sea-2026-w35'
 
 // ─── Sanity write клиент ──────────────────────────────────────────
 
@@ -333,7 +333,7 @@ async function main() {
   }
 
   // 8. Създай weeklyGame документ
-  const docId = isDraft ? `drafts.weekly-game-lost-ruins-of-arnak-2026-w34` : undefined
+  const docId = isDraft ? `drafts.weekly-game-endeavor-deep-sea-2026-w35` : undefined
 
   const doc = {
     _type:    'weeklyGame',

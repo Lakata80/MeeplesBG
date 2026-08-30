@@ -94,14 +94,14 @@ export default function НачалнаСтраница() {
         <NewReleasesSection />
       </Suspense>
 
-      {/* 4. Скрити находки */}
-      <Suspense fallback={<КартиМрежаСкелет />}>
-        <HiddenGemsTeaser />
-      </Suspense>
-
-      {/* 5. Светът на настолните игри */}
+      {/* 4. Светът на настолните игри */}
       <Suspense fallback={<НовиниСкелет />}>
         <NewsSection />
+      </Suspense>
+
+      {/* 5. Скрити находки */}
+      <Suspense fallback={<КартиМрежаСкелет />}>
+        <HiddenGemsTeaser />
       </Suspense>
 
       {/* 6. Топ класации */}
