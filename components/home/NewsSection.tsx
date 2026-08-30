@@ -116,7 +116,7 @@ function МалкаКарта({ п }: { п: СтатияКарта }) {
 export default async function NewsSection() {
   let posts: СтатияКарта[] = []
   try {
-    const result = await getAllPosts(3)
+    const result = await getAllPosts(5)
     posts = result.posts
   } catch {
     return null
