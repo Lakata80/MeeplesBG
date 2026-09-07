@@ -22,10 +22,10 @@ import * as http       from 'http'
 const MODEL      = 'claude-sonnet-4-6'
 const MAX_TOKENS = 2048
 
-const GAME_SLUG  = 'endeavor-deep-sea'
-const GAME_NAME  = 'Endeavor: Deep Sea'
-const WEEK_LABEL = 'Седмица 35, 2026'
-const DOC_SLUG   = 'endeavor-deep-sea-2026-w35'
+const GAME_SLUG  = 'the-white-castle'
+const GAME_NAME  = 'The White Castle'
+const WEEK_LABEL = 'Седмица 36, 2026'
+const DOC_SLUG   = 'the-white-castle-2026-w36'
 
 // ─── Sanity write клиент ──────────────────────────────────────────
 
@@ -179,9 +179,20 @@ function sanitizeJSON(raw: string): string {
         let j = i + 1
         while (j < chars.length && ' \t\n\r'.includes(chars[j])) j++
         const next = chars[j] ?? ''
-        if (next === ',' || next === '}' || next === ']' || next === ':' || j >= chars.length) {
+        if (next === '}' || next === ']' || next === ':' || j >= chars.length) {
           inStr = false
           out.push(ch)
+        } else if (next === ',') {
+          // Проверяваме дали след запетаята идва нов JSON ключ (т.е. ")
+          // Ако не — кавичката е ASCII цитат вътре в стринга, трябва да се escape-не
+          let k = j + 1
+          while (k < chars.length && ' \t\n\r'.includes(chars[k])) k++
+          if (chars[k] === '"') {
+            inStr = false
+            out.push(ch)
+          } else {
+            out.push('\\"')
+          }
         } else {
           out.push('\\"')
         }
@@ -333,7 +344,7 @@ async function main() {
   }
 
   // 8. Създай weeklyGame документ
-  const docId = isDraft ? `drafts.weekly-game-endeavor-deep-sea-2026-w35` : undefined
+  const docId = isDraft ? `drafts.weekly-game-the-white-castle-2026-w36` : undefined
 
   const doc = {
     _type:    'weeklyGame',
