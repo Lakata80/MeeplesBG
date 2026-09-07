@@ -42,10 +42,12 @@ export async function generateMetadata({ searchParams }: { searchParams: SearchP
     ? {
         title:       `Резултати за "${q}" | MeeplesBG`,
         description: `Намери настолни игри за "${q}" в базата на MeeplesBG.`,
+        alternates:  { canonical: '/igri' },
       }
     : {
         title:       'Всички игри | MeeplesBG',
         description: 'Разгледай над 2 000 настолни игри. Филтрирай по брой играчи, тип, времетраене и сложност.',
+        alternates:  { canonical: '/igri' },
       }
 }
 
