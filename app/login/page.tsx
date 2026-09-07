@@ -5,6 +5,7 @@ import LoginClient from './LoginClient'
 export const metadata: Metadata = {
   title: 'Вход | MeeplesBG',
   description: 'Влез в MeeplesBG с Google, Facebook или имейл.',
+  robots: { index: false, follow: false },
 }
 
 export default function ВходСтраница() {
