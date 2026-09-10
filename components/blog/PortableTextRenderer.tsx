@@ -9,9 +9,15 @@ const компоненти = {
   types: {
     image: ({ value }: { value: { asset: { _ref: string }; alt?: string; caption?: string } }) => {
       if (!value?.asset?._ref) return null
+      // Размерите са кодирани в _ref: image-{hash}-{w}x{h}-{ext}
+      const dimMatch = value.asset._ref.match(/-(\d+)x(\d+)-/)
+      const [imgW, imgH] = dimMatch ? [parseInt(dimMatch[1]), parseInt(dimMatch[2])] : [16, 9]
       return (
         <figure className="my-8">
-          <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-gray-100">
+          <div
+            className="relative w-full rounded-xl overflow-hidden bg-gray-100"
+            style={{ aspectRatio: `${imgW}/${imgH}` }}
+          >
             <Image
               src={urlFor(value).width(1200).url()}
               alt={value.alt ?? ''}
