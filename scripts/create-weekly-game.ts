@@ -1,5 +1,5 @@
 /**
- * Създава „Игра на седмицата" документ в Sanity за Scythe, Седмица 33.
+ * Създава „Игра на седмицата" документ в Sanity за Hegemony: Lead Your Class to Victory, Седмица 38.
  *
  * Употреба:
  *   npx tsx --env-file=.env --env-file=.env.local scripts/create-weekly-game.ts
@@ -22,10 +22,10 @@ import * as http       from 'http'
 const MODEL      = 'claude-sonnet-4-6'
 const MAX_TOKENS = 2048
 
-const GAME_SLUG  = 'the-white-castle'
-const GAME_NAME  = 'The White Castle'
-const WEEK_LABEL = 'Седмица 36, 2026'
-const DOC_SLUG   = 'the-white-castle-2026-w36'
+const GAME_SLUG  = 'hegemony-lead-your-class-to-victory'
+const GAME_NAME  = 'Hegemony: Lead Your Class to Victory'
+const WEEK_LABEL = 'Седмица 38, 2026'
+const DOC_SLUG   = 'hegemony-lead-your-class-to-victory-2026-w38'
 
 // ─── Sanity write клиент ──────────────────────────────────────────
 
@@ -225,7 +225,7 @@ async function uploadImage(
   const { buffer, contentType } = await fetchBuffer(imageUrl)
   const ext   = contentType.split('/')[1] ?? 'jpg'
   const asset = await client.assets.upload('image', buffer, {
-    filename:    `weekly-game-scythe-${Date.now()}.${ext}`,
+    filename:    `weekly-game-hegemony-${Date.now()}.${ext}`,
     contentType,
   })
   console.log(`✅  Снимката е качена: ${asset._id}`)
@@ -344,7 +344,7 @@ async function main() {
   }
 
   // 8. Създай weeklyGame документ
-  const docId = isDraft ? `drafts.weekly-game-the-white-castle-2026-w36` : undefined
+  const docId = isDraft ? `drafts.weekly-game-hegemony-lead-your-class-to-victory-2026-w38` : undefined
 
   const doc = {
     _type:    'weeklyGame',
