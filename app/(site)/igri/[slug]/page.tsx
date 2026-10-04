@@ -172,7 +172,7 @@ async function ExpansionsSection({ gameId }: { gameId: string }) {
       yearPublished: true, bggRating: true, types: true,
     },
     take: 12,
-  })
+  }).catch(() => [])
 
   if (разширения.length === 0) return null
 
@@ -194,11 +194,15 @@ async function ExpansionsSection({ gameId }: { gameId: string }) {
 
 // Общностна статистика
 async function CommunityStats({ gameId }: { gameId: string }) {
-  const [собственици, искатЯ, играли] = await Promise.all([
+  const резултат = await Promise.all([
     prisma.userCollection.count({ where: { gameId, status: 'OWNS' } }),
     prisma.userCollection.count({ where: { gameId, status: 'WISHLIST' } }),
     prisma.userCollection.count({ where: { gameId, status: 'PLAYED' } }),
-  ])
+  ]).catch(() => null)
+
+  if (!резултат) return null
+
+  const [собственици, искатЯ, играли] = резултат
 
   const данни = [
     { икона: '📦', брой: собственици, надпис: 'Собственици' },
@@ -254,7 +258,7 @@ async function SimilarGamesSection({ игра }: {
       maxPlaytime: true, minAge: true,
       weight: true, types: true,
     },
-  })
+  }).catch(() => [])
 
   if (кандидати.length === 0) return null
 
@@ -377,7 +381,7 @@ export default async function GamePage({
     where:   { gameId: игра.id, isPublished: true },
     _avg:    { rating: true },
     _count:  { rating: true },
-  })
+  }).catch(() => ({ _avg: { rating: null }, _count: { rating: 0 } }))
   const общностнаОценка = ревютаАгрегация._avg.rating
   const броИРевюта      = ревютаАгрегация._count.rating
 
@@ -386,14 +390,14 @@ export default async function GamePage({
     where:   { gameId: игра.id, status: 'APPROVED' },
     select:  { url: true },
     orderBy: { createdAt: 'asc' },
-  })
+  }).catch(() => [])
   const галерия = одобрениСнимки.map((с) => с.url)
 
   // Slugове на механики за линкове
   const механикиСлугове = await prisma.mechanic.findMany({
     where:  { name: { in: игра.mechanics } },
     select: { name: true, slug: true },
-  })
+  }).catch(() => [])
   const механикаСлуг = new Map(механикиСлугове.map((м) => [м.name, м.slug]))
 
   // Сложност (weight) в текст
