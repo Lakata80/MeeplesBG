@@ -1,56 +1,30 @@
 import { Ratelimit } from '@upstash/ratelimit'
 import { Redis }     from '@upstash/redis'
 
-const redis = new Redis({
-  url:   process.env.UPSTASH_REDIS_REST_URL!,
-  token: process.env.UPSTASH_REDIS_REST_TOKEN!,
-})
+let _redis: Redis | undefined
 
-export const contactLimiter = new Ratelimit({
-  redis,
-  limiter:   Ratelimit.slidingWindow(3, '10 m'),
-  prefix:    'rl:contact',
-  analytics: false,
-})
+function getRedis(): Redis {
+  return _redis ??= new Redis({
+    url:   process.env.UPSTASH_REDIS_REST_URL!,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN!,
+  })
+}
 
-export const newsletterLimiter = new Ratelimit({
-  redis,
-  limiter:   Ratelimit.slidingWindow(3, '1 h'),
-  prefix:    'rl:newsletter',
-  analytics: false,
-})
+// Lazy limiter — Redis и Ratelimit се инициализират само при първа заявка, не при билд
+function lazyLimiter(prefix: string, window: string, max: number) {
+  let rl: Ratelimit | undefined
+  return {
+    limit: (identifier: string) => {
+      rl ??= new Ratelimit({ redis: getRedis(), limiter: Ratelimit.slidingWindow(max, window), prefix, analytics: false })
+      return rl.limit(identifier)
+    },
+  }
+}
 
-export const playsLimiter = new Ratelimit({
-  redis,
-  limiter:   Ratelimit.slidingWindow(30, '1 m'),
-  prefix:    'rl:plays',
-  analytics: false,
-})
-
-export const loginLimiter = new Ratelimit({
-  redis,
-  limiter:   Ratelimit.slidingWindow(10, '15 m'),
-  prefix:    'rl:login',
-  analytics: false,
-})
-
-export const reviewsLimiter = new Ratelimit({
-  redis,
-  limiter:   Ratelimit.slidingWindow(10, '1 h'),
-  prefix:    'rl:reviews',
-  analytics: false,
-})
-
-export const threadsLimiter = new Ratelimit({
-  redis,
-  limiter:   Ratelimit.slidingWindow(5, '1 h'),
-  prefix:    'rl:threads',
-  analytics: false,
-})
-
-export const repliesLimiter = new Ratelimit({
-  redis,
-  limiter:   Ratelimit.slidingWindow(20, '1 h'),
-  prefix:    'rl:replies',
-  analytics: false,
-})
+export const contactLimiter    = lazyLimiter('rl:contact',    '10 m', 3)
+export const newsletterLimiter = lazyLimiter('rl:newsletter', '1 h',  3)
+export const playsLimiter      = lazyLimiter('rl:plays',      '1 m',  30)
+export const loginLimiter      = lazyLimiter('rl:login',      '15 m', 10)
+export const reviewsLimiter    = lazyLimiter('rl:reviews',    '1 h',  10)
+export const threadsLimiter    = lazyLimiter('rl:threads',    '1 h',  5)
+export const repliesLimiter    = lazyLimiter('rl:replies',    '1 h',  20)
