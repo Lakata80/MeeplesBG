@@ -52,7 +52,7 @@ const STUDIO_CSP = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://cdn.sanity.io https://lh3.googleusercontent.com https://avatars.githubusercontent.com",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://*.api.sanity.io wss://*.api.sanity.io https://sanity-cdn.com https://*.sanity-cdn.com https://www.google-analytics.com",
+  "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://*.api.sanity.io wss://*.api.sanity.io https://sanity-cdn.com https://*.sanity-cdn.com https://www.google-analytics.com https://region1.google-analytics.com",
   "worker-src blob:",
   "frame-src https://*.sanity.io",
   "frame-ancestors 'none'",
