@@ -12,7 +12,14 @@ export async function GET(req: NextRequest) {
     return Response.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  await redis.ping()
+  let redisOk = false
+  try {
+    await redis.ping()
+    redisOk = true
+  } catch {
+    // Redis недостъпен — логваме, но не срещаме cron-а
+    console.warn('keepalive: Redis ping failed')
+  }
 
-  return Response.json({ ok: true })
+  return Response.json({ ok: true, redis: redisOk })
 }
