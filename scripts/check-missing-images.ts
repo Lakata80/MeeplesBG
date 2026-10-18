@@ -2,7 +2,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-const безСнимкаФилтър = { OR: [{ imageUrl: null }, { imageUrl: '' }] } as const
+const безСнимкаФилтър = { OR: [{ imageUrl: null }, { imageUrl: '' }] }
 
 async function main() {
   const [общо, безСнимка, разширенияБезСнимка, базовиБезСнимка] = await Promise.all([
