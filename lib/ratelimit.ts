@@ -1,5 +1,5 @@
-import { Ratelimit } from '@upstash/ratelimit'
-import { Redis }     from '@upstash/redis'
+import { Ratelimit, type Duration } from '@upstash/ratelimit'
+import { Redis }                    from '@upstash/redis'
 
 let _redis: Redis | undefined
 
@@ -11,7 +11,7 @@ function getRedis(): Redis {
 }
 
 // Lazy limiter — Redis и Ratelimit се инициализират само при първа заявка, не при билд
-function lazyLimiter(prefix: string, window: string, max: number) {
+function lazyLimiter(prefix: string, window: Duration, max: number) {
   let rl: Ratelimit | undefined
   return {
     limit: (identifier: string) => {
