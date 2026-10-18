@@ -1,5 +1,5 @@
 /**
- * Създава „Игра на седмицата" документ в Sanity за Hegemony: Lead Your Class to Victory, Седмица 38.
+ * Създава „Игра на седмицата" документ в Sanity за Twilight Imperium: Fourth Edition, Седмица 42.
  *
  * Употреба:
  *   npx tsx --env-file=.env --env-file=.env.local scripts/create-weekly-game.ts
@@ -22,10 +22,10 @@ import * as http       from 'http'
 const MODEL      = 'claude-sonnet-4-6'
 const MAX_TOKENS = 2048
 
-const GAME_SLUG  = 'hegemony-lead-your-class-to-victory'
-const GAME_NAME  = 'Hegemony: Lead Your Class to Victory'
-const WEEK_LABEL = 'Седмица 38, 2026'
-const DOC_SLUG   = 'hegemony-lead-your-class-to-victory-2026-w38'
+const GAME_SLUG  = 'twilight-imperium-fourth-edition'
+const GAME_NAME  = 'Twilight Imperium: Fourth Edition'
+const WEEK_LABEL = 'Седмица 42, 2026'
+const DOC_SLUG   = 'twilight-imperium-fourth-edition-2026-w42'
 
 // ─── Sanity write клиент ──────────────────────────────────────────
 
@@ -59,6 +59,7 @@ const SYSTEM_PROMPT = `
 СТРУКТУРА:
 - headlineBg: 1 кратко изречение-слоган до 80 знака, евокативно и образно
   Пример: „Лоялността е инструмент. Победата е изкуство."
+  Пример: „Короната е празна. Въпросът е чия ще стане."
 - teaserBg: 4–5 параграфа (350–500 думи) — защо играта е избрана тази седмица,
   какво я прави специална, какво усещане дава на масата.
   НЕ преразказвай правилата. Пиши за усещането, темата, защо ще ви грабне.
@@ -225,7 +226,7 @@ async function uploadImage(
   const { buffer, contentType } = await fetchBuffer(imageUrl)
   const ext   = contentType.split('/')[1] ?? 'jpg'
   const asset = await client.assets.upload('image', buffer, {
-    filename:    `weekly-game-hegemony-${Date.now()}.${ext}`,
+    filename:    `weekly-game-twilight-imperium-fourth-edition-${Date.now()}.${ext}`,
     contentType,
   })
   console.log(`✅  Снимката е качена: ${asset._id}`)
@@ -344,7 +345,7 @@ async function main() {
   }
 
   // 8. Създай weeklyGame документ
-  const docId = isDraft ? `drafts.weekly-game-hegemony-lead-your-class-to-victory-2026-w38` : undefined
+  const docId = isDraft ? `drafts.weekly-game-twilight-imperium-fourth-edition-2026-w42` : undefined
 
   const doc = {
     _type:    'weeklyGame',

@@ -47,12 +47,12 @@ const SECURITY_HEADERS = [
 
 // Sanity Studio изисква достъп до sanity.io API и WebSocket endpoints
 const STUDIO_CSP = [
-  "default-src 'self' https://*.sanity.io wss://*.sanity.io",
+  "default-src 'self' https://*.sanity.io wss://*.sanity.io https://*.api.sanity.io wss://*.api.sanity.io",
   "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://cdn.sanity.io https://lh3.googleusercontent.com https://avatars.githubusercontent.com",
   "font-src 'self' data:",
-  "connect-src 'self' https://*.sanity.io wss://*.sanity.io",
+  "connect-src 'self' https://*.sanity.io wss://*.sanity.io https://*.api.sanity.io wss://*.api.sanity.io",
   "frame-src https://*.sanity.io",
   "frame-ancestors 'none'",
   "object-src 'none'",

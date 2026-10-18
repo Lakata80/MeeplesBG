@@ -2,49 +2,34 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
+const безСнимкаФилтър = { OR: [{ imageUrl: null }, { imageUrl: '' }] } as const
+
 async function main() {
-  // Провери конкретната игра
-  const игра = await prisma.game.findUnique({
-    where: { slug: 'people-power-insurgency-in-the-philippines-1981-1986' },
-    select: { id: true, titleEn: true, bggId: true, imageUrl: true, thumbnailUrl: true, isActive: true },
-  })
-
-  console.log('\n── Конкретна игра ──')
-  if (!игра) {
-    console.log('❌ Играта НЕ е намерена в базата по slug!')
-  } else {
-    console.log(`Заглавие:  ${игра.titleEn}`)
-    console.log(`BGG ID:    ${игра.bggId}`)
-    console.log(`isActive:  ${игра.isActive}`)
-    console.log(`imageUrl:  ${игра.imageUrl ?? '(null)'}`)
-    console.log(`thumbnail: ${игра.thumbnailUrl ?? '(null)'}`)
-  }
-
-  // Общ брой игри
-  const общо = await prisma.game.count()
-
-  // Игри без imageUrl
-  const безСнимка = await prisma.game.count({
-    where: { OR: [{ imageUrl: null }, { imageUrl: '' }] },
-  })
+  const [общо, безСнимка, разширенияБезСнимка, базовиБезСнимка] = await Promise.all([
+    prisma.game.count(),
+    prisma.game.count({ where: безСнимкаФилтър }),
+    prisma.game.count({ where: { ...безСнимкаФилтър, baseGameId: { not: null } } }),
+    prisma.game.count({ where: { ...безСнимкаФилтър, baseGameId: null } }),
+  ])
 
   console.log(`\n── Статистика ──`)
-  console.log(`Общо игри:           ${общо}`)
-  console.log(`Без imageUrl:        ${безСнимка}`)
-  console.log(`С imageUrl:          ${общо - безСнимка}`)
+  console.log(`Общо игри:                    ${общо}`)
+  console.log(`Без снимка (всичко):          ${безСнимка}`)
+  console.log(`  от които базови игри:       ${базовиБезСнимка}`)
+  console.log(`  от които разширения:        ${разширенияБезСнимка}`)
 
-  // Списък на игрите без снимка (до 50)
   const списък = await prisma.game.findMany({
-    where: { OR: [{ imageUrl: null }, { imageUrl: '' }] },
-    select: { slug: true, titleEn: true, bggId: true, isActive: true },
+    where: { ...безСнимкаФилтър, baseGameId: null },
+    select: { slug: true, titleEn: true, titleBg: true, bggId: true, bggRating: true },
     orderBy: { bggRating: { sort: 'desc', nulls: 'last' } },
-    take: 50,
   })
 
-  console.log(`\n── Игри без снимка (топ ${списък.length} по BGG рейтинг) ──`)
+  console.log(`\n── Базови игри без снимка (${списък.length}), наредени по BGG рейтинг ──`)
   for (const г of списък) {
-    console.log(`  [bggId=${г.bggId}] active=${г.isActive}  /igri/${г.slug}`)
-    console.log(`    ${г.titleEn}`)
+    const рейтинг = г.bggRating != null ? г.bggRating.toFixed(2) : '  —  '
+    const заглавие = г.titleBg || г.titleEn || '(без заглавие)'
+    console.log(`  ${рейтинг}  [${г.bggId}]  ${заглавие}`)
+    console.log(`         /igri/${г.slug}`)
   }
 }
 
