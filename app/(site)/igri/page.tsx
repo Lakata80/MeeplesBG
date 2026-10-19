@@ -26,9 +26,9 @@ function getInt(val: string | string[] | undefined): number | undefined {
 }
 
 
-function getSort(val: string | string[] | undefined): 'rating' | 'year' | 'name' {
+function getSort(val: string | string[] | undefined): 'rating' | 'year' | 'name' | 'newest' {
   const s = getString(val)
-  if (s === 'rating' || s === 'name') return s
+  if (s === 'rating' || s === 'name' || s === 'newest') return s
   return 'year'
 }
 

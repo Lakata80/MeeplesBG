@@ -31,7 +31,7 @@ export default async function NewReleasesSection() {
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-2xl font-bold text-brand-800">🆕 Нови игри в MeeplesBG</h2>
           <Link
-            href="/igri"
+            href="/igri?podredba=newest"
             className="text-sm text-brand-600 hover:text-brand-700 font-medium transition-colors"
           >
             Всички игри →
