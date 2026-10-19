@@ -28,6 +28,7 @@ export function gameToDocument(игра: Game): GameDocument {
     mechanics:     игра.mechanics,
     types:         игра.types,
     isExpansion:   игра.baseGameId !== null,
+    createdAt:     Math.floor(игра.createdAt.getTime() / 1000),
   }
 }
 
@@ -61,6 +62,7 @@ export async function configureIndex(): Promise<void> {
       'ourRating',
       'yearPublished',
       'titleBg',
+      'createdAt',
     ],
     stopWords: ['a', 'an', 'the', 'of', 'in', 'at', 'to', 'and'],
     pagination: {

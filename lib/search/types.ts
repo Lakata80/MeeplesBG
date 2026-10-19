@@ -21,4 +21,5 @@ export interface GameDocument {
   mechanics:     string[]
   types:         string[]
   isExpansion:   boolean
+  createdAt:     number
 }

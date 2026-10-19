@@ -13,7 +13,7 @@ export interface SearchParams {
   types?:       string[] // ['Strategy', 'Family', ...]
   categories?:  string[] // ['Fantasy', 'Adventure', ...]
   mechanics?:   string[] // ['Dice Rolling', 'Worker Placement', ...]
-  sort?:        'rating' | 'year' | 'name'
+  sort?:        'rating' | 'year' | 'name' | 'newest'
   page?:        number
 }
 
@@ -31,6 +31,7 @@ const SORT_MAP: Record<NonNullable<SearchParams['sort']>, string> = {
   rating: 'bggRating:desc',
   year:   'yearPublished:desc',
   name:   'titleBg:asc',
+  newest: 'createdAt:desc',
 }
 
 // ──────────────────────────────────────────────
