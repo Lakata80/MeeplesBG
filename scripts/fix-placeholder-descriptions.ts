@@ -2,12 +2,15 @@ import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
 
 async function main() {
-  // Намери точния текст
+  const slug = process.argv[2] ?? 'gay-dating-game'
   const игра = await prisma.game.findFirst({
-    where: { slug: 'aeon-trespass-odyssey' },
-    select: { descriptionBg: true }
+    where: { slug },
+    select: { titleEn: true, descriptionBg: true, descriptionEn: true }
   })
-  console.log('descriptionBg:', JSON.stringify(игра?.descriptionBg?.slice(0, 200)))
+  if (!игра) { console.log('Играта не е намерена:', slug); return }
+  console.log(`\n=== ${игра.titleEn} (${slug}) ===\n`)
+  console.log('--- BG ---\n' + игра.descriptionBg)
+  console.log('\n--- EN ---\n' + игра.descriptionEn)
 }
 
 main()
