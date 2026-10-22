@@ -89,6 +89,11 @@ module.exports = {
   },
   async headers() {
     return [
+      // RSC навигационни отговори — не трябва да се кешират от CDN
+      {
+        source: '/(.*)\\.rsc',
+        headers: [{ key: 'Cache-Control', value: 'no-store' }],
+      },
       // Studio пътят получава по-разхлабен CSP за Sanity
       {
         source: '/studio',

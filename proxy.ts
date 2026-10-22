@@ -48,6 +48,12 @@ async function applyRateLimit(req: NextRequest): Promise<NextResponse | null> {
 }
 
 export default auth(async (req) => {
+  // RSC навигационни заявки — bypass auth middleware
+  // Next.js 16 strip-ва RSC хедърите вътре в proxy, затова само path check
+  if (req.nextUrl.pathname.endsWith('.rsc')) {
+    return NextResponse.next()
+  }
+
   // Rate limiting (fail-open: ако Redis е недостъпен, пропускаме лимита)
   try {
     const rateLimitResponse = await applyRateLimit(req)
