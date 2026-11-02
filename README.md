@@ -6,16 +6,15 @@
 [![E2E](https://github.com/Lakata80/meeplesbg-e2e/actions/workflows/e2e.yml/badge.svg)](https://github.com/Lakata80/meeplesbg-e2e/actions)
 [![Live](https://img.shields.io/badge/live-meeplesbg.com-blue)](https://meeplesbg.com)
 
-<!-- TODO: add docs/screenshot.png -->
-<!-- ![MeeplesBG](docs/screenshot.png) -->
+![MeeplesBG](docs/screenshot.png)
 
-MeeplesBG is a production board-game community site for Bulgarian players, built and operated solo. It provides a searchable catalogue of <!-- TODO: author to confirm --> board games with Bulgarian translations, user collections, wishlists, ratings, a community forum (Discourse SSO), a Top 9 monthly chart, news articles, and game image uploads.
+MeeplesBG is a production board-game community site for Bulgarian players, built and operated solo. It provides a searchable catalogue of 14,955 board games with Bulgarian translations, user collections, wishlists, ratings, a community forum (Discourse SSO), a Top 9 monthly chart, news articles, and game image uploads.
 
 ## What this demonstrates
 
 - **Full-stack production app run solo** — Next.js 16 App Router, React 19, PostgreSQL with Prisma, MeiliSearch, Sanity CMS, NextAuth v5, Resend, all deployed on Vercel and maintained in production.
 - **Integration-heavy architecture** — eight external services wired together (database, search, CMS, auth, email, image storage, monitoring, forum SSO), with a strict Content Security Policy and Cloudflare in front.
-- **Quality engineering** — separate E2E test repository ([meeplesbg-e2e](https://github.com/Lakata80/meeplesbg-e2e)) with Playwright Page Object Model against production; CI quality gate (type check + lint + secret scan); Sentry error monitoring; rate limiting on all mutation endpoints.
+- **Quality engineering** — separate E2E test repository ([meeplesbg-e2e](https://github.com/Lakata80/meeplesbg-e2e)) with Playwright Page Object Model against production; CI quality gate (type check + lint + secret scan); Sentry error monitoring; rate limiting on public write endpoints (login, contact, newsletter, reviews, plays, forum threads and replies).
 - **AI-assisted content pipeline** — Anthropic Claude API for Bulgarian translations of game descriptions and automated news articles, with homoglyph and mixed-script scanning as a quality check on AI output.
 - **Operational tooling** — scripts for BGG data import, MeiliSearch re-indexing, category rank syncing, image upload to Cloudflare R2, and Sanity content management.
 
@@ -70,13 +69,13 @@ graph LR
 
 ## Quality & testing
 
-- **E2E tests** — [`Lakata80/meeplesbg-e2e`](https://github.com/Lakata80/meeplesbg-e2e): Playwright with Page Object Model, running read-only tests against the production site on every push.
+- **E2E tests** — [`Lakata80/meeplesbg-e2e`](https://github.com/Lakata80/meeplesbg-e2e): Playwright with Page Object Model, running read-only tests against the production site on every push to the e2e repo.
 - **CI quality gate** — GitHub Actions runs `npm run typecheck` and `npm run lint` on every push and PR to `main`.
 - **Secret scanning** — [gitleaks](https://github.com/gitleaks/gitleaks) runs on every PR via `.gitleaks.toml`.
 - **Dependency updates** — Dependabot weekly updates for npm and GitHub Actions.
 - **Sentry** — server-side and client-side error monitoring, with a `/monitoring` tunnel route to bypass ad-blockers.
 - **Content Security Policy** — strict CSP on all routes via `next.config.js` headers, with a separate policy for the Sanity Studio path.
-- **Rate limiting** — Upstash Redis rate limiting on all mutation API routes.
+- **Rate limiting** — Upstash Redis rate limiting on public write endpoints (login, contact, newsletter, reviews, plays, forum threads and replies).
 
 ## Getting started
 
