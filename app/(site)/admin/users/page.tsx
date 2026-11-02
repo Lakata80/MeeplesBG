@@ -39,6 +39,7 @@ export default function AdminUsersPage() {
     setLoading(false)
   }
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- async fetch pattern
   useEffect(() => { зареди() }, [])
 
   async function смениРоля(id: string, role: Роля) {

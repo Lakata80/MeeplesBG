@@ -53,6 +53,7 @@ function КоментарРед({
   postSlug:   string
   е_отговор?: boolean
 }) {
+  // eslint-disable-next-line react-hooks/rules-of-hooks -- Cyrillic component name; starts with К (valid React component)
   const [отговор, setОтговор] = useState(false)
 
   return (

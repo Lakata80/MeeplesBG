@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Ignore integrity hashes in package-lock.json and binary files in public/"
+paths = [
+  "package-lock.json",
+  "public/",
+]

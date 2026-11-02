@@ -16,6 +16,7 @@ export default function AppleIcon() {
     (
       <img
         src={dataUrl}
+        alt=""
         width={180}
         height={180}
         style={{ borderRadius: 36 }}

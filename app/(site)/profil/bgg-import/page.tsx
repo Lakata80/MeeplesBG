@@ -247,10 +247,10 @@ export default function BggИмпортСтраница() {
       <div className="mt-8 rounded-xl bg-brand-50 border border-brand-100 p-4">
         <h3 className="text-sm font-semibold text-brand-900 mb-2">Как работи?</h3>
         <ul className="space-y-1.5 text-sm text-brand-800">
-          <li className="flex gap-2"><span>🎲</span><span><strong>Притежаваш</strong> → добавя се като "Колекция"</span></li>
-          <li className="flex gap-2"><span>🎯</span><span><strong>Искаш да играеш</strong> → добавя се като "Искам да играя"</span></li>
-          <li className="flex gap-2"><span>🕹️</span><span><strong>Играл преди</strong> → добавя се като "Играл съм"</span></li>
-          <li className="flex gap-2"><span>💰</span><span><strong>За продажба</strong> → добавя се като "За продажба"</span></li>
+          <li className="flex gap-2"><span>🎲</span><span><strong>Притежаваш</strong> → добавя се като &quot;Колекция&quot;</span></li>
+          <li className="flex gap-2"><span>🎯</span><span><strong>Искаш да играеш</strong> → добавя се като &quot;Искам да играя&quot;</span></li>
+          <li className="flex gap-2"><span>🕹️</span><span><strong>Играл преди</strong> → добавя се като &quot;Играл съм&quot;</span></li>
+          <li className="flex gap-2"><span>💰</span><span><strong>За продажба</strong> → добавя се като &quot;За продажба&quot;</span></li>
         </ul>
       </div>
     </div>

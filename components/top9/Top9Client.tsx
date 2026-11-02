@@ -50,6 +50,7 @@ export default function Top9Client() {
 
   // ── Fetch ─────────────────────────────────────────────────────
 
+  // eslint-disable-next-line react-hooks/preserve-manual-memoization -- React Compiler cannot infer setState deps in async callbacks; deps [month, year] are correct
   const fetchTop9 = useCallback(async () => {
     setTop9(undefined) // loading
     setError(null)
@@ -64,6 +65,7 @@ export default function Top9Client() {
     }
   }, [month, year])
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- async fetch pattern
   useEffect(() => { fetchTop9() }, [fetchTop9])
 
   // ── Create ────────────────────────────────────────────────────

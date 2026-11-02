@@ -21,6 +21,7 @@ export default function GoogleAnalytics() {
   const [load, setLoad] = useState(false)
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- reads localStorage, not external subscription
     setLoad(hasAnalyticsConsent())
   }, [])
 

@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS config file
 const os = require('os')
 
 function localNetworkIPs() {
@@ -115,6 +116,7 @@ module.exports = {
 
 // Injected content via Sentry wizard below
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports -- CommonJS config file
 const { withSentryConfig } = require("@sentry/nextjs");
 
 module.exports = withSentryConfig(module.exports, {
@@ -132,4 +134,10 @@ module.exports = withSentryConfig(module.exports, {
 
   // Автоматичен tree-shake на Sentry debug логове (намалява bundle размера)
   telemetry: false,
+
+  // Source map upload failure should not block a deployment — the app
+  // works fine without them; stack traces are just less readable in Sentry.
+  errorHandler: (err) => {
+    console.warn('[Sentry] source map upload failed:', err.message)
+  },
 });

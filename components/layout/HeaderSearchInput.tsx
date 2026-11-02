@@ -21,6 +21,7 @@ export default function HeaderSearchInput({ variant }: Props) {
   )
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- syncs input to URL search params
     setСтойност(наИгри ? (searchParams.get('q') ?? '') : '')
   }, [наИгри, searchParams])
 
