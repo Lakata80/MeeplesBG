@@ -33,6 +33,7 @@ export default function GlobalError({
               >
                 Опитай отново
               </button>
+              {/* eslint-disable-next-line @next/next/no-html-link-for-pages -- global-error boundary cannot use Next.js Link */}
               <a
                 href="/"
                 style={{ padding: '0.625rem 1.25rem', background: '#fff', color: '#374151', border: '1px solid #d1d5db', borderRadius: '0.75rem', fontSize: '0.875rem', fontWeight: 500, textDecoration: 'none' }}

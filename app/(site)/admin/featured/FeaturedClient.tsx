@@ -39,11 +39,13 @@ export default function AdminFeaturedPage() {
     setLoading(false)
   }
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- async fetch pattern
   useEffect(() => { loadGems() }, [])
 
   // Debounced търсене
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current)
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- early-return guard in debounced effect
     if (!search.trim()) { setResults([]); return }
 
     debounceRef.current = setTimeout(async () => {
@@ -108,7 +110,7 @@ export default function AdminFeaturedPage() {
             <h2 className="font-semibold text-brand-800 text-lg mb-1">Игра на седмицата</h2>
             <p className="text-sm text-gray-500 mb-4">
               Управлява се чрез Sanity Studio. Създай нов запис от тип{' '}
-              <strong>„Игра на седмицата"</strong>, попълни банер снимка и текст,
+              <strong>„Игра на седмицата&quot;</strong>, попълни банер снимка и текст,
               след което активирай записа.
             </p>
             <div className="flex gap-3">
@@ -147,7 +149,7 @@ export default function AdminFeaturedPage() {
           </span>
         </div>
         <p className="text-sm text-gray-400 mb-5">
-          Точно 4 игри, избрани ръчно — показват се на страницата „Популярни".
+          Точно 4 игри, избрани ръчно — показват се на страницата „Популярни&quot;.
         </p>
 
         {/* Текущи находки */}

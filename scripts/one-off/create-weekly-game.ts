@@ -356,7 +356,7 @@ async function main() {
     weekLabel: WEEK_LABEL,
     headlineBg: content.headlineBg,
     teaserBg:   content.teaserBg,
-    // @ts-ignore — bannerImage може да е undefined
+    // @ts-expect-error — bannerImage може да е undefined
     ...(bannerImage ? { bannerImage } : {}),
     isActive: false,
   }

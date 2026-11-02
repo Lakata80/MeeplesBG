@@ -23,6 +23,7 @@ export default function AdminPendingImages() {
     setLoading(false)
   }
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- async fetch pattern
   useEffect(() => { load() }, [])
 
   async function act(id: string, action: 'approve' | 'reject') {

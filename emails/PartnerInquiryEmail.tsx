@@ -168,7 +168,7 @@ export default function PartnerInquiryEmail({
             </Text>
             <Text style={СТ.bulletItem}>💰 Актуална цена от {shopName}</Text>
             <Text style={СТ.bulletItem}>📦 Наличност в реално време</Text>
-            <Text style={СТ.bulletItem}>🔗 Бутон „Купи от {shopName}", който ги отвежда директно към продукта във Вашия магазин</Text>
+            <Text style={СТ.bulletItem}>🔗 Бутон „Купи от {shopName}&quot;, който ги отвежда директно към продукта във Вашия магазин</Text>
 
             <Text style={{ ...СТ.text, marginTop: '4px' }}>
               По този начин заинтересованите потребители достигат до Вашия сайт именно когато търсят конкретна игра.

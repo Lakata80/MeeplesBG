@@ -19,8 +19,8 @@ export default function GDPRСтраница() {
 
       <Раздел заглавие="1. Администратор на лични данни">
         <p>
-          Администратор на личните данни е <strong>MeeplesBG</strong> (по-нататък „ние",
-          „нас" или „Сайтът"), достъпен на адрес{' '}
+          Администратор на личните данни е <strong>MeeplesBG</strong> (по-нататък „ние&quot;,
+          „нас&quot; или „Сайтът&quot;), достъпен на адрес{' '}
           <a href="https://meeplesbg.com" className="text-brand-600 hover:underline">
             meeplesbg.com
           </a>

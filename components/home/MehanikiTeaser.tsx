@@ -58,7 +58,7 @@ export default async function MehanikiTeaser() {
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">🔎 Изследвай игрите по механика</h2>
           <p className="text-gray-500 text-sm max-w-xl mx-auto">
-            Механиките са „правилата на играта" — научи как работят и открий игри, в които те блестят
+            Механиките са „правилата на играта&quot; — научи как работят и открий игри, в които те блестят
           </p>
         </div>
 

@@ -264,6 +264,7 @@ async function SimilarGamesSection({ игра }: {
 
   // Fisher-Yates shuffle на всичките 50, показваме първите 4
   for (let i = кандидати.length - 1; i > 0; i--) {
+    // eslint-disable-next-line react-hooks/purity -- server component, Math.random() is intentional
     const j = Math.floor(Math.random() * (i + 1))
     ;[кандидати[i], кандидати[j]] = [кандидати[j], кандидати[i]]
   }
