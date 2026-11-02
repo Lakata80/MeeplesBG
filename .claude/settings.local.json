@@ -15,7 +15,6 @@
       "Bash(npx tsc *)",
       "Bash(npx prisma *)",
       "WebSearch",
-      "Bash(SANITY_API_TOKEN=REDACTED node *)",
       "Bash(npx tsx *)",
       "PowerShell(winget install *)"
     ]
