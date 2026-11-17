@@ -5,7 +5,7 @@ import GameCard           from '@/components/games/GameCard'
 import KvizForm           from '@/components/games/KvizForm'
 import type { KvizDefaults } from '@/components/games/KvizForm'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title:       'Намери своята игра | MeeplesBG',

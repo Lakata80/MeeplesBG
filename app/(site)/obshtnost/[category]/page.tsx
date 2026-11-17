@@ -2,15 +2,14 @@ import { Suspense }      from 'react'
 import { notFound }      from 'next/navigation'
 import Link              from 'next/link'
 import type { Metadata } from 'next'
-import { auth }          from '@/auth'
 import { prisma }        from '@/lib/prisma'
 import { getКатегория, type ThreadCategorySlug } from '@/lib/obshtnost'
 import ThreadCard, { type ThreadCardData } from '@/components/obshtnost/ThreadCard'
 import EventTimeline, { type CalendarEvent } from '@/components/obshtnost/EventTimeline'
-import NewThreadFormWrapper from './NewThreadFormWrapper'
+import NewThreadSection  from '@/components/obshtnost/NewThreadSection'
 import Pagination        from '@/components/ui/Pagination'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 type Params = Promise<{ category: string }>
 type SearchParams = Promise<Record<string, string | undefined>>
@@ -48,8 +47,6 @@ export default async function КатегорияСтраница({
 
   const showNew = sp.new === '1'
   const deleted = sp.deleted === '1'
-
-  const session = await auth()
 
   // ── Календар на събития (SRESHTI) ────────────────────────────
   if (кат.db === 'SRESHTI') {
@@ -95,29 +92,14 @@ export default async function КатегорияСтраница({
             <h1 className="text-2xl font-bold text-gray-900">{кат.icon} {кат.label}</h1>
             <p className="text-sm text-gray-500 mt-1">{кат.desc}</p>
           </div>
-          {session && !showNew && (
-            <Link
-              href={`/obshtnost/${category}?new=1`}
-              className="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
-            >
-              + Ново събитие
-            </Link>
-          )}
-          {!session && (
-            <Link href="/login" className="shrink-0 text-sm text-brand-600 font-medium hover:underline">
-              Влез за да публикуваш
-            </Link>
-          )}
+          <Suspense fallback={null}>
+            <NewThreadSection
+              categorySlug={category as ThreadCategorySlug}
+              label="Ново събитие"
+              initialOpen={showNew}
+            />
+          </Suspense>
         </div>
-
-        {/* Форма */}
-        {session && showNew && (
-          <div className="mb-10">
-            <Suspense fallback={null}>
-              <NewThreadFormWrapper categorySlug={category as ThreadCategorySlug} />
-            </Suspense>
-          </div>
-        )}
 
         {/* Таймлайн */}
         <EventTimeline
@@ -177,32 +159,14 @@ export default async function КатегорияСтраница({
           <h1 className="text-2xl font-bold text-gray-900">{кат.icon} {кат.label}</h1>
           <p className="text-sm text-gray-500 mt-1">{кат.desc}</p>
         </div>
-        {session && !showNew && (
-          <Link
-            href={`/obshtnost/${category}?new=1`}
-            className="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
-          >
-            + {кат.db === 'PAZAR' ? 'Нова обява' : 'Нова тема'}
-          </Link>
-        )}
-        {!session && (
-          <Link
-            href="/login"
-            className="shrink-0 text-sm text-brand-600 font-medium hover:underline"
-          >
-            Влез за да публикуваш
-          </Link>
-        )}
+        <Suspense fallback={null}>
+          <NewThreadSection
+            categorySlug={category as ThreadCategorySlug}
+            label={кат.db === 'PAZAR' ? 'Нова обява' : 'Нова тема'}
+            initialOpen={showNew}
+          />
+        </Suspense>
       </div>
-
-      {/* Форма за нова тема */}
-      {session && showNew && (
-        <div className="mb-8">
-          <Suspense fallback={null}>
-            <NewThreadFormWrapper categorySlug={category as ThreadCategorySlug} />
-          </Suspense>
-        </div>
-      )}
 
       {/* Списък с теми */}
       {теми.length === 0 ? (

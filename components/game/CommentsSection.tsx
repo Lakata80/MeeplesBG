@@ -5,10 +5,9 @@ import CommentForm from './CommentForm'
 interface Props {
   gameId: string
   slug: string
-  влязъл: boolean
 }
 
-export default async function CommentsSection({ gameId, slug, влязъл }: Props) {
+export default async function CommentsSection({ gameId, slug }: Props) {
   const коментари = await prisma.comment.findMany({
     where:   { gameId, isApproved: true, parentId: null },
     include: {

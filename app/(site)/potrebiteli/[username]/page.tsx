@@ -2,10 +2,10 @@ import { notFound }      from 'next/navigation'
 import Link             from 'next/link'
 import Image            from 'next/image'
 import type { Metadata } from 'next'
-import { auth }          from '@/auth'
 import { prisma }        from '@/lib/prisma'
+import EditProfileLink   from '@/components/user/EditProfileLink'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 type Params = Promise<{ username: string }>
 
@@ -52,11 +52,9 @@ const КАТ_LABEL: Record<string, string> = {
 export default async function ПубличенПрофил({ params }: { params: Params }) {
   const { username }    = await params
   const decoded         = decodeURIComponent(username)
-  const [потребител, session] = await Promise.all([findUser(decoded), auth()])
+  const потребител = await findUser(decoded)
 
   if (!потребител) notFound()
-
-  const isOwn = session?.user?.id === потребител.id
 
   // Колекция (OWNS)
   const колекция = await prisma.userCollection.findMany({
@@ -146,14 +144,7 @@ export default async function ПубличенПрофил({ params }: { params:
           </p>
         </div>
 
-        {isOwn && (
-          <Link
-            href="/profil"
-            className="shrink-0 px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            ✏️ Редактирай профила
-          </Link>
-        )}
+        <EditProfileLink targetUserId={потребител.id} />
       </div>
 
       {/* Статистики */}

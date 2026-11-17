@@ -2,16 +2,20 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 interface Props {
-  threadId:  string
-  replyId:   string
-  isHelpful: boolean
+  threadId:       string
+  replyId:        string
+  isHelpful:      boolean
+  threadAuthorId: string
 }
 
-export default function HelpfulButton({ threadId, replyId, isHelpful }: Props) {
+export default function HelpfulButton({ threadId, replyId, isHelpful, threadAuthorId }: Props) {
   const router   = useRouter()
   const [loading, setLoading] = useState(false)
+  const { data: session } = useSession()
+  if (session?.user?.id !== threadAuthorId) return null
 
   async function toggle() {
     setLoading(true)

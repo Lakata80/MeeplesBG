@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import { КАТЕГОРИИ_КЛАСАЦИИ, getRanking, getCategory, type КласациоИгра } from '@/lib/rankings'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 // ── SEO метаданни ────────────────────────────────────────────
 

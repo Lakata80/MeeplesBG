@@ -22,10 +22,10 @@ import * as http       from 'http'
 const MODEL      = 'claude-sonnet-4-6'
 const MAX_TOKENS = 2048
 
-const GAME_SLUG  = 'twilight-imperium-fourth-edition'
-const GAME_NAME  = 'Twilight Imperium: Fourth Edition'
-const WEEK_LABEL = 'Седмица 42, 2026'
-const DOC_SLUG   = 'twilight-imperium-fourth-edition-2026-w42'
+const GAME_SLUG  = 'luthier'
+const GAME_NAME  = 'Luthier'
+const WEEK_LABEL = 'Седмица 43, 2026'
+const DOC_SLUG   = 'luthier_2026_w43'
 
 // ─── Sanity write клиент ──────────────────────────────────────────
 
@@ -226,7 +226,7 @@ async function uploadImage(
   const { buffer, contentType } = await fetchBuffer(imageUrl)
   const ext   = contentType.split('/')[1] ?? 'jpg'
   const asset = await client.assets.upload('image', buffer, {
-    filename:    `weekly-game-twilight-imperium-fourth-edition-${Date.now()}.${ext}`,
+    filename:    `weekly-game-luthier-${Date.now()}.${ext}`,
     contentType,
   })
   console.log(`✅  Снимката е качена: ${asset._id}`)
@@ -345,7 +345,7 @@ async function main() {
   }
 
   // 8. Създай weeklyGame документ
-  const docId = isDraft ? `drafts.weekly-game-twilight-imperium-fourth-edition-2026-w42` : undefined
+  const docId = isDraft ? `drafts.weekly-game-luthier_2026_w43` : undefined
 
   const doc = {
     _type:    'weeklyGame',

@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 interface Props {
   threadId: string
@@ -13,6 +14,9 @@ interface Props {
 export default function ModerateButtons({ threadId, isPinned, isClosed, category }: Props) {
   const router  = useRouter()
   const [loading, setLoading] = useState(false)
+  const { data: session } = useSession()
+  const role = (session?.user as { role?: string } | undefined)?.role
+  if (role !== 'ADMIN' && role !== 'MODERATOR') return null
 
   async function action(act: string) {
     setLoading(true)

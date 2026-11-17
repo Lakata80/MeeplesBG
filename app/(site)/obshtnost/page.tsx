@@ -2,8 +2,8 @@ import { Suspense }      from 'react'
 import Link              from 'next/link'
 import Image             from 'next/image'
 import type { Metadata } from 'next'
-import { auth }          from '@/auth'
 import { prisma }        from '@/lib/prisma'
+import NewThreadLink     from '@/components/obshtnost/NewThreadLink'
 import {
   КАТЕГОРИИ,
   EVENT_TYPES,
@@ -15,7 +15,7 @@ import {
 import ThreadCard, { type ThreadCardData } from '@/components/obshtnost/ThreadCard'
 import Pagination        from '@/components/ui/Pagination'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 export const metadata: Metadata = {
   title:       'Общност | MeeplesBG',
   description: 'Свържи се с други любители на настолни игри, намери играчи, обсъждай правила и откривай събития.',
@@ -144,8 +144,7 @@ export default async function ОбщностСтраница({ searchParams }: {
   if (кат) {
     const offset = (страница - 1) * НА_СТРАНИЦА
 
-    const [session, теми, общо] = await Promise.all([
-      auth(),
+    const [теми, общо] = await Promise.all([
       prisma.thread.findMany({
         where:   { category: кат.db as 'IZBOR' | 'PRAVILA' | 'PAZAR' | 'SRESHTI' },
         orderBy: [{ isPinned: 'desc' }, { updatedAt: 'desc' }],
@@ -199,18 +198,10 @@ export default async function ОбщностСтраница({ searchParams }: {
             <h2 className="text-xl font-bold text-gray-900">{кат.icon} {кат.label}</h2>
             <p className="text-sm text-gray-500 mt-0.5">{кат.desc}</p>
           </div>
-          {session ? (
-            <Link
-              href={`/obshtnost/${кат.slug}?new=1`}
-              className="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-semibold rounded-xl hover:bg-brand-700 transition-colors"
-            >
-              + {кат.db === 'PAZAR' ? 'Нова обява' : кат.db === 'SRESHTI' ? 'Ново събитие' : 'Нова тема'}
-            </Link>
-          ) : (
-            <Link href="/login" className="shrink-0 text-sm text-brand-600 font-medium hover:underline">
-              Влез за да публикуваш
-            </Link>
-          )}
+          <NewThreadLink
+            categorySlug={кат.slug}
+            label={кат.db === 'PAZAR' ? 'Нова обява' : кат.db === 'SRESHTI' ? 'Ново събитие' : 'Нова тема'}
+          />
         </div>
 
         {/* Списък */}

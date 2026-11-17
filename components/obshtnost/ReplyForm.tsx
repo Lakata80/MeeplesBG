@@ -2,18 +2,19 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 interface Props {
-  threadId:    string
-  isClosed:    boolean
-  isLoggedIn:  boolean
+  threadId: string
+  isClosed: boolean
 }
 
-export default function ReplyForm({ threadId, isClosed, isLoggedIn }: Props) {
+export default function ReplyForm({ threadId, isClosed }: Props) {
   const router  = useRouter()
   const [text,    setText]    = useState('')
   const [pending, setPending] = useState(false)
   const [error,   setError]   = useState('')
+  const { status } = useSession()
 
   if (isClosed) {
     return (
@@ -23,7 +24,7 @@ export default function ReplyForm({ threadId, isClosed, isLoggedIn }: Props) {
     )
   }
 
-  if (!isLoggedIn) {
+  if (status !== 'authenticated') {
     return (
       <div className="mt-6 p-4 bg-brand-50 border border-brand-200 rounded-xl text-sm text-center">
         <a href="/login" className="font-semibold text-brand-600 hover:underline">Влез в профила си</a>

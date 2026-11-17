@@ -3,7 +3,7 @@ import Image from 'next/image'
 import type { Metadata } from 'next'
 import { КАТЕГОРИИ_КЛАСАЦИИ, getRanking } from '@/lib/rankings'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 export const metadata: Metadata = {
   title:       'Топ класации | MeeplesBG',

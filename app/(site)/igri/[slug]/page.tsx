@@ -4,14 +4,11 @@ import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
 import { cache } from 'react'
 import type { Metadata } from 'next'
-import { CollectionStatus } from '@prisma/client'
 
 import { prisma }            from '@/lib/prisma'
-import { auth }              from '@/auth'
 import { formatPlaytime, formatPlayers, formatRating } from '@/lib/utils'
-import CollectionButtons     from '@/components/game/CollectionButtons'
+import GameCollectionPanel   from '@/components/game/GameCollectionPanel'
 import ShareButton           from '@/components/game/ShareButton'
-import ImageUploadButton     from '@/components/game/ImageUploadButton'
 import DescriptionSection    from '@/components/game/DescriptionSection'
 import GallerySection        from '@/components/game/GallerySection'
 import GameImageWithLightbox from '@/components/game/GameImageWithLightbox'
@@ -46,7 +43,7 @@ const getGame = cache(async (slug: string) => {
   })
 })
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 3600
 
 // ── SEO метаданни ──────────────────────────────────────
 export async function generateMetadata({
@@ -357,26 +354,6 @@ export default async function GamePage({
 
   const заглавие = игра.titleBg || игра.titleEn || 'Непозната игра'
 
-  // Сесия и статус в колекцията
-  const сесия = await auth()
-  let колекцияСтатус: CollectionStatus | null = null
-  if (сесия?.user?.id) {
-    const запис = await prisma.userCollection.findUnique({
-      where:  { userId_gameId: { userId: сесия.user.id, gameId: игра.id } },
-      select: { status: true },
-    })
-    колекцияСтатус = запис?.status ?? null
-  }
-
-  // Играния на логнатия потребител
-  const играния = сесия?.user?.id
-    ? await prisma.gamePlay.findMany({
-        where:   { gameId: игра.id, userId: сесия.user.id },
-        include: { players: { orderBy: { score: 'desc' } } },
-        orderBy: { playedAt: 'desc' },
-      })
-    : []
-
   // Средна оценка от ревюта
   const ревютаАгрегация = await prisma.review.aggregate({
     where:   { gameId: игра.id, isPublished: true },
@@ -485,9 +462,7 @@ export default async function GamePage({
                   </svg>
                 </a>
               )}
-              {сесия?.user && (
-                <ImageUploadButton slug={игра.slug} />
-              )}
+              <GameCollectionPanel gameId={игра.id} slug={игра.slug} />
             </div>
 
             {/* Информация */}
@@ -585,15 +560,6 @@ export default async function GamePage({
                 )}
               </div>
 
-              {/* Бутони за колекция */}
-              <div className="flex flex-wrap gap-2 mb-3">
-                <CollectionButtons
-                  gameId={игра.id}
-                  slug={игра.slug}
-                  текущСтатус={колекцияСтатус}
-                  влязъл={!!сесия?.user}
-                />
-              </div>
 
               {/* Сподели */}
               <div className="flex gap-2">
@@ -660,22 +626,7 @@ export default async function GamePage({
       </Suspense>
 
       {/* ── Дневник на игранията ── */}
-      <PlaysSection
-        gameId={игра.id}
-        slug={игра.slug}
-        влязъл={!!сесия?.user}
-        initialPlays={играния.map((п) => ({
-          ...п,
-          playedAt:   п.playedAt.toISOString(),
-          visibility: п.visibility as 'PRIVATE' | 'PUBLIC',
-          players:    п.players.map((pl) => ({
-            id:       pl.id,
-            name:     pl.name,
-            score:    pl.score,
-            isWinner: pl.isWinner,
-          })),
-        }))}
-      />
+      <PlaysSection gameId={игра.id} slug={игра.slug} />
 
       {/* ── Коментари ── */}
       <Suspense fallback={
@@ -696,7 +647,7 @@ export default async function GamePage({
           </div>
         </div>
       }>
-        <CommentsSection gameId={игра.id} slug={игра.slug} влязъл={!!сесия?.user} />
+        <CommentsSection gameId={игра.id} slug={игра.slug} />
       </Suspense>
 
       {/* ── Подобни игри ── */}

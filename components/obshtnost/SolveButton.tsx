@@ -2,15 +2,19 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 interface Props {
-  threadId: string
-  isSolved: boolean
+  threadId:       string
+  isSolved:       boolean
+  threadAuthorId: string
 }
 
-export default function SolveButton({ threadId, isSolved }: Props) {
+export default function SolveButton({ threadId, isSolved, threadAuthorId }: Props) {
   const router   = useRouter()
   const [loading, setLoading] = useState(false)
+  const { data: session } = useSession()
+  if (session?.user?.id !== threadAuthorId) return null
 
   async function toggle() {
     setLoading(true)

@@ -1,7 +1,8 @@
 'use client'
 
-import { useState, useTransition } from 'react'
-import { useRouter }                from 'next/navigation'
+import { useState, useTransition, useEffect } from 'react'
+import { useRouter }                           from 'next/navigation'
+import { useSession }                          from 'next-auth/react'
 
 interface PlayPlayer {
   id:       string
@@ -20,10 +21,8 @@ interface Play {
 }
 
 interface Props {
-  gameId:       string
-  влязъл:       boolean
-  slug:         string
-  initialPlays: Play[]
+  gameId: string
+  slug:   string
 }
 
 const EMPTY_PLAYER = { name: '', score: '', isWinner: false }
@@ -32,10 +31,20 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('bg-BG', { day: 'numeric', month: 'long', year: 'numeric' })
 }
 
-export default function PlaysSection({ gameId, влязъл, slug, initialPlays }: Props) {
+export default function PlaysSection({ gameId, slug }: Props) {
   const router                          = useRouter()
   const [pending, startTransition]      = useTransition()
-  const [plays, setPlays]               = useState<Play[]>(initialPlays)
+  const [plays, setPlays]               = useState<Play[]>([])
+  const { status }                      = useSession()
+  const влязъл                          = status === 'authenticated'
+
+  useEffect(() => {
+    if (status !== 'authenticated') return
+    fetch(`/api/plays?gameId=${gameId}`)
+      .then((r) => r.json())
+      .then((data) => Array.isArray(data) && setPlays(data))
+      .catch(() => {})
+  }, [gameId, status])
   const [modalOpen, setModalOpen]       = useState(false)
   const [saving, setSaving]             = useState(false)
   const [error, setError]               = useState('')

@@ -7,7 +7,7 @@ import { urlFor }        from '@/lib/sanity/image'
 import { prisma }        from '@/lib/prisma'
 import PlayerCountTabs, { type PCTab } from '@/components/igri/PlayerCountTabs'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 300
 
 export const metadata: Metadata = {
   title:       'Популярни игри | MeeplesBG',

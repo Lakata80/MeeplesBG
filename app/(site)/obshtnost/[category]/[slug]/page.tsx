@@ -2,7 +2,6 @@ import { notFound }      from 'next/navigation'
 import Link              from 'next/link'
 import Image             from 'next/image'
 import type { Metadata } from 'next'
-import { auth }          from '@/auth'
 import { prisma }        from '@/lib/prisma'
 import { getКатегория }  from '@/lib/obshtnost'
 import ReplyForm         from '@/components/obshtnost/ReplyForm'
@@ -10,7 +9,7 @@ import SolveButton       from '@/components/obshtnost/SolveButton'
 import HelpfulButton     from '@/components/obshtnost/HelpfulButton'
 import ModerateButtons   from '@/components/obshtnost/ModerateButtons'
 
-export const dynamic = 'force-dynamic'
+export const revalidate = 60
 
 type Params = Promise<{ category: string; slug: string }>
 
@@ -27,26 +26,18 @@ export default async function ТемаСтраница({ params }: { params: Par
   const кат = getКатегория(category)
   if (!кат) notFound()
 
-  const [thread, session] = await Promise.all([
-    prisma.thread.findUnique({
-      where:   { slug },
-      include: {
-        author:  { select: { id: true, name: true, image: true } },
-        replies: {
-          orderBy: { createdAt: 'asc' },
-          include: { author: { select: { id: true, name: true, image: true } } },
-        },
+  const thread = await prisma.thread.findUnique({
+    where:   { slug },
+    include: {
+      author:  { select: { id: true, name: true, image: true } },
+      replies: {
+        orderBy: { createdAt: 'asc' },
+        include: { author: { select: { id: true, name: true, image: true } } },
       },
-    }),
-    auth(),
-  ])
+    },
+  })
 
   if (!thread || thread.category !== кат.db) notFound()
-
-  const userId   = session?.user?.id
-  const userRole = (session?.user as { role?: string })?.role
-  const isAdmin  = userRole === 'ADMIN' || userRole === 'MODERATOR'
-  const isAuthor = userId === thread.author.id
 
   return (
     <div className="container mx-auto px-4 py-10 max-w-3xl">
@@ -59,12 +50,10 @@ export default async function ТемаСтраница({ params }: { params: Par
         <span className="text-gray-700 truncate max-w-[200px]">{thread.title}</span>
       </nav>
 
-      {/* Модерация */}
-      {isAdmin && (
-        <div className="mb-4">
-          <ModerateButtons threadId={thread.id} isPinned={thread.isPinned} isClosed={thread.isClosed} category={category} />
-        </div>
-      )}
+      {/* Модерация — самостоятелно проверява admin роля чрез useSession */}
+      <div className="mb-4">
+        <ModerateButtons threadId={thread.id} isPinned={thread.isPinned} isClosed={thread.isClosed} category={category} />
+      </div>
 
       {/* Заглавие */}
       <div className="mb-6">
@@ -108,11 +97,9 @@ export default async function ТемаСтраница({ params }: { params: Par
         author={thread.author}
         body={thread.body}
         date={thread.createdAt}
-        extra={
-          isAuthor && кат.db === 'IZBOR' ? (
-            <SolveButton threadId={thread.id} isSolved={thread.isSolved} />
-          ) : null
-        }
+        extra={кат.db === 'IZBOR' ? (
+          <SolveButton threadId={thread.id} isSolved={thread.isSolved} threadAuthorId={thread.author.id} />
+        ) : null}
       />
 
       {/* Отговори */}
@@ -128,18 +115,21 @@ export default async function ТемаСтраница({ params }: { params: Par
               body={reply.body}
               date={reply.createdAt}
               isHelpful={reply.isHelpful}
-              extra={
-                isAuthor && кат.db === 'IZBOR' ? (
-                  <HelpfulButton threadId={thread.id} replyId={reply.id} isHelpful={reply.isHelpful} />
-                ) : null
-              }
+              extra={кат.db === 'IZBOR' ? (
+                <HelpfulButton
+                  threadId={thread.id}
+                  replyId={reply.id}
+                  isHelpful={reply.isHelpful}
+                  threadAuthorId={thread.author.id}
+                />
+              ) : null}
             />
           ))}
         </div>
       )}
 
       {/* Форма за отговор */}
-      <ReplyForm threadId={thread.id} isClosed={thread.isClosed} isLoggedIn={!!userId} />
+      <ReplyForm threadId={thread.id} isClosed={thread.isClosed} />
     </div>
   )
 }
