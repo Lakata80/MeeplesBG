@@ -1,5 +1,5 @@
 /**
- * Създава „Игра на седмицата" документ в Sanity за Twilight Imperium: Fourth Edition, Седмица 42.
+ * Създава „Игра на седмицата" документ в Sanity за Queen Alice, Седмица 44.
  *
  * Употреба:
  *   npx tsx --env-file=.env --env-file=.env.local scripts/create-weekly-game.ts
@@ -22,10 +22,10 @@ import * as http       from 'http'
 const MODEL      = 'claude-sonnet-4-6'
 const MAX_TOKENS = 2048
 
-const GAME_SLUG  = 'luthier'
-const GAME_NAME  = 'Luthier'
-const WEEK_LABEL = 'Седмица 43, 2026'
-const DOC_SLUG   = 'luthier_2026_w43'
+const GAME_SLUG  = 'queen-alice'
+const GAME_NAME  = 'Queen Alice'
+const WEEK_LABEL = 'Седмица 44, 2026'
+const DOC_SLUG   = 'queen-alice_2026_w44'
 
 // ─── Sanity write клиент ──────────────────────────────────────────
 
@@ -226,7 +226,7 @@ async function uploadImage(
   const { buffer, contentType } = await fetchBuffer(imageUrl)
   const ext   = contentType.split('/')[1] ?? 'jpg'
   const asset = await client.assets.upload('image', buffer, {
-    filename:    `weekly-game-luthier-${Date.now()}.${ext}`,
+    filename:    `weekly-game-queen-alice-${Date.now()}.${ext}`,
     contentType,
   })
   console.log(`✅  Снимката е качена: ${asset._id}`)
@@ -345,7 +345,7 @@ async function main() {
   }
 
   // 8. Създай weeklyGame документ
-  const docId = isDraft ? `drafts.weekly-game-luthier_2026_w43` : undefined
+  const docId = isDraft ? `drafts.weekly-game-queen-alice_2026_w44` : undefined
 
   const doc = {
     _type:    'weeklyGame',
